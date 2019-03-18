@@ -13,6 +13,7 @@ public class Bowl : MonoBehaviour {
     public void setRequirment(string typeName, Sprite typeSprite, int quantity)
     {
         short newItemIndex = CheckNewItem(typeName) ;
+        Debug.Log(newItemIndex);
         if (newItemIndex == -1) GenerateNewRequirment(typeName, typeSprite, quantity);
         else UpdateRequirmentInfo(newItemIndex, quantity);
 
@@ -27,7 +28,6 @@ public class Bowl : MonoBehaviour {
         return -1 ;//not found in list
     }
 
-    // Lets Comment This
 
     void GenerateNewRequirment(string typeName, Sprite typeSprite, int quantity)
     {
@@ -42,12 +42,13 @@ public class Bowl : MonoBehaviour {
         reqList.Add(newReqScript);
     }
 
-    void UpdateRequirmentInfo(short itemIndex, int quantity)
+     void UpdateRequirmentInfo(short itemIndex, int quantity)
     {
-        reqList[itemIndex].quantity = quantity;
-        reqList[itemIndex].updateQuantityInfos(quantity);
+        reqList[itemIndex].quantity += quantity;
+        reqList[itemIndex].updateQuantityInfos(reqList[itemIndex].quantity);
 
     }
+
 
 
 }

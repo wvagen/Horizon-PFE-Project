@@ -6,12 +6,15 @@ public class DoughManager : MonoBehaviour {
 
     public Sprite[] requirmentSprites;
 
-    public GameObject doughRequirment;
-    public Transform recipeFieldContainer;
+    public GameObject doughRequirment,bowl;
+    public Transform recipeFieldContainer,bowlField;
 
     public static int orderNum = 1;
 
     List<Recipe> doughList = new List<Recipe>();
+    List<Bowl> bowlList = new List<Bowl>();
+
+    short eggsQuantityToAdd = 5;
 
 	void Start () {
 		
@@ -35,6 +38,20 @@ public class DoughManager : MonoBehaviour {
         doughList.Add(newDoughRecipe);
 
         orderNum++;
+    }
+
+    public void GenerateNewBowl()
+    {
+        GameObject newBowl = Instantiate(bowl, bowlField.position, Quaternion.identity, bowlField);
+        Bowl newBowlScript = newBowl.GetComponent<Bowl>();
+
+        bowlList.Add(newBowlScript);
+
+    }
+
+    public void AddEggsBtn()
+    {
+        bowlList[0].setRequirment("Egg", requirmentSprites[0], eggsQuantityToAdd);
     }
 
     #endregion
