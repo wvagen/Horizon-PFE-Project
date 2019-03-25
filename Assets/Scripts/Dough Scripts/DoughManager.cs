@@ -10,25 +10,37 @@ public class DoughManager : MonoBehaviour {
     public Transform recipeFieldContainer,bowlField;
 
     public static int orderNum = 1;
+    public static float speed = 20f;
 
     List<Recipe> doughList = new List<Recipe>();
     List<Bowl> bowlList = new List<Bowl>();
 
+    List<RectTransform> bowlsTransPos = new List<RectTransform>();
+        
     short eggsQuantityToAdd = 5;
 
 	void Start () {
-		
+        fillBowlsTransPos();
 	}
 	
-	// Update is called once per frame
 	void Update () {
 
+    }
+
+
+    void fillBowlsTransPos()
+    {
+        for (int i = 0; i < bowlField.GetChild(0).childCount; i++)
+        {
+            bowlsTransPos.Add(bowlField.GetChild(0).GetChild(i).GetComponent<RectTransform>());
+        }
     }
 
     #region Public_Methods
 
     public void GenerateNewRequirmentMenu()
     {
+        
         GameObject newRecipe = Instantiate(doughRequirment, recipeFieldContainer.position, Quaternion.identity, recipeFieldContainer);
         Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
 
@@ -42,17 +54,53 @@ public class DoughManager : MonoBehaviour {
 
     public void GenerateNewBowl()
     {
-        GameObject newBowl = Instantiate(bowl, bowlField.position, Quaternion.identity, bowlField);
+
+        foreach (Bowl b in bowlList)
+        {
+            if (b.bowlPos == 0) return;
+        }
+        GameObject newBowl = Instantiate(bowl, Vector2.zero, Quaternion.identity, bowlField);
         Bowl newBowlScript = newBowl.GetComponent<Bowl>();
 
+        newBowlScript.bowlPos = 0;
+        newBowlScript.GetComponent<RectTransform>().anchoredPosition = bowlsTransPos[0].anchoredPosition;
         bowlList.Add(newBowlScript);
 
     }
 
     public void AddEggsBtn()
     {
-        bowlList[0].setRequirment("Egg", requirmentSprites[0], eggsQuantityToAdd);
+        foreach (Bowl b in bowlList)
+        {
+            if (b.bowlPos == 1)
+            b.setRequirment("Egg", requirmentSprites[0], eggsQuantityToAdd);
+        }
+        
+    }
+
+    public void RightBtn()
+    {
+        foreach(Bowl b in bowlList){
+            if (b.bowlPos < bowlsTransPos.Count - 1)
+            {
+                b.SlideAnimation(bowlsTransPos[b.bowlPos + 1].anchoredPosition);
+                b.bowlPos++;
+            } 
+        }
+    }
+
+    public void LeftBtn()
+    {
+        foreach (Bowl b in bowlList)
+        {
+            if (b.bowlPos > 0)
+            {
+                b.SlideAnimation(bowlsTransPos[b.bowlPos - 1].anchoredPosition);
+                b.bowlPos--;
+            } 
+        }
     }
 
     #endregion
 }
+
