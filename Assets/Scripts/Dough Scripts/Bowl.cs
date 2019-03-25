@@ -7,18 +7,41 @@ public class Bowl : MonoBehaviour {
     public GameObject requirment;
     public Transform requirmentsPanelPos;
 
+    public short bowlPos = 0;
+
     List<Requirment> reqList = new List<Requirment>();
+
+
+    const short distanceToCompare = 10;
+
 
     #region Public_Methods
     public void setRequirment(string typeName, Sprite typeSprite, int quantity)
     {
         short newItemIndex = CheckNewItem(typeName) ;
-        Debug.Log(newItemIndex);
         if (newItemIndex == -1) GenerateNewRequirment(typeName, typeSprite, quantity);
         else UpdateRequirmentInfo(newItemIndex, quantity);
 
     }
+
+    public void SlideAnimation(Vector2 destination)
+    {
+        StartCoroutine(GoToDestinationAnimation(destination));
+    }
+
     #endregion
+
+    IEnumerator GoToDestinationAnimation(Vector2 destination)
+    {
+        while (Vector2.Distance(GetComponent<RectTransform>().anchoredPosition, destination) > distanceToCompare)
+        {
+            GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(GetComponent<RectTransform>().anchoredPosition, destination, DoughManager.speed * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+
+
+        }
+    }
+
     short CheckNewItem(string typeName)
     {
         for (short i = 0; i < reqList.Count; i++)
