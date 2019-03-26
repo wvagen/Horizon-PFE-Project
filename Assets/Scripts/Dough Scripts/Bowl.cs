@@ -9,7 +9,7 @@ public class Bowl : MonoBehaviour {
 
     public short bowlPos = 0;
 
-    List<Requirment> reqList = new List<Requirment>();
+    public List<Requirment> reqList = new List<Requirment>();
 
 
     const short distanceToCompare = 10;

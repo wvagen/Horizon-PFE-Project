@@ -1,13 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoughManager : MonoBehaviour {
 
     public Sprite[] requirmentSprites;
+    public int[] quantitysToAdd; //0-1 : eggs; 2-3 : flour
+
+    public Color wrongRecipeColor, missingRecipeColor, correctRecipeColor;
 
     public GameObject doughRequirment,bowl;
     public Transform recipeFieldContainer,bowlField;
+
+    public Text eggsSlot1Txt, eggsSlot2Txt;
+    public Text flourSlot1Txt, flourSlot2Txt;
 
     public static int orderNum = 1;
     public static float speed = 20f;
@@ -16,15 +23,23 @@ public class DoughManager : MonoBehaviour {
     List<Bowl> bowlList = new List<Bowl>();
 
     List<RectTransform> bowlsTransPos = new List<RectTransform>();
-        
-    short eggsQuantityToAdd = 5;
 
 	void Start () {
         fillBowlsTransPos();
+        SetInitialValues();
 	}
 	
 	void Update () {
 
+    }
+
+    void SetInitialValues()
+    {
+        eggsSlot1Txt.text = quantitysToAdd[0].ToString();
+        eggsSlot2Txt.text = quantitysToAdd[1].ToString();
+
+        flourSlot1Txt.text = quantitysToAdd[2].ToString();
+        flourSlot2Txt.text = quantitysToAdd[3].ToString();
     }
 
 
@@ -45,7 +60,8 @@ public class DoughManager : MonoBehaviour {
         Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
 
         newDoughRecipe.setOrderInfo(orderNum,0);
-        newDoughRecipe.setRequirment("Egg", requirmentSprites[0], Random.Range(0, 6));
+        newDoughRecipe.setRequirment("Egg", requirmentSprites[0], Random.Range(3, 10));
+        newDoughRecipe.setRequirment("Flour", requirmentSprites[1], 100);
 
         doughList.Add(newDoughRecipe);
 
@@ -68,15 +84,31 @@ public class DoughManager : MonoBehaviour {
 
     }
 
-    public void AddEggsBtn()
+    public void AddIngredient(int slotIndex)
     {
         foreach (Bowl b in bowlList)
         {
-            if (b.bowlPos == 1)
-            b.setRequirment("Egg", requirmentSprites[0], eggsQuantityToAdd);
+            if (((slotIndex / 2) + 1) == b.bowlPos)
+            {
+                b.setRequirment(TypeNameCase(slotIndex), requirmentSprites[(slotIndex / 2 + 1)-1], quantitysToAdd[slotIndex]);
+                foreach (Recipe r in doughList)
+                {
+                    short recipeColorCase = r.checkRecipeAndBowlCorresspandencie(b.reqList);
+                    switch (recipeColorCase)
+                    {
+                        case 0: r.changeMyColor(wrongRecipeColor);break;
+                        case 1: r.changeMyColor(missingRecipeColor); break;
+                        case 2: r.changeMyColor(correctRecipeColor); break;
+                    }
+                    
+                }
+            }
         }
         
     }
+
+
+
 
     public void RightBtn()
     {
@@ -102,5 +134,20 @@ public class DoughManager : MonoBehaviour {
     }
 
     #endregion
+
+    string TypeNameCase(int slotIndexCases)
+    {
+        switch (slotIndexCases)
+        {
+            case 0: return "Egg";
+            case 1: return "Egg";
+
+            case 2: return "Flour";
+            case 3: return "Flour";
+
+            default: return "NULL";
+        }
+    }
+
 }
 

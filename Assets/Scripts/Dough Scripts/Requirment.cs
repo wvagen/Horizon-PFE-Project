@@ -7,7 +7,7 @@ public class Requirment : MonoBehaviour {
     public Image typeImg;
 
     public string typeName;
-    public int quantity;
+    public int quantity = 0; 
 
 
     #region Public_Methods
