@@ -8,9 +8,10 @@ public class Bowl : MonoBehaviour {
     public Transform requirmentsPanelPos;
 
     public short bowlPos = 0;
-
+    
     public List<Requirment> reqList = new List<Requirment>();
 
+    Vector2 startPos;
 
     const short distanceToCompare = 10;
 
@@ -27,6 +28,23 @@ public class Bowl : MonoBehaviour {
     public void SlideAnimation(Vector2 destination)
     {
         StartCoroutine(GoToDestinationAnimation(destination));
+    }
+
+    public void OnDown()
+    {
+        startPos = transform.position;
+        DoughManager.draggedBowl = this;
+    }
+
+    public void OnDrag()
+    {
+        if (DoughManager.draggedBowl)
+            transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    public void OnUp()
+    {
+        transform.position = startPos;
     }
 
     #endregion
@@ -71,7 +89,6 @@ public class Bowl : MonoBehaviour {
         reqList[itemIndex].updateQuantityInfos(reqList[itemIndex].quantity);
 
     }
-
-
+    
 
 }

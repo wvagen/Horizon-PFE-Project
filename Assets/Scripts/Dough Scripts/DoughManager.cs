@@ -16,6 +16,7 @@ public class DoughManager : MonoBehaviour {
     public Text eggsSlot1Txt, eggsSlot2Txt;
     public Text flourSlot1Txt, flourSlot2Txt;
 
+    public static Bowl draggedBowl = null;
     public static int orderNum = 1;
     public static float speed = 20f;
 
@@ -28,10 +29,6 @@ public class DoughManager : MonoBehaviour {
         fillBowlsTransPos();
         SetInitialValues();
 	}
-	
-	void Update () {
-
-    }
 
     void SetInitialValues()
     {
@@ -107,7 +104,12 @@ public class DoughManager : MonoBehaviour {
         
     }
 
-
+    public void DeleteBowl()
+    {
+        bowlList.Remove(draggedBowl);
+        Destroy(draggedBowl.gameObject);
+        draggedBowl = null;
+    }
 
 
     public void RightBtn()
@@ -148,6 +150,7 @@ public class DoughManager : MonoBehaviour {
             default: return "NULL";
         }
     }
+
 
 }
 
