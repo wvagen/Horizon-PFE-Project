@@ -52,8 +52,8 @@ public class DoughManager : MonoBehaviour {
 
     public void GenerateNewRequirmentMenu()
     {
-        
-        GameObject newRecipe = Instantiate(doughRequirment, recipeFieldContainer.position, Quaternion.identity, recipeFieldContainer);
+        Vector3 randomRotation = new Vector3(0, 0, Random.Range(-5f, 5f));
+        GameObject newRecipe = Instantiate(doughRequirment, recipeFieldContainer.position, Quaternion.Euler(randomRotation), recipeFieldContainer);
         Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
 
         newDoughRecipe.setOrderInfo(orderNum,0);
