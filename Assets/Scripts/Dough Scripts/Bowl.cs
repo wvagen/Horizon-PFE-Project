@@ -27,6 +27,7 @@ public class Bowl : MonoBehaviour {
 
     public void SlideAnimation(Vector2 destination)
     {
+        
         StartCoroutine(GoToDestinationAnimation(destination));
     }
 
@@ -51,13 +52,14 @@ public class Bowl : MonoBehaviour {
 
     IEnumerator GoToDestinationAnimation(Vector2 destination)
     {
+        DoughManager.onAnimation = true;
         while (Vector2.Distance(GetComponent<RectTransform>().anchoredPosition, destination) > distanceToCompare)
         {
             GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(GetComponent<RectTransform>().anchoredPosition, destination, DoughManager.speed * Time.deltaTime);
             yield return new WaitForEndOfFrame();
 
-
         }
+        DoughManager.onAnimation = false;
     }
 
     short CheckNewItem(string typeName)

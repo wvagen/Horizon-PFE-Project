@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace Lean.Touch
 {
@@ -48,6 +49,9 @@ namespace Lean.Touch
 
 		public Vector2Event OnSwipeDelta;
 
+        DoughManager man;
+        Vector2 swipeDirection;
+
 #if UNITY_EDITOR
 		protected virtual void Reset()
 		{
@@ -57,6 +61,7 @@ namespace Lean.Touch
 
 		protected bool CheckSwipe(LeanFinger finger, Vector2 swipeDelta)
 		{
+            
 			// Invalid angle?
 			if (CheckAngle == true)
 			{
@@ -80,10 +85,12 @@ namespace Lean.Touch
 
 				case ClampType.Direction4:
 				{
-					if (swipeDelta.x < -Mathf.Abs(swipeDelta.y)) swipeDelta = -Vector2.right;
-					if (swipeDelta.x >  Mathf.Abs(swipeDelta.y)) swipeDelta =  Vector2.right;
+                    if (swipeDelta.x < -Mathf.Abs(swipeDelta.y))swipeDelta = -Vector2.right;
+                    if (swipeDelta.x > Mathf.Abs(swipeDelta.y)) swipeDelta = Vector2.right;
 					if (swipeDelta.y < -Mathf.Abs(swipeDelta.x)) swipeDelta = -Vector2.up;
 					if (swipeDelta.y >  Mathf.Abs(swipeDelta.x)) swipeDelta =  Vector2.up;
+
+                    swipeDirection = swipeDelta;
 				}
 				break;
 
@@ -108,6 +115,8 @@ namespace Lean.Touch
 			return true;
 		}
 
+
+
 		protected virtual void OnEnable()
 		{
 			// Hook events
@@ -116,6 +125,7 @@ namespace Lean.Touch
 
 		protected virtual void Start()
 		{
+            man = GetComponent<DoughManager>();
 			if (RequiredSelectable == null)
 			{
 				RequiredSelectable = GetComponent<LeanSelectable>();
@@ -127,6 +137,13 @@ namespace Lean.Touch
 			// Unhook events
 			LeanTouch.OnFingerSwipe -= FingerSwipe;
 		}
+
+        public void BowlPositionningOnSwipe()
+        {
+
+            if (swipeDirection == Vector2.right) man.RightBtn();
+            else if (swipeDirection == Vector2.left) man.LeftBtn();
+        }
 
 		private void FingerSwipe(LeanFinger finger)
 		{
