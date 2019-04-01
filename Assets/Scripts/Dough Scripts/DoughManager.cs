@@ -64,7 +64,7 @@ public class DoughManager : MonoBehaviour {
         doughList.Add(newDoughRecipe);
 
         orderNum++;
-        ChangeRecipeColor();
+        CheckBowlColor();
     }
 
     public void GenerateNewBowl()
@@ -85,15 +85,29 @@ public class DoughManager : MonoBehaviour {
 
     public void AddIngredient(int slotIndex)
     {
+        short indexOfFindess = 0 ;
         if (onAnimation) return;
         foreach (Bowl b in bowlList)
         {
             if (((slotIndex / 2) + 1) == b.bowlPos)
             {
                 b.setRequirment(TypeNameCase(slotIndex), requirmentSprites[(slotIndex / 2 + 1)-1], quantitysToAdd[slotIndex]);
+                if (doughList.Count == 0) return;
+                foreach (Recipe r in doughList)
+                {
+                    short newIndexOfFindess = b.CheckMenuList(r.reqList,(short)r.reqList.Count);
+                    if (newIndexOfFindess > indexOfFindess) indexOfFindess = newIndexOfFindess;
+                }
+
+                switch (indexOfFindess)
+                {
+                    case 0: b.ChangeMyColor(wrongRecipeColor); break;
+                    case 1: b.ChangeMyColor(missingRecipeColor); break;
+                    case 2: b.ChangeMyColor(correctRecipeColor); break;
+                }
+
             }
         }
-        ChangeRecipeColor();
         
     }
 
@@ -102,13 +116,13 @@ public class DoughManager : MonoBehaviour {
         bowlList.Remove(draggedBowl);
         Destroy(draggedBowl.gameObject);
         draggedBowl = null;
-        ChangeRecipeColor();
     }
 
 
     public void RightBtn()
     {
-        if (onAnimation) return;
+        if (onAnimation ) return;
+        foreach (Bowl b in bowlList) if (b.bowlPos == bowlsTransPos.Count - 1) return;
         foreach(Bowl b in bowlList){
             if (b.bowlPos < bowlsTransPos.Count - 1)
             {
@@ -121,6 +135,7 @@ public class DoughManager : MonoBehaviour {
     public void LeftBtn()
     {
         if (onAnimation) return;
+        foreach (Bowl b in bowlList) if (b.bowlPos == 0) return;
         foreach (Bowl b in bowlList)
         {
             if (b.bowlPos > 0)
@@ -133,6 +148,27 @@ public class DoughManager : MonoBehaviour {
 
     #endregion
 
+    void CheckBowlColor()
+    {
+        short indexOfFindess = 0;
+        foreach (Bowl b in bowlList)
+        {
+            foreach (Recipe r in doughList)
+            {
+                short newIndexOfFindess = b.CheckMenuList(r.reqList, (short)r.reqList.Count);
+                if (newIndexOfFindess > indexOfFindess) indexOfFindess = newIndexOfFindess;
+            }
+
+            switch (indexOfFindess)
+            {
+                case 0: b.ChangeMyColor(wrongRecipeColor); break;
+                case 1: b.ChangeMyColor(missingRecipeColor); break;
+                case 2: b.ChangeMyColor(correctRecipeColor); break;
+            }
+        }
+
+    }
+
     string TypeNameCase(int slotIndexCases)
     {
         switch (slotIndexCases)
@@ -144,30 +180,6 @@ public class DoughManager : MonoBehaviour {
             case 3: return "Flour";
 
             default: return "NULL";
-        }
-    }
-
-    void ChangeRecipeColor()
-    {
-        foreach (Recipe r in doughList)
-        {
-            r.changeMyColor(Color.white); break;
-        }
-        Debug.Log(bowlList.Count);
-        foreach (Bowl b in bowlList)
-        {
-            foreach (Recipe r in doughList)
-            {
-                short recipeColorCase = r.checkRecipeAndBowlCorresspandencie(b.reqList);
-                switch (recipeColorCase)
-                {
-                    case 0: r.changeMyColor(wrongRecipeColor); break;
-                    case 1: r.changeMyColor(missingRecipeColor); break;
-                    case 2: r.changeMyColor(correctRecipeColor); break;
-                    case 3: r.changeMyColor(Color.white); break;
-                }
-
-            }
         }
     }
 

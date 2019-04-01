@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bowl : MonoBehaviour {
 
@@ -9,7 +10,7 @@ public class Bowl : MonoBehaviour {
 
     public short bowlPos = 0;
     
-    public List<Requirment> reqList = new List<Requirment>();
+    List<Requirment> reqList = new List<Requirment>();
 
     Vector2 startPos;
 
@@ -46,6 +47,43 @@ public class Bowl : MonoBehaviour {
     public void OnUp()
     {
         transform.position = startPos;
+    }
+
+
+    public short CheckMenuList(List<Requirment> menuReqList,short recipeReqListLength){
+
+        short colorIndex = 0; //0 means fott el requirment 1 means en train de w mazal famma mat7ott
+        //2 means c bn rak l9itha
+        short itemsCount = 0;
+
+        
+            for (short i = 0; i < reqList.Count; i++)
+            {
+                colorIndex = 0;
+                foreach (Requirment r in menuReqList)
+                {
+                    if (reqList[i].typeName == r.typeName)
+                    {
+                        if (reqList[i].quantity > r.quantity) colorIndex = 0;
+                        else {
+                            colorIndex = 1;
+                            if (reqList[i].quantity == r.quantity) itemsCount++;
+                        }
+                        
+                    }
+                }
+                if (colorIndex == 0) return 0;
+            }
+            if (itemsCount == recipeReqListLength) colorIndex = 2;
+
+            return colorIndex;
+    }
+
+    public void ChangeMyColor(Color newColorToChange)
+    {
+
+        GetComponent<Image>().color = newColorToChange;
+
     }
 
     #endregion

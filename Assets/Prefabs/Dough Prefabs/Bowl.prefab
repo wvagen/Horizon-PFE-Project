@@ -27,7 +27,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310656266969030}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -68,7 +68,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 07b1ee352c9baa848aab49c6b4fbc34d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f0e8403ccad274b479174ff51c94b06f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -92,7 +92,6 @@ MonoBehaviour:
   requirment: {fileID: 1461917745072322, guid: 4f880a8abd4033647a308d4988408d28, type: 3}
   requirmentsPanelPos: {fileID: 224260223918502900}
   bowlPos: 0
-  reqList: []
 --- !u!114 &114005747593596882
 MonoBehaviour:
   m_ObjectHideFlags: 0
