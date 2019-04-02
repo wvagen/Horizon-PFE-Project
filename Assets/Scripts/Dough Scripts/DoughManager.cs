@@ -16,15 +16,17 @@ public class DoughManager : MonoBehaviour {
     public Text eggsSlot1Txt, eggsSlot2Txt;
     public Text flourSlot1Txt, flourSlot2Txt;
 
+    public Animator myAnim;
+
     public static Bowl draggedBowl = null;
     public static int orderNum = 1;
-    public static float speed = 20f;
+    public static float speed = 10;
     public static bool onAnimation = false;
 
     List<Recipe> doughList = new List<Recipe>();
     List<Bowl> bowlList = new List<Bowl>();
 
-    List<RectTransform> bowlsTransPos = new List<RectTransform>();
+    List<Transform> bowlsTransPos = new List<Transform>();
 
 	void Start () {
         fillBowlsTransPos();
@@ -78,7 +80,7 @@ public class DoughManager : MonoBehaviour {
         Bowl newBowlScript = newBowl.GetComponent<Bowl>();
 
         newBowlScript.bowlPos = 0;
-        newBowlScript.GetComponent<RectTransform>().anchoredPosition = bowlsTransPos[0].anchoredPosition;
+        newBowlScript.transform.position = bowlsTransPos[0].position;
         bowlList.Add(newBowlScript);
 
     }
@@ -96,6 +98,7 @@ public class DoughManager : MonoBehaviour {
                 foreach (Recipe r in doughList)
                 {
                     short newIndexOfFindess = b.CheckMenuList(r.reqList,(short)r.reqList.Count);
+                    if (newIndexOfFindess == 2) b.compatibleList = r;
                     if (newIndexOfFindess > indexOfFindess) indexOfFindess = newIndexOfFindess;
                 }
 
@@ -126,7 +129,7 @@ public class DoughManager : MonoBehaviour {
         foreach(Bowl b in bowlList){
             if (b.bowlPos < bowlsTransPos.Count - 1)
             {
-                b.SlideAnimation(bowlsTransPos[b.bowlPos + 1].anchoredPosition);
+                b.SlideAnimation(bowlsTransPos[b.bowlPos + 1].position);
                 b.bowlPos++;
             } 
         }
@@ -140,9 +143,28 @@ public class DoughManager : MonoBehaviour {
         {
             if (b.bowlPos > 0)
             {
-                b.SlideAnimation(bowlsTransPos[b.bowlPos - 1].anchoredPosition);
+                b.SlideAnimation(bowlsTransPos[b.bowlPos - 1].position);
                 b.bowlPos--;
             } 
+        }
+    }
+
+    public void SwallawBtn()
+    {
+
+        myAnim.Play("Swallaw");
+
+    }
+
+    public void SwallawIfCompatibilityMatchs()
+    {
+        foreach (Bowl item in bowlList)
+        {
+            if (item.bowlPos == bowlsTransPos.Count - 1 && item.compatibleList != null)
+            {
+                bowlList.Remove(item);
+                item.compatibleList.Delete(item);
+            }
         }
     }
 

@@ -10,6 +10,8 @@ public class Recipe : MonoBehaviour {
     public GameObject requirment;
     public Transform requirmentsPanelPos;
 
+    public GameObject fireWorkEffect;
+
     public List<Requirment> reqList = new List<Requirment>();
 
 	void Start () {
@@ -39,7 +41,33 @@ public class Recipe : MonoBehaviour {
 
     }
 
+    public void Delete(Bowl bowlToDestory)
+    {
+        Destroy(Instantiate(fireWorkEffect, transform.position, Quaternion.identity), 2);
+        Destroy(bowlToDestory.gameObject);
+        StartCoroutine(fadeOutAnimation());
+
+    }
+        
     #endregion
 
+    IEnumerator fadeOutAnimation()
+    {
+        Image[] imgsToFade = GetComponentsInChildren<Image>();
+        Text[] txtsToFade = GetComponentsInChildren<Text>();
+        Color colToFadeImg = imgsToFade[0].color;
+        Color colToFadeTxt = txtsToFade[0].color;
+
+        while (imgsToFade[0].color.a > 0)
+        {
+            colToFadeImg.a -= Time.deltaTime * 3;
+            colToFadeTxt.a -= Time.deltaTime * 3;
+            foreach (Image i in imgsToFade) i.color = colToFadeImg;
+            foreach (Text t in txtsToFade) t.color = colToFadeImg;
+
+            yield return new WaitForEndOfFrame();
+        }
+        Destroy(this.gameObject);
+    }
 
 }

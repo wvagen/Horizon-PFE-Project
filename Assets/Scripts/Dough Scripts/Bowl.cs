@@ -7,14 +7,16 @@ public class Bowl : MonoBehaviour {
 
     public GameObject requirment;
     public Transform requirmentsPanelPos;
+    public Recipe compatibleList;
 
     public short bowlPos = 0;
     
     List<Requirment> reqList = new List<Requirment>();
+    
 
     Vector2 startPos;
 
-    const short distanceToCompare = 10;
+    const float distanceToCompare = .05f;
 
 
     #region Public_Methods
@@ -91,9 +93,9 @@ public class Bowl : MonoBehaviour {
     IEnumerator GoToDestinationAnimation(Vector2 destination)
     {
         DoughManager.onAnimation = true;
-        while (Vector2.Distance(GetComponent<RectTransform>().anchoredPosition, destination) > distanceToCompare)
+        while (Vector2.Distance(transform.position, destination) > distanceToCompare)
         {
-            GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(GetComponent<RectTransform>().anchoredPosition, destination, DoughManager.speed * Time.deltaTime);
+            transform.position = Vector2.Lerp(transform.position, destination, DoughManager.speed * Time.deltaTime);
             yield return new WaitForEndOfFrame();
 
         }

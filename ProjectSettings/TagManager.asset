@@ -44,3 +44,9 @@ TagManager:
   - name: Bowl
     uniqueID: 3952665079
     locked: 0
+  - name: Inputs
+    uniqueID: 1848837635
+    locked: 0
+  - name: Swaller
+    uniqueID: 3799858659
+    locked: 0

@@ -419,3 +419,6 @@ MonoBehaviour:
   orderNumTxt: {fileID: 114302494611816016}
   requirment: {fileID: 1461917745072322, guid: 4f880a8abd4033647a308d4988408d28, type: 3}
   requirmentsPanelPos: {fileID: 224962622872215296}
+  fireWorkEffect: {fileID: 1247311384876784, guid: 4adffb0018aeda44e9263f901167af1f,
+    type: 3}
+  reqList: []
