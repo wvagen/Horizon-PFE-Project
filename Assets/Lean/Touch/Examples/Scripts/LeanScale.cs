@@ -6,6 +6,8 @@ namespace Lean.Touch
 	[HelpURL(LeanTouch.HelpUrlPrefix + "LeanScale")]
 	public class LeanScale : MonoBehaviour
 	{
+
+
 		[Tooltip("Ignore fingers with StartedOverGui?")]
 		public bool IgnoreStartedOverGui = true;
 
@@ -54,6 +56,7 @@ namespace Lean.Touch
 
 		protected virtual void Update()
 		{
+
 			// Get the fingers we want to use
 			var fingers = LeanSelectable.GetFingers(IgnoreStartedOverGui, IgnoreIsOverGui, RequiredFingerCount, RequiredSelectable);
 
@@ -77,10 +80,11 @@ namespace Lean.Touch
 					}
 				}
 
-				// Perform the scaling
+                
 				Scale(transform.localScale * pinchScale);
 			}
 		}
+
 
 		protected virtual void TranslateUI(float pinchScale, Vector2 pinchScreenCenter)
 		{
