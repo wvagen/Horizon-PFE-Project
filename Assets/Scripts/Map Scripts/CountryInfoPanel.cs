@@ -15,6 +15,8 @@ public class CountryInfoPanel : MonoBehaviour
 
     Transform countryLocation;
 
+    List<GameObject> BuyQuanPanel = new List<GameObject>();
+
     bool isCountrySelected = false;
     public void SetCountryNameAndFlag(Sprite countryFlag,string countryName, Transform countryLocation)
     {
@@ -26,11 +28,20 @@ public class CountryInfoPanel : MonoBehaviour
 
     public void GenerateBuyQuanityTypePanel(Sprite fruitImg,int fruitQuantity, int price)
     {
+        foreach (GameObject item in BuyQuanPanel) Destroy(item);
+
         GameObject newPanel = Instantiate(BuyImgQuantityPanel, transform.position, Quaternion.identity, buyImgPanelSpawnLocation);
         BuyQunatityFruitType script = newPanel.GetComponent<BuyQunatityFruitType>();
 
         script.Set_Quantity_Price_Sprite(fruitImg,fruitQuantity, price);
+        BuyQuanPanel.Add(newPanel);
+    }
 
+    public void DeselectCountry()
+    {
+        isCountrySelected = false;
+        line.SetPosition(0, Vector3.zero);
+        line.SetPosition(1, Vector3.zero);
     }
 
     void Update()
@@ -44,4 +55,6 @@ public class CountryInfoPanel : MonoBehaviour
         line.SetPosition(1,(Vector3)countryLocation.position);
 
     }
+
+    
 }
