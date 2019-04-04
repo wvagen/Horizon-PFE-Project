@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class MapManager : MonoBehaviour
 {
 
-    public string[] countryNames;
+    public GameObject recipeGameObject;
 
+    public string[] countryNames;
     //List Of Country that sells these fruits
     public string[] Banana;
 
@@ -18,20 +19,37 @@ public class MapManager : MonoBehaviour
     public Sprite[] fruits;
     public Animator myAnim;
 
+    public Transform map, mapNames, recipeFieldContainer;
+
     public CountryInfoPanel countryInfoPanelScript;
     public Dictionary<string, CountryBtn> countryDic = new Dictionary<string, CountryBtn>();
-    
+
+    public static int orderNum = 1;
+
     Dictionary<string, Sprite> fruitDic = new Dictionary<string, Sprite>();
+    Dictionary<string, int> stock = new Dictionary<string, int>();
+
 
     List<Image> targetImgsEnabled = new List<Image>();
+    List<Recipe> recipeList = new List<Recipe>();
 
+    bool isCollapsed = false;
 
     void Start(){
 
         fruitDic.Add("Banana", fruits[0]);
-        //fruitDic.Add("Apple", fruits[1]);
+        fruitDic.Add("Apple", fruits[1]);
 
     }
+
+    void Update()
+    {
+        if (map.localScale.x >= 4) mapNames.gameObject.SetActive(true);
+        else mapNames.gameObject.SetActive(false);
+    }
+
+
+#region public_Methods
     public void SelectCountry(string countryName)
     {
         int countryNameIndex = 0;
@@ -67,11 +85,42 @@ public class MapManager : MonoBehaviour
 
     }
 
+    public void ShowOrCollapseRecipeField()
+    {
+        if (!isCollapsed)
+        {
+            isCollapsed = true;
+            myAnim.Play("ShowRecipeField", -1, 0);
+        }
+        else
+        {
+            isCollapsed = false;
+            myAnim.Play("CollapseRecipeField", -1, 0);
+        }
+    }
+
     public void ExitBtn()
     {
         countryInfoPanelScript.DeselectCountry();
         myAnim.Play("CountryPanelShrink");
     }
+
+    public void GenerateRecipe()
+    {
+        Vector3 randomRotation = new Vector3(0, 0, Random.Range(-5f, 5f));
+        GameObject newRecipe = Instantiate(recipeGameObject, recipeFieldContainer.position, Quaternion.Euler(randomRotation), recipeFieldContainer);
+        Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
+
+        newDoughRecipe.setOrderInfo(orderNum, 0);
+        newDoughRecipe.setRequirment("Banana", fruits[0], Random.Range(3, 10));
+        newDoughRecipe.setRequirment("Apple", fruits[1], Random.Range(1, 5) * 25);
+
+        recipeList.Add(newDoughRecipe);
+
+        orderNum++; 
+    }
+
+#endregion
 
     //Here Where The Magic Happens
     void ShowCountryOffers(string countryName)

@@ -23,7 +23,7 @@ public class DoughManager : MonoBehaviour {
     public static float speed = 10;
     public static bool onAnimation = false;
 
-    List<Recipe> doughList = new List<Recipe>();
+    List<Recipe> recipeList = new List<Recipe>();
     List<Bowl> bowlList = new List<Bowl>();
 
     List<Transform> bowlsTransPos = new List<Transform>();
@@ -61,9 +61,9 @@ public class DoughManager : MonoBehaviour {
 
         newDoughRecipe.setOrderInfo(orderNum,0);
         newDoughRecipe.setRequirment("Egg", requirmentSprites[0], Random.Range(3, 10));
-        newDoughRecipe.setRequirment("Flour", requirmentSprites[1], 100);
+        newDoughRecipe.setRequirment("Flour", requirmentSprites[1], Random.Range(1, 5) * 25);
 
-        doughList.Add(newDoughRecipe);
+        recipeList.Add(newDoughRecipe);
 
         orderNum++;
         CheckBowlColor();
@@ -94,8 +94,8 @@ public class DoughManager : MonoBehaviour {
             if (((slotIndex / 2) + 1) == b.bowlPos)
             {
                 b.setRequirment(TypeNameCase(slotIndex), requirmentSprites[(slotIndex / 2 + 1)-1], quantitysToAdd[slotIndex]);
-                if (doughList.Count == 0) return;
-                foreach (Recipe r in doughList)
+                if (recipeList.Count == 0) return;
+                foreach (Recipe r in recipeList)
                 {
                     short newIndexOfFindess = b.CheckMenuList(r.reqList,(short)r.reqList.Count);
                     if (newIndexOfFindess == 2) b.compatibleList = r;
@@ -175,7 +175,7 @@ public class DoughManager : MonoBehaviour {
         short indexOfFindess = 0;
         foreach (Bowl b in bowlList)
         {
-            foreach (Recipe r in doughList)
+            foreach (Recipe r in recipeList)
             {
                 short newIndexOfFindess = b.CheckMenuList(r.reqList, (short)r.reqList.Count);
                 if (newIndexOfFindess > indexOfFindess) indexOfFindess = newIndexOfFindess;
