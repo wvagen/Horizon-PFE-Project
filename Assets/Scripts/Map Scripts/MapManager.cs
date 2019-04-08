@@ -12,6 +12,7 @@ public class MapManager : MonoBehaviour
     public string[] countryNames;
     //List Of Country that sells these fruits
     public string[] Banana;
+    public string[] Apple;
 
     //End Of List  Here
 
@@ -74,10 +75,14 @@ public class MapManager : MonoBehaviour
         {
             case "Banana": foreach (string item in Banana)
                 {
-                    Debug.Log(countryDic[item].gameObject.name);
                     countryDic[item].targetImg.enabled = true;
                     targetImgsEnabled.Add(countryDic[item].targetImg);
                 }break;
+            case "Apple": foreach (string item in Apple)
+                {
+                    countryDic[item].targetImg.enabled = true;
+                    targetImgsEnabled.Add(countryDic[item].targetImg);
+                } break;
 
             default: Debug.Log("Item NOT Exist"); break;
 
@@ -129,6 +134,7 @@ public class MapManager : MonoBehaviour
         switch (countryName)
         {
             case "United States": countryInfoPanelScript.GenerateBuyQuanityTypePanel(fruitDic["Banana"], 100, 500); break;
+            case "Frensh": countryInfoPanelScript.GenerateBuyQuanityTypePanel(fruitDic["Apple"], 75, 200); break;
                 
         }
 
