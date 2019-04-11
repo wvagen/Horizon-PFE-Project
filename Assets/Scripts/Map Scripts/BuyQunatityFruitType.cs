@@ -10,11 +10,15 @@ public class BuyQunatityFruitType : MonoBehaviour
     public Text priceTxt;
 
     int fruitQuantity,price;
-    public void Set_Quantity_Price_Sprite(Sprite fruitSprite, int fruitQuantity, int price )
+    string fruitName;
+    MapManager manScript;
+    public void Set_Quantity_Price_Sprite(MapManager manScript,string fruitName,Sprite fruitSprite, int fruitQuantity, int price )
     {
         this.fruitSprite.sprite = fruitSprite;
         this.fruitQuantity = fruitQuantity;
         this.price = price;
+        this.manScript = manScript;
+        this.fruitName = fruitName;
 
         fruitQuantityTxt.text = fruitQuantity.ToString();
         priceTxt.text = price.ToString();
@@ -23,6 +27,11 @@ public class BuyQunatityFruitType : MonoBehaviour
 
     public void BuyBtn()
     {
-        Debug.Log("NOTHING TO SELL");
+        if (price > MapManager.moneyValue) return;
+        MapManager.moneyValue -= price;
+        manScript.SetMoneyValueTxt();
+        manScript.stock[fruitName] += fruitQuantity;
+        manScript.UpdateStockTxt(fruitName);
     }
+
 }

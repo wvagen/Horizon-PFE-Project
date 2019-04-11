@@ -22,25 +22,28 @@ public class MapManager : MonoBehaviour
 
     public Transform map, mapNames, recipeFieldContainer;
 
+    public Text moneyValueTxt;
+
     public CountryInfoPanel countryInfoPanelScript;
     public Dictionary<string, CountryBtn> countryDic = new Dictionary<string, CountryBtn>();
+    public Dictionary<string, int> stock = new Dictionary<string, int>();
 
     public static int orderNum = 1;
-
+    public static int moneyValue = 1000;
+    
     Dictionary<string, Sprite> fruitDic = new Dictionary<string, Sprite>();
-    Dictionary<string, int> stock = new Dictionary<string, int>();
-
 
     List<Image> targetImgsEnabled = new List<Image>();
     List<Recipe> recipeList = new List<Recipe>();
 
+    StockTxtManager stockTxtMan;
+
     bool isCollapsed = false;
 
     void Start(){
-
-        fruitDic.Add("Banana", fruits[0]);
-        fruitDic.Add("Apple", fruits[1]);
-
+        SetMoneyValueTxt();
+        stockTxtMan = GetComponent<StockTxtManager>();
+        InitVars();
     }
 
     void Update()
@@ -49,6 +52,18 @@ public class MapManager : MonoBehaviour
         else mapNames.gameObject.SetActive(false);
     }
 
+    void InitVars()
+    {
+        fruitDic.Add("Banana", fruits[0]);
+        fruitDic.Add("Apple", fruits[1]);
+
+        stock.Add("Banana", 50);
+        UpdateStockTxt("Banana");
+
+        stock.Add("Apple", 50);
+        UpdateStockTxt("Apple");
+
+    }
 
 #region public_Methods
     public void SelectCountry(string countryName)
@@ -61,7 +76,7 @@ public class MapManager : MonoBehaviour
         }
 
         countryInfoPanelScript.SetCountryNameAndFlag(flags[countryNameIndex], countryNames[countryNameIndex],
-            EventSystem.current.currentSelectedGameObject.transform);
+            countryDic[countryName].transform);
 
         ShowCountryOffers(countryName);
     }
@@ -75,18 +90,17 @@ public class MapManager : MonoBehaviour
         {
             case "Banana": foreach (string item in Banana)
                 {
-                    countryDic[item].targetImg.enabled = true;
-                    targetImgsEnabled.Add(countryDic[item].targetImg);
+                    EnableFruitLocationImgs(item);
                 }break;
             case "Apple": foreach (string item in Apple)
                 {
-                    countryDic[item].targetImg.enabled = true;
-                    targetImgsEnabled.Add(countryDic[item].targetImg);
+                    EnableFruitLocationImgs(item);
                 } break;
 
             default: Debug.Log("Item NOT Exist"); break;
 
         }
+
 
     }
 
@@ -125,6 +139,16 @@ public class MapManager : MonoBehaviour
         orderNum++; 
     }
 
+    public void SetMoneyValueTxt()
+    {
+        moneyValueTxt.text = moneyValue.ToString(); 
+    }
+
+    public void UpdateStockTxt(string fruitName)
+    {
+        stockTxtMan.changeStocktxt(fruitName, stock[fruitName]);
+    }
+
 #endregion
 
     //Here Where The Magic Happens
@@ -133,11 +157,17 @@ public class MapManager : MonoBehaviour
 
         switch (countryName)
         {
-            case "United States": countryInfoPanelScript.GenerateBuyQuanityTypePanel(fruitDic["Banana"], 100, 500); break;
-            case "Frensh": countryInfoPanelScript.GenerateBuyQuanityTypePanel(fruitDic["Apple"], 75, 200); break;
+            case "United States": countryInfoPanelScript.GenerateBuyQuanityTypePanel(this,"Banana",fruitDic["Banana"], 100, 500); break;
+            case "Frensh": countryInfoPanelScript.GenerateBuyQuanityTypePanel(this, "Apple", fruitDic["Apple"], 75, 200); break;
                 
         }
 
+    }
+
+    void EnableFruitLocationImgs(string item)
+    {
+        countryDic[item].EnableImgTarget();
+        targetImgsEnabled.Add(countryDic[item].targetImg);
     }
     
 }

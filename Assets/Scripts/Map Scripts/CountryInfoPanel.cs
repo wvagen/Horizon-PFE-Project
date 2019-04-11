@@ -26,14 +26,14 @@ public class CountryInfoPanel : MonoBehaviour
         isCountrySelected = true;
     }
 
-    public void GenerateBuyQuanityTypePanel(Sprite fruitImg,int fruitQuantity, int price)
+    public void GenerateBuyQuanityTypePanel(MapManager manScript,string fruitName, Sprite fruitImg,int fruitQuantity, int price)
     {
         foreach (GameObject item in BuyQuanPanel) Destroy(item);
 
         GameObject newPanel = Instantiate(BuyImgQuantityPanel, transform.position, Quaternion.identity, buyImgPanelSpawnLocation);
         BuyQunatityFruitType script = newPanel.GetComponent<BuyQunatityFruitType>();
 
-        script.Set_Quantity_Price_Sprite(fruitImg,fruitQuantity, price);
+        script.Set_Quantity_Price_Sprite(manScript,fruitName,fruitImg, fruitQuantity, price);
         BuyQuanPanel.Add(newPanel);
     }
 
