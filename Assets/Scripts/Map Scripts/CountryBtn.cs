@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class CountryBtn : MonoBehaviour
 {
+
+//Ya Ramy Piece OF SHit
     MapManager man; 
     public Image targetImg;
     public string countryName;
