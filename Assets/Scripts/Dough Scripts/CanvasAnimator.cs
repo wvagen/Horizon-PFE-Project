@@ -8,4 +8,10 @@ public class CanvasAnimator : MonoBehaviour
     {
         man.SwallawIfCompatibilityMatchs();
     }
+
+
+    public void SetSlotsTxtValues()
+    {
+        man.SetSlotsTxtValues();
+    }
 }

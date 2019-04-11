@@ -30,17 +30,10 @@ public class DoughManager : MonoBehaviour {
 
 	void Start () {
         fillBowlsTransPos();
-        SetInitialValues();
+        SetSlotsTxtValues();
 	}
 
-    void SetInitialValues()
-    {
-        eggsSlot1Txt.text = quantitysToAdd[0].ToString();
-        eggsSlot2Txt.text = quantitysToAdd[1].ToString();
-
-        flourSlot1Txt.text = quantitysToAdd[2].ToString();
-        flourSlot2Txt.text = quantitysToAdd[3].ToString();
-    }
+    
 
 
     void fillBowlsTransPos()
@@ -53,6 +46,15 @@ public class DoughManager : MonoBehaviour {
 
     #region Public_Methods
 
+    public void SetSlotsTxtValues()
+    {
+        eggsSlot1Txt.text = quantitysToAdd[0].ToString();
+        eggsSlot2Txt.text = quantitysToAdd[1].ToString();
+
+        flourSlot1Txt.text = quantitysToAdd[2].ToString();
+        flourSlot2Txt.text = quantitysToAdd[3].ToString();
+    }
+
     public void GenerateNewRequirmentMenu()
     {
         Vector3 randomRotation = new Vector3(0, 0, Random.Range(-5f, 5f));
@@ -60,7 +62,7 @@ public class DoughManager : MonoBehaviour {
         Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
 
         newDoughRecipe.setOrderInfo(orderNum,0);
-        newDoughRecipe.setRequirment("Egg", requirmentSprites[0], Random.Range(3, 10));
+        newDoughRecipe.setRequirment("Egg", requirmentSprites[0], genrateRandNumDependingOnSlots(quantitysToAdd[0],quantitysToAdd[1]));
         newDoughRecipe.setRequirment("Flour", requirmentSprites[1], Random.Range(1, 5) * 25);
 
         recipeList.Add(newDoughRecipe);
@@ -168,7 +170,52 @@ public class DoughManager : MonoBehaviour {
         }
     }
 
+    public void levelUptestBtn()
+    {
+        levelUp();
+    }
+
     #endregion
+
+    void levelUp()
+    {
+        myAnim.Play("LevelUp");
+        quantitysToAdd[0]++;
+        quantitysToAdd[1]++;
+
+        foreach (Recipe r in recipeList)
+        {
+            if (!(isCombination(quantitysToAdd[0], quantitysToAdd[1], r.reqList[0].quantity)))
+            {
+                recipeList.Remove(r);
+                r.Delete();
+            }
+        }
+    }
+
+    bool isCombination(int a, int b, int c)
+    {
+        if ((c % a == 0) || (c % b == 0)) return true;
+        int maxQuot = c / Mathf.Max(a, b);
+
+        for (int i = 0; i <= maxQuot; i++)
+        {
+            if ((a * i + b) == c) return true;
+            if ((b * i + a) == c) return true;
+        }
+        return false;
+
+    }
+
+    int genrateRandNumDependingOnSlots(int slot1,int slot2)
+    {
+        int randNum ;
+        do
+        {
+            randNum = (Random.Range(0, 3) * slot1 + Random.Range(0, 3) * slot2);
+        } while (randNum == 0);
+        return  randNum;
+    }
 
     void CheckBowlColor()
     {

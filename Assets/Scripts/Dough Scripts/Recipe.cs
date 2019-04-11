@@ -48,6 +48,12 @@ public class Recipe : MonoBehaviour {
         StartCoroutine(fadeOutAnimation());
 
     }
+    public void Delete()
+    {
+        Destroy(Instantiate(fireWorkEffect, transform.position, Quaternion.identity), 2);
+        StartCoroutine(fadeOutAnimation());
+
+    }
         
     #endregion
 
