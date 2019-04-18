@@ -1309,10 +1309,10 @@ MonoBehaviour:
   xButtonsLocation: {fileID: 960884017}
   yButtonsLocation: {fileID: 124252885}
   cakePreviewLocation: {fileID: 224962621947977438}
-  bananeCol: {r: 0, g: 0, b: 0, a: 0}
-  appleCol: {r: 0, g: 0, b: 0, a: 0}
-  strawberryCol: {r: 0, g: 0, b: 0, a: 0}
-  chocolatCol: {r: 0, g: 0, b: 0, a: 0}
+  bananaCol: {r: 0.9150943, g: 0.7359512, b: 0, a: 1}
+  appleCol: {r: 1, g: 0, b: 0, a: 1}
+  strawberryCol: {r: 1, g: 0, b: 0.34668684, a: 1}
+  chocolatCol: {r: 0.4056604, g: 0.28204727, b: 0.04018334, a: 1}
   xAxeLength: 3
   yAxeLength: 3
 --- !u!1 &1963137136
@@ -1418,7 +1418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.00000011920929}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000045776367}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2049550857

@@ -9,15 +9,17 @@ public class CakeMakerManager : MonoBehaviour
 
     public GameObject cake,cakePart,xyButtons;
     public Transform cakePartsLocation, xButtonsLocation, yButtonsLocation,cakePreviewLocation;
-    public Color bananeCol, appleCol, strawberryCol, chocolatCol;
+    public Color bananaCol, appleCol, strawberryCol, chocolatCol;
 
     public int xAxeLength = 2, yAxeLength = 2;
 
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
+    string[] fruitNames = { "banana", "apple", "strawberry", "chocolat" };
 
     Cake cakeScript;
     List<GameObject> clickedBtnsGameObject = new List<GameObject>();
+    List<Cake> cakePreviewsList = new List<Cake>();
 
     void Start()
     {
@@ -29,7 +31,7 @@ public class CakeMakerManager : MonoBehaviour
 
     public void GenerateCakeAndButtons()
     {
-        GeneerateCakeAndParts(cakePartsLocation);
+        GeneerateCakeAndParts(cakePartsLocation, out cakeScript);
         GenerateButtons();
     }
 
@@ -82,15 +84,20 @@ public class CakeMakerManager : MonoBehaviour
 
     public void GenerateCakePreview()
     {
-        GeneerateCakeAndParts(cakePreviewLocation);
+        cakePreviewsList.Add(new Cake());
+        GeneerateCakeAndParts(cakePreviewLocation, cakePreviewsList[cakePreviewsList.Count - 1]);
+        foreach (Image i in cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts)
+        {
+            i.color = fruitTasteToColor(fruitNames[Random.Range(0, fruitNames.Length)]);
+        }
     }
 
     #endregion
 
-    void GeneerateCakeAndParts(Transform location)
+    void GeneerateCakeAndParts(Transform location, out Cake newCakeScript)
     {
         GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, location);
-        cakeScript = tempCake.GetComponent<Cake>();
+        newCakeScript = tempCake.GetComponent<Cake>();
         RectTransform tempCakeRect = tempCake.GetComponent<RectTransform>();
         tempCakeRect.sizeDelta = location.GetComponent<RectTransform>().sizeDelta;
         tempCakeRect.anchoredPosition = Vector2.zero;
@@ -103,7 +110,7 @@ public class CakeMakerManager : MonoBehaviour
         {
             GameObject tempCakePart = Instantiate(cakePart, Vector2.zero, Quaternion.identity, tempCake.transform);
             tempCakePart.name = i.ToString();
-            cakeScript.myCakeParts.Add(tempCakePart.GetComponent<Image>());
+            newCakeScript.myCakeParts.Add(tempCakePart.GetComponent<Image>());
 
         }
     }
@@ -131,7 +138,7 @@ public class CakeMakerManager : MonoBehaviour
     {
         switch (fruitName)
         {
-            case "banane": return bananeCol;
+            case "banana": return bananaCol;
             case "strawberry": return strawberryCol; 
             case "apple": return appleCol;
             case "chocolat": return chocolatCol;
