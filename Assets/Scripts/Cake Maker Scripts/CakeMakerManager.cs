@@ -12,6 +12,7 @@ public class CakeMakerManager : MonoBehaviour
     public Color bananaCol, appleCol, strawberryCol, chocolatCol;
 
     public int xAxeLength = 2, yAxeLength = 2;
+    public short level = 1;
 
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
@@ -31,7 +32,7 @@ public class CakeMakerManager : MonoBehaviour
 
     public void GenerateCakeAndButtons()
     {
-        GeneerateCakeAndParts(cakePartsLocation, out cakeScript);
+        GeneerateCakeAndParts();
         GenerateButtons();
     }
 
@@ -69,7 +70,7 @@ public class CakeMakerManager : MonoBehaviour
 
     }
 
-    public void ColorBtnTst()
+    public void ColorBtnTst(string fruitName)
     {
 
         for (int i = 0; i < Mathf.Min(xAxeLength,yAxeLength); i++)
@@ -77,29 +78,34 @@ public class CakeMakerManager : MonoBehaviour
             for (int j = 0; j < Mathf.Max(xAxeLength, yAxeLength); j++)
             {
                 Debug.Log("(" + i + "," + j + ")");
-                if (blockedBtns[i, j] != 1) cakeScript.ChangePartColor(i, j, xAxeLength, Color.red);
+                if (blockedBtns[i, j] != 1)
+                {
+                    cakePartTaste[i, j] = fruitName;
+                    cakeScript.ChangePartColor(i, j, xAxeLength, fruitTasteToColor(fruitName));
+                }
             }
         }
     }
 
     public void GenerateCakePreview()
     {
-        cakePreviewsList.Add(new Cake());
-        GeneerateCakeAndParts(cakePreviewLocation, cakePreviewsList[cakePreviewsList.Count - 1]);
+        Cake newCakeScript = new Cake();
+        cakePreviewsList.Add(newCakeScript);
+        GeneerateCakeAndPartsForList();
         foreach (Image i in cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts)
         {
-            i.color = fruitTasteToColor(fruitNames[Random.Range(0, fruitNames.Length)]);
+            i.color = fruitTasteToColor(fruitNames[Random.Range(0, level+1)]);
         }
     }
 
     #endregion
 
-    void GeneerateCakeAndParts(Transform location, out Cake newCakeScript)
+    void GeneerateCakeAndParts()
     {
-        GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, location);
-        newCakeScript = tempCake.GetComponent<Cake>();
+        GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakePartsLocation);
+        cakeScript = tempCake.GetComponent<Cake>();
         RectTransform tempCakeRect = tempCake.GetComponent<RectTransform>();
-        tempCakeRect.sizeDelta = location.GetComponent<RectTransform>().sizeDelta;
+        tempCakeRect.sizeDelta = cakePartsLocation.GetComponent<RectTransform>().sizeDelta;
         tempCakeRect.anchoredPosition = Vector2.zero;
         tempCakeRect.localScale *= 0.74f;
 
@@ -110,8 +116,28 @@ public class CakeMakerManager : MonoBehaviour
         {
             GameObject tempCakePart = Instantiate(cakePart, Vector2.zero, Quaternion.identity, tempCake.transform);
             tempCakePart.name = i.ToString();
-            newCakeScript.myCakeParts.Add(tempCakePart.GetComponent<Image>());
+            cakeScript.myCakeParts.Add(tempCakePart.GetComponent<Image>());
 
+        }
+    }
+
+    void GeneerateCakeAndPartsForList()
+    {
+        GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakePreviewLocation);
+        cakePreviewsList[cakePreviewsList.Count - 1] = tempCake.GetComponent<Cake>();
+        RectTransform tempCakeRect = tempCake.GetComponent<RectTransform>();
+        tempCakeRect.sizeDelta = cakePreviewLocation.GetComponent<RectTransform>().sizeDelta;
+        tempCakeRect.anchoredPosition = Vector2.zero;
+        tempCakeRect.localScale *= 0.74f;
+
+        tempCake.GetComponent<GridLayoutGroup>().cellSize =
+            new Vector2(tempCakeRect.rect.width / xAxeLength, tempCakeRect.rect.height / yAxeLength);
+
+        for (int i = 0; i < xAxeLength * yAxeLength; i++)
+        {
+            GameObject tempCakePart = Instantiate(cakePart, Vector2.zero, Quaternion.identity, tempCake.transform);
+            tempCakePart.name = i.ToString();
+            cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts.Add(tempCakePart.GetComponent<Image>());
         }
     }
 
