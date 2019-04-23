@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class Cake : MonoBehaviour
 {
     
-    public List<Image> myCakeParts = new List<Image>();
+    public List<CakePart> myCakeParts = new List<CakePart>();
 
 
-    public void ChangePartColor(int x,int y,int xAxeLength,Color col){
+    public void ChangePartColor(int x,int y,int xAxeLength,Color col,short cakeFilter){
 
-        myCakeParts[getImageIndexFromCodinate(x, y, xAxeLength)].color = col;
+        myCakeParts[getImageIndexFromCodinate(x, y, xAxeLength)].ChangeMyColor(col, cakeFilter);
 
     }
 

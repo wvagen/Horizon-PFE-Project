@@ -17,6 +17,8 @@ public class CakeMakerManager : MonoBehaviour
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
     string[] fruitNames = { "banana", "apple", "strawberry", "chocolat" };
+    short cakeFilter = -1;//0 : star filter ....
+
 
     Cake cakeScript;
     List<GameObject> clickedBtnsGameObject = new List<GameObject>();
@@ -81,7 +83,7 @@ public class CakeMakerManager : MonoBehaviour
                 if (blockedBtns[i, j] != 1)
                 {
                     cakePartTaste[i, j] = fruitName;
-                    cakeScript.ChangePartColor(i, j, xAxeLength, fruitTasteToColor(fruitName));
+                    cakeScript.ChangePartColor(i, j, xAxeLength, fruitTasteToColor(fruitName),cakeFilter);
                 }
             }
         }
@@ -91,11 +93,17 @@ public class CakeMakerManager : MonoBehaviour
     {
         Cake newCakeScript = new Cake();
         cakePreviewsList.Add(newCakeScript);
-        GeneerateCakeAndPartsForList();
-        foreach (Image i in cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts)
+        GeneerateCakeAndPartsForListAndPreview();
+        foreach (CakePart i in cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts)
         {
-            i.color = fruitTasteToColor(fruitNames[Random.Range(0, level+1)]);
+            i.ChangeMyColor(fruitTasteToColor(fruitNames[Random.Range(0, level + 1)]), -1);
+            i.ChangeMyColor(fruitTasteToColor(fruitNames[Random.Range(0, level + 1)]), cakeFilter);
         }
+    }
+
+    public void Filter(int filterIndex)
+    {
+        cakeFilter =(short) filterIndex;
     }
 
     #endregion
@@ -116,12 +124,13 @@ public class CakeMakerManager : MonoBehaviour
         {
             GameObject tempCakePart = Instantiate(cakePart, Vector2.zero, Quaternion.identity, tempCake.transform);
             tempCakePart.name = i.ToString();
-            cakeScript.myCakeParts.Add(tempCakePart.GetComponent<Image>());
-
+            cakeScript.myCakeParts.Add(tempCakePart.GetComponent<CakePart>());
+            tempCakePart.GetComponent<CakePart>().setDecorationRectSize(tempCakeRect);
         }
     }
 
-    void GeneerateCakeAndPartsForList()
+    
+    void GeneerateCakeAndPartsForListAndPreview()
     {
         GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakePreviewLocation);
         cakePreviewsList[cakePreviewsList.Count - 1] = tempCake.GetComponent<Cake>();
@@ -130,6 +139,7 @@ public class CakeMakerManager : MonoBehaviour
         tempCakeRect.anchoredPosition = Vector2.zero;
         tempCakeRect.localScale *= 0.74f;
 
+
         tempCake.GetComponent<GridLayoutGroup>().cellSize =
             new Vector2(tempCakeRect.rect.width / xAxeLength, tempCakeRect.rect.height / yAxeLength);
 
@@ -137,7 +147,8 @@ public class CakeMakerManager : MonoBehaviour
         {
             GameObject tempCakePart = Instantiate(cakePart, Vector2.zero, Quaternion.identity, tempCake.transform);
             tempCakePart.name = i.ToString();
-            cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts.Add(tempCakePart.GetComponent<Image>());
+            cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts.Add(tempCakePart.GetComponent<CakePart>());
+            tempCakePart.GetComponent<CakePart>().setDecorationRectSize(tempCakeRect);
         }
     }
 
