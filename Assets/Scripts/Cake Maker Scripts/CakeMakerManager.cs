@@ -10,6 +10,7 @@ public class CakeMakerManager : MonoBehaviour
     public GameObject cake,cakePart,xyButtons;
     public Transform cakePartsLocation, xButtonsLocation, yButtonsLocation,cakePreviewLocation;
     public Color bananaCol, appleCol, strawberryCol, chocolatCol;
+    public Animator filterAnim;
 
     public int xAxeLength = 2, yAxeLength = 2;
     public short level = 1;
@@ -103,7 +104,22 @@ public class CakeMakerManager : MonoBehaviour
 
     public void Filter(int filterIndex)
     {
-        cakeFilter =(short) filterIndex;
+        
+        if (filterIndex == cakeFilter)
+        {
+            switch (filterIndex)
+            {
+                case 0: filterAnim.Play("FilterStarHide"); cakeFilter = -1; break;
+            }
+        }
+        else
+        {
+            switch (filterIndex)
+            {
+                case 0: filterAnim.Play("FilterStarShow"); cakeFilter = (short)filterIndex; break;
+            }
+        }
+
     }
 
     #endregion
