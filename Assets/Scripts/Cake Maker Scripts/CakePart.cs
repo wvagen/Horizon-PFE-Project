@@ -16,6 +16,7 @@ public class CakePart : MonoBehaviour
         if (filter < 0)
         {
             GetComponent<Image>().color = newCol;
+            decoration.gameObject.SetActive(false);
         }
         else
         {

@@ -12,10 +12,15 @@ namespace Prototype.NetworkLobby
     public class LobbyPlayer : NetworkLobbyPlayer
     {
         static Color[] Colors = new Color[] { Color.magenta, Color.red, Color.cyan, Color.blue, Color.green, Color.yellow };
+        static string[] Roles = new string[] { "DS", "MS", "CMS" }; // DS : dough scene , ms : map scene , cms : cake maker scene
+
         //used on server to avoid assigning the same color to two player
         static List<int> _colorInUse = new List<int>();
 
+        static List<int> rolesInUse = new List<int>();   
+
         public Button colorButton;
+        public Button roleButton;
         public InputField nameInput;
         public Button readyButton;
         public Button waitingPlayerButton;
@@ -24,11 +29,16 @@ namespace Prototype.NetworkLobby
         public GameObject localIcone;
         public GameObject remoteIcone;
 
+        public Text roleBtnTxt;
+
         //OnMyName function will be invoked on clients when server change the value of playerName
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
+        [SyncVar(hook = "OnMyRoleName")]
+        public string playerRole = "";
         [SyncVar(hook = "OnMyColor")]
         public Color playerColor = Color.white;
+
 
         public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         public Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
@@ -64,6 +74,7 @@ namespace Prototype.NetworkLobby
             //will be created with the right value currently on server
             OnMyName(playerName);
             OnMyColor(playerColor);
+            OnMyRoleName(playerRole);
         }
 
         public override void OnStartAuthority()
@@ -110,6 +121,9 @@ namespace Prototype.NetworkLobby
             if (playerColor == Color.white)
                 CmdColorChange();
 
+            if (playerName == "")
+                CmdChangeRole();
+
             ChangeReadyButtonColor(JoinColor);
 
             readyButton.transform.GetChild(0).GetComponent<Text>().text = "JOIN";
@@ -121,6 +135,7 @@ namespace Prototype.NetworkLobby
 
             //we switch from simple name display to name input
             colorButton.interactable = true;
+            roleButton.interactable = true;
             nameInput.interactable = true;
 
             nameInput.onEndEdit.RemoveAllListeners();
@@ -128,6 +143,9 @@ namespace Prototype.NetworkLobby
 
             colorButton.onClick.RemoveAllListeners();
             colorButton.onClick.AddListener(OnColorClicked);
+
+            roleButton.onClick.RemoveAllListeners();
+            roleButton.onClick.AddListener(OnRoleNameClicked);
 
             readyButton.onClick.RemoveAllListeners();
             readyButton.onClick.AddListener(OnReadyClicked);
@@ -161,6 +179,7 @@ namespace Prototype.NetworkLobby
                 textComponent.color = ReadyColor;
                 readyButton.interactable = false;
                 colorButton.interactable = false;
+                roleButton.interactable = false;
                 nameInput.interactable = false;
             }
             else
@@ -172,6 +191,7 @@ namespace Prototype.NetworkLobby
                 textComponent.color = Color.white;
                 readyButton.interactable = isLocalPlayer;
                 colorButton.interactable = isLocalPlayer;
+                roleButton.interactable = false;
                 nameInput.interactable = isLocalPlayer;
             }
         }
@@ -189,6 +209,12 @@ namespace Prototype.NetworkLobby
             nameInput.text = playerName;
         }
 
+        public void OnMyRoleName(string newRoleName)
+        {
+            playerRole = newRoleName;
+            roleBtnTxt.text = newRoleName;
+        }
+
         public void OnMyColor(Color newColor)
         {
             playerColor = newColor;
@@ -202,6 +228,11 @@ namespace Prototype.NetworkLobby
         public void OnColorClicked()
         {
             CmdColorChange();
+        }
+
+        public void OnRoleNameClicked()
+        {
+            CmdChangeRole();
         }
 
         public void OnReadyClicked()
@@ -283,6 +314,46 @@ namespace Prototype.NetworkLobby
             }
 
             playerColor = Colors[idx];
+        }
+
+
+        [Command]
+        public void CmdChangeRole()
+        {
+            int idx = System.Array.IndexOf(Roles, playerRole);
+
+            int inUseIdx = rolesInUse.IndexOf(idx);
+
+            if (idx < 0) idx = 0;
+
+            idx = (idx + 1) % Roles.Length;
+
+            bool alreadyInUse = false;
+
+            do
+            {
+                alreadyInUse = false;
+                for (int i = 0; i < rolesInUse.Count; ++i)
+                {
+                    if (rolesInUse[i] == idx)
+                    {//that color is already in use
+                        alreadyInUse = true;
+                        idx = (idx + 1) % Roles.Length;
+                    }
+                }
+            }
+            while (alreadyInUse);
+
+            if (inUseIdx >= 0)
+            {//if we already add an entry in the colorTabs, we change it
+                rolesInUse[inUseIdx] = idx;
+            }
+            else
+            {//else we add it
+                rolesInUse.Add(idx);
+            }
+
+            playerRole = Roles[idx];
         }
 
         [Command]

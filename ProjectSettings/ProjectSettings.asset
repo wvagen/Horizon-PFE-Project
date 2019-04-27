@@ -714,10 +714,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: f7044ad0-6c5f-43b4-9d3a-11e711787e99
   framebufferDepthMemorylessMode: 0
-  projectName: Template_2D
-  organizationId: 
+  projectName: PFE Project Game
+  organizationId: pond-loach
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
