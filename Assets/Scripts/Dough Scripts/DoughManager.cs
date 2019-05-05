@@ -10,8 +10,10 @@ public class DoughManager : MonoBehaviour {
 
     public Color wrongRecipeColor, missingRecipeColor, correctRecipeColor;
 
-    public GameObject doughRequirment,bowl;
-    public Transform recipeFieldContainer,bowlField;
+    public GameObject doughRequirment;
+    public Transform recipeFieldContainer;
+
+    public Bowl bowl;
 
     public Text eggsSlot1Txt, eggsSlot2Txt;
     public Text flourSlot1Txt, flourSlot2Txt;
@@ -24,25 +26,25 @@ public class DoughManager : MonoBehaviour {
     public static bool onAnimation = false;
 
     List<Recipe> recipeList = new List<Recipe>();
-    List<Bowl> bowlList = new List<Bowl>();
+   // List<Bowl> bowlList = new List<Bowl>();
 
-    List<Transform> bowlsTransPos = new List<Transform>();
+    //List<Transform> bowlsTransPos = new List<Transform>();
 
 	void Start () {
-        fillBowlsTransPos();
+        //fillBowlsTransPos();
         SetSlotsTxtValues();
 	}
 
     
 
 
-    void fillBowlsTransPos()
+    /*void fillBowlsTransPos()
     {
         for (int i = 0; i < bowlField.GetChild(0).childCount; i++)
         {
             bowlsTransPos.Add(bowlField.GetChild(0).GetChild(i).GetComponent<RectTransform>());
         }
-    }
+    }*/
 
     #region Public_Methods
 
@@ -57,8 +59,7 @@ public class DoughManager : MonoBehaviour {
 
     public void GenerateNewRequirmentMenu()
     {
-        Vector3 randomRotation = new Vector3(0, 0, Random.Range(-5f, 5f));
-        GameObject newRecipe = Instantiate(doughRequirment, recipeFieldContainer.position, Quaternion.Euler(randomRotation), recipeFieldContainer);
+        GameObject newRecipe = Instantiate(doughRequirment, recipeFieldContainer.position, Quaternion.identity, recipeFieldContainer);
         Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
 
         newDoughRecipe.setOrderInfo(orderNum,0);
@@ -71,85 +72,29 @@ public class DoughManager : MonoBehaviour {
         CheckBowlColor();
     }
 
-    public void GenerateNewBowl()
-    {
-
-        foreach (Bowl b in bowlList)
-        {
-            if (b.bowlPos == 0) return;
-        }
-        GameObject newBowl = Instantiate(bowl, Vector2.zero, Quaternion.identity, bowlField);
-        Bowl newBowlScript = newBowl.GetComponent<Bowl>();
-
-        newBowlScript.bowlPos = 0;
-        newBowlScript.transform.position = bowlsTransPos[0].position;
-        bowlList.Add(newBowlScript);
-
-    }
-
     public void AddIngredient(int slotIndex)
     {
         short indexOfFindess = 0 ;
         if (onAnimation) return;
-        foreach (Bowl b in bowlList)
-        {
-            if (((slotIndex / 2) + 1) == b.bowlPos)
-            {
-                b.setRequirment(TypeNameCase(slotIndex), requirmentSprites[(slotIndex / 2 + 1)-1], quantitysToAdd[slotIndex]);
+
+                bowl.setRequirment(TypeNameCase(slotIndex), requirmentSprites[(slotIndex / 2 + 1)-1], quantitysToAdd[slotIndex]);
                 if (recipeList.Count == 0) return;
                 foreach (Recipe r in recipeList)
                 {
-                    short newIndexOfFindess = b.CheckMenuList(r.reqList,(short)r.reqList.Count);
-                    if (newIndexOfFindess == 2) b.compatibleList = r;
+                    short newIndexOfFindess = bowl.CheckMenuList(r.reqList,(short)r.reqList.Count);
+                    if (newIndexOfFindess == 2) bowl.compatibleList = r;
                     if (newIndexOfFindess > indexOfFindess) indexOfFindess = newIndexOfFindess;
                 }
 
                 switch (indexOfFindess)
                 {
-                    case 0: b.ChangeMyColor(wrongRecipeColor); break;
-                    case 1: b.ChangeMyColor(missingRecipeColor); break;
-                    case 2: b.ChangeMyColor(correctRecipeColor); break;
+                    case 0: bowl.ChangeMyColor(wrongRecipeColor); break;
+                    case 1: bowl.ChangeMyColor(missingRecipeColor); break;
+                    case 2: bowl.ChangeMyColor(correctRecipeColor); break;
                 }
-
-            }
-        }
         
     }
 
-    public void DeleteBowl()
-    {
-        bowlList.Remove(draggedBowl);
-        Destroy(draggedBowl.gameObject);
-        draggedBowl = null;
-    }
-
-
-    public void RightBtn()
-    {
-        if (onAnimation ) return;
-        foreach (Bowl b in bowlList) if (b.bowlPos == bowlsTransPos.Count - 1) return;
-        foreach(Bowl b in bowlList){
-            if (b.bowlPos < bowlsTransPos.Count - 1)
-            {
-                b.SlideAnimation(bowlsTransPos[b.bowlPos + 1].position);
-                b.bowlPos++;
-            } 
-        }
-    }
-
-    public void LeftBtn()
-    {
-        if (onAnimation) return;
-        foreach (Bowl b in bowlList) if (b.bowlPos == 0) return;
-        foreach (Bowl b in bowlList)
-        {
-            if (b.bowlPos > 0)
-            {
-                b.SlideAnimation(bowlsTransPos[b.bowlPos - 1].position);
-                b.bowlPos--;
-            } 
-        }
-    }
 
     public void SwallawBtn()
     {
@@ -158,17 +103,6 @@ public class DoughManager : MonoBehaviour {
 
     }
 
-    public void SwallawIfCompatibilityMatchs()
-    {
-        foreach (Bowl item in bowlList)
-        {
-            if (item.bowlPos == bowlsTransPos.Count - 1 && item.compatibleList != null)
-            {
-                bowlList.Remove(item);
-                item.compatibleList.Delete(item);
-            }
-        }
-    }
 
     public void levelUptestBtn()
     {
@@ -220,22 +154,18 @@ public class DoughManager : MonoBehaviour {
     void CheckBowlColor()
     {
         short indexOfFindess = 0;
-        foreach (Bowl b in bowlList)
-        {
             foreach (Recipe r in recipeList)
             {
-                short newIndexOfFindess = b.CheckMenuList(r.reqList, (short)r.reqList.Count);
+                short newIndexOfFindess = bowl.CheckMenuList(r.reqList, (short)r.reqList.Count);
                 if (newIndexOfFindess > indexOfFindess) indexOfFindess = newIndexOfFindess;
             }
 
             switch (indexOfFindess)
             {
-                case 0: b.ChangeMyColor(wrongRecipeColor); break;
-                case 1: b.ChangeMyColor(missingRecipeColor); break;
-                case 2: b.ChangeMyColor(correctRecipeColor); break;
+                case 0: bowl.ChangeMyColor(wrongRecipeColor); break;
+                case 1: bowl.ChangeMyColor(missingRecipeColor); break;
+                case 2: bowl.ChangeMyColor(correctRecipeColor); break;
             }
-        }
-
     }
 
     string TypeNameCase(int slotIndexCases)

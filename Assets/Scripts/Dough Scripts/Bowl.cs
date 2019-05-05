@@ -8,8 +8,6 @@ public class Bowl : MonoBehaviour {
     public GameObject requirment;
     public Transform requirmentsPanelPos;
     public Recipe compatibleList;
-
-    public short bowlPos = 0;
     
     List<Requirment> reqList = new List<Requirment>();
     

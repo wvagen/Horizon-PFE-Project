@@ -138,13 +138,6 @@ namespace Lean.Touch
 			LeanTouch.OnFingerSwipe -= FingerSwipe;
 		}
 
-        public void BowlPositionningOnSwipe()
-        {
-
-            if (swipeDirection == Vector2.right) man.RightBtn();
-            else if (swipeDirection == Vector2.left) man.LeftBtn();
-        }
-
 		private void FingerSwipe(LeanFinger finger)
 		{
 			// Ignore?
