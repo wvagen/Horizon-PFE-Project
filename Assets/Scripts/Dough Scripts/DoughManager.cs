@@ -11,6 +11,7 @@ public class DoughManager : MonoBehaviour {
     public Color wrongRecipeColor, missingRecipeColor, correctRecipeColor;
 
     public GameObject doughRequirment;
+    public GameObject[] InputPanel;
     public Transform recipeFieldContainer;
 
     public Bowl bowl;
@@ -26,25 +27,11 @@ public class DoughManager : MonoBehaviour {
     public static bool onAnimation = false;
 
     List<Recipe> recipeList = new List<Recipe>();
-   // List<Bowl> bowlList = new List<Bowl>();
 
-    //List<Transform> bowlsTransPos = new List<Transform>();
 
 	void Start () {
-        //fillBowlsTransPos();
         SetSlotsTxtValues();
 	}
-
-    
-
-
-    /*void fillBowlsTransPos()
-    {
-        for (int i = 0; i < bowlField.GetChild(0).childCount; i++)
-        {
-            bowlsTransPos.Add(bowlField.GetChild(0).GetChild(i).GetComponent<RectTransform>());
-        }
-    }*/
 
     #region Public_Methods
 
@@ -107,6 +94,15 @@ public class DoughManager : MonoBehaviour {
     public void levelUptestBtn()
     {
         levelUp();
+    }
+
+    public void EnableInputPanel(int indexOfEnabling)
+    {
+        foreach (GameObject item in InputPanel)
+        {
+            item.SetActive(false);
+        }
+        InputPanel[indexOfEnabling].SetActive(true);
     }
 
     #endregion

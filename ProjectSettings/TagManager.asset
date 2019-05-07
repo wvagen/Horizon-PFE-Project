@@ -41,15 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Bowl
-    uniqueID: 3952665079
-    locked: 0
-  - name: Inputs
-    uniqueID: 1848837635
-    locked: 0
-  - name: Swaller
-    uniqueID: 3799858659
-    locked: 0
   - name: Cake
     uniqueID: 2874541235
     locked: 0
@@ -61,4 +52,10 @@ TagManager:
     locked: 0
   - name: Magic Panel
     uniqueID: 3660517125
+    locked: 0
+  - name: Chef
+    uniqueID: 3694290809
+    locked: 0
+  - name: Table
+    uniqueID: 2259587167
     locked: 0
