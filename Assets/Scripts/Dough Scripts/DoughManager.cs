@@ -23,6 +23,7 @@ public class DoughManager : MonoBehaviour {
 
     public static Bowl draggedBowl = null;
     public static int orderNum = 1;
+    public static float clientTimer = 30;
     public static float speed = 10;
     public static bool onAnimation = false;
 

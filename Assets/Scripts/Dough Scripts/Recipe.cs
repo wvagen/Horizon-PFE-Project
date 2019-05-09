@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Recipe : MonoBehaviour {
 
     public Text orderNumTxt;
+    public Image progressBar;
     public GameObject requirment;
     public Transform requirmentsPanelPos;
 
@@ -14,8 +15,28 @@ public class Recipe : MonoBehaviour {
 
     public List<Requirment> reqList = new List<Requirment>();
 
-	void Start () {
+    float remainingClientTime,initClientTimer;
 
+    bool isTimeOver = false;
+
+	void Start () {
+        initClientTimer = DoughManager.clientTimer;
+        remainingClientTime = initClientTimer;
+    }
+
+    void Update()
+    {
+        if (remainingClientTime > 0)
+        {
+            remainingClientTime -= Time.deltaTime;
+            progressBar.fillAmount = remainingClientTime / initClientTimer;
+        }
+        else if (!isTimeOver)
+        {
+            isTimeOver = true;
+            //Time over state
+            Debug.Log("Time OVER!");
+        }
     }
 
     #region Public_Methods
