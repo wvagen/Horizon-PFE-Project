@@ -26,12 +26,6 @@ public class Bowl : MonoBehaviour {
 
     }
 
-    public void SlideAnimation(Vector2 destination)
-    {
-        
-        StartCoroutine(GoToDestinationAnimation(destination));
-    }
-
     public void OnDown()
     {
         startPos = transform.position;
@@ -87,18 +81,6 @@ public class Bowl : MonoBehaviour {
     }
 
     #endregion
-
-    IEnumerator GoToDestinationAnimation(Vector2 destination)
-    {
-        DoughManager.onAnimation = true;
-        while (Vector2.Distance(transform.position, destination) > distanceToCompare)
-        {
-            transform.position = Vector2.Lerp(transform.position, destination, DoughManager.speed * Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-
-        }
-        DoughManager.onAnimation = false;
-    }
 
     short CheckNewItem(string typeName)
     {

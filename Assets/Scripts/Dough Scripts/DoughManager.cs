@@ -24,8 +24,6 @@ public class DoughManager : MonoBehaviour {
     public static Bowl draggedBowl = null;
     public static int orderNum = 1;
     public static float clientTimer = 30;
-    public static float speed = 10;
-    public static bool onAnimation = false;
 
     List<Recipe> recipeList = new List<Recipe>();
 
@@ -63,7 +61,6 @@ public class DoughManager : MonoBehaviour {
     public void AddIngredient(int slotIndex)
     {
         short indexOfFindess = 0 ;
-        if (onAnimation) return;
 
                 bowl.setRequirment(TypeNameCase(slotIndex), requirmentSprites[(slotIndex / 2 + 1)-1], quantitysToAdd[slotIndex]);
                 if (recipeList.Count == 0) return;
