@@ -14,8 +14,6 @@ public class Bowl : MonoBehaviour {
 
     Vector2 startPos;
 
-    const float distanceToCompare = .05f;
-
 
     #region Public_Methods
     public void setRequirment(string typeName, Sprite typeSprite, int quantity)
