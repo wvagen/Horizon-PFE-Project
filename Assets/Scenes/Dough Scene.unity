@@ -4816,9 +4816,9 @@ MonoBehaviour:
   correctRecipeColor: {r: 0.41960785, g: 0.78431374, b: 0.21960784, a: 1}
   doughRequirment: {fileID: 1872529325114936, guid: cc2cb8c1b3d733e4382ffb75af0c0f63,
     type: 3}
-  bowl: {fileID: 1310656266969030, guid: 5ca863bb3fcec4349b429ce19839f6a6, type: 3}
+  InputPanel: []
   recipeFieldContainer: {fileID: 2049550856}
-  bowlField: {fileID: 812672967}
+  bowl: {fileID: 0}
   eggsSlot1Txt: {fileID: 1345730983}
   eggsSlot2Txt: {fileID: 1124626613}
   flourSlot1Txt: {fileID: 1996533292}
@@ -5254,7 +5254,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.00000011920929}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2049550857

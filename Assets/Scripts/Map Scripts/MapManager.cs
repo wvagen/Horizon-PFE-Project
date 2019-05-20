@@ -157,8 +157,8 @@ public class MapManager : MonoBehaviour
 
         switch (countryName)
         {
-            case "United States": countryInfoPanelScript.GenerateBuyQuanityTypePanel(this,"Banana",fruitDic["Banana"], 100, 500); break;
-            case "Frensh": countryInfoPanelScript.GenerateBuyQuanityTypePanel(this, "Apple", fruitDic["Apple"], 75, 200); break;
+            case "United States": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 100, 500); break;
+            case "Frensh": countryInfoPanelScript.GenerateOffer(this, "Apple", fruitDic["Apple"], 75, 200); break;
                 
         }
 

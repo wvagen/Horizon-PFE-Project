@@ -163,7 +163,7 @@ public class DoughManager : MonoBehaviour {
     }
 
     string TypeNameCase(int slotIndexCases)
-    {
+    {       
         switch (slotIndexCases)
         {
             case 0: return "Egg";

@@ -26,7 +26,7 @@ public class CountryInfoPanel : MonoBehaviour
         isCountrySelected = true;
     }
 
-    public void GenerateBuyQuanityTypePanel(MapManager manScript,string fruitName, Sprite fruitImg,int fruitQuantity, int price)
+    public void GenerateOffer(MapManager manScript,string fruitName, Sprite fruitImg,int fruitQuantity, int price)
     {
         foreach (GameObject item in BuyQuanPanel) Destroy(item);
 
