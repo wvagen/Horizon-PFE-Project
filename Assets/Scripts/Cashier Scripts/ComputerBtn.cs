@@ -7,23 +7,25 @@ public class ComputerBtn : MonoBehaviour
 {
     public Image insideColorImg;
     public AudioClip myAudio;
-
+    public ComputerManager compMan;
 
     AudioSource audioMan;
+    Color myCol;
 
     void Start(){
         audioMan = Camera.main.GetComponent<AudioSource>();
     }
 
-    public void PressButton()
+    public void PressButton(bool isPressedBtn)
     {
         audioMan.PlayOneShot(myAudio);
+        if (isPressedBtn) compMan.SaveNote(this.gameObject.name);
+        myCol = insideColorImg.color;
         StartCoroutine(colorFadingAnimation());
     }
 
     IEnumerator colorFadingAnimation()
     {
-        Color myCol = insideColorImg.color;
         float alphaCol = myCol.a;
         myCol.a = 1;
         insideColorImg.color = myCol;
@@ -31,7 +33,6 @@ public class ComputerBtn : MonoBehaviour
         while (insideColorImg.color.a > alphaCol)
         {
             myCol.a -= Time.deltaTime * .5f;
-            Debug.Log("Hey");
             insideColorImg.color = myCol;
             yield return new WaitForEndOfFrame();
         }

@@ -119,14 +119,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2522934147192268170}
         m_MethodName: PressButton
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   insideColorImg: {fileID: 1748129978407508159}
   myAudio: {fileID: 8300000, guid: 46d12588f1465734cbf2389efd425d9e, type: 3}
+  cashMan: {fileID: 0}
 --- !u!1 &4209469649831906385
 GameObject:
   m_ObjectHideFlags: 0
