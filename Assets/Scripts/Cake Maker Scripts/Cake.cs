@@ -7,7 +7,8 @@ public class Cake : MonoBehaviour
 {
     
     public List<CakePart> myCakeParts = new List<CakePart>();
-
+    public List<CakePart> myDownCakeParts = new List<CakePart>();
+    public Transform upperCakeTrans,downCakeTrans;
 
     public void ChangePartColor(int x,int y,int xAxeLength,Color col,short cakeFilter){
 
