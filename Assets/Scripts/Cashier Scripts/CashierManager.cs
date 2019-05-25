@@ -6,15 +6,23 @@ using UnityEngine.UI;
 public class CashierManager : MonoBehaviour
 {
 
+    public CardManager cardMan;
     public GameObject cake,cakePart;
+    public Cake cakeScript;
     public Transform cakeSpawnPos;
     public Color chocolateCol, bananaCol, appleCol;
 
+    public int flavorLength = 3;
     public string cakeCode;//exp : 132102000 - 1221231
+
+    /*cakeCode[0] = cake shape
+     *cakeCode[1] = xLength parts
+     *cakeCode[2] = yLength parts
+     * ...
+     */
 
     public static int level = 1;
 
-    Cake cakeScript;
     int xPartsLength, yPartsLength;
 
 #region public_methods
@@ -24,6 +32,16 @@ public class CashierManager : MonoBehaviour
         GenerateCakeAndCakeParts();
         GenerateCakeDownParts();
         ColorCake();
+    }
+
+    public void GenerateRandomCakeCode()
+    {
+        cakeCode = "122";
+        for (int i = 0; i < 4; i++)
+        {
+            cakeCode += ((int)Random.Range(1, 4)).ToString();
+        }
+        
     }
 
 #endregion
@@ -85,7 +103,6 @@ public class CashierManager : MonoBehaviour
 
     Color getFlavorFromIndex(int index)
     {
-        Debug.Log(index);
         switch (index)
         {
             case 1: return chocolateCol;
