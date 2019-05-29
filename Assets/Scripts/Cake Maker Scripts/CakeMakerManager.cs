@@ -9,7 +9,7 @@ public class CakeMakerManager : MonoBehaviour
 
     public GameObject cake,cakePart,xyButtons;
     public Transform cakePartsLocation, xButtonsLocation, yButtonsLocation,cakePreviewLocation;
-    public Color bananaCol, appleCol, strawberryCol, chocolatCol;
+    public Color bananaCol, appleCol, chocolatCol;
     public Animator filterAnim;
 
     public int xAxeLength = 2, yAxeLength = 2;
@@ -17,7 +17,7 @@ public class CakeMakerManager : MonoBehaviour
 
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
-    string[] fruitNames = { "banana", "apple", "strawberry", "chocolat" };
+    string[] fruitNames = { "banana", "apple", "chocolat" };
     short cakeFilter = -1;//0 : star filter ....
 
 
@@ -192,7 +192,6 @@ public class CakeMakerManager : MonoBehaviour
         switch (fruitName)
         {
             case "banana": return bananaCol;
-            case "strawberry": return strawberryCol; 
             case "apple": return appleCol;
             case "chocolat": return chocolatCol;
             default: return Color.black;

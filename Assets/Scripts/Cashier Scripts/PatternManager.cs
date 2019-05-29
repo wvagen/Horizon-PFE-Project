@@ -8,15 +8,25 @@ public class PatternManager : MonoBehaviour
     public string generatedCode = "", patternCode = "", myCode = "";
     public bool canDrawPatten = false, isCodeGenerated = false, isOnCouroutine = false;
     public Color patternColor;
+    public LineRenderer line;
     public float patternColorDissappearSpeed = 1f, generatedPatternFadeSpeed;
     public int codeIndex;
 
     public int generatedPatternLength;
 
-
+    Vector2 mousePos;
     void Start()
     {
         LevelDependancy();
+    }
+
+    void Update()
+    {
+        if (canDrawPatten)
+        {
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            line.SetPosition(line.positionCount - 1, mousePos);
+        }
     }
 
     #region public_methods

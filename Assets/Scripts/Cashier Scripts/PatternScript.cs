@@ -76,6 +76,7 @@ public class PatternScript : MonoBehaviour {
     public void OnPointerUp()
     {
         myClass.canDrawPatten = false;
+        myClass.line.positionCount--;
         myClass.patternCode = myClass.myCode;
         myClass.myCode = "";
     }
@@ -89,8 +90,9 @@ public class PatternScript : MonoBehaviour {
 
     void RecordThePattern()
     {
-
         myClass.myCode += gameObject.name;
+        myClass.line.SetPosition(myClass.line.positionCount - 1, transform.position);
+        myClass.line.positionCount++;
         myImg.color = myClass.patternColor;
 
     }
