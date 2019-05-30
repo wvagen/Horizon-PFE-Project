@@ -7,6 +7,7 @@ public class CashierManager : MonoBehaviour
 {
 
     public CardManager cardMan;
+    public ClientsManager clientMan;
     public GameObject cake,cakePart;
     public Cake cakeScript;
     public Transform cakeSpawnPos;
@@ -42,6 +43,14 @@ public class CashierManager : MonoBehaviour
             cakeCode += ((int)Random.Range(1, 4)).ToString();
         }
         
+    }
+
+    public void GenerateClientAndCake()
+    {
+        GenerateRandomCakeCode();
+        GenerateCake();
+        Debug.Log(cakeCode);
+        clientMan.GenerateNewClient(cakeScript.gameObject, cakeCode);
     }
 
 #endregion
