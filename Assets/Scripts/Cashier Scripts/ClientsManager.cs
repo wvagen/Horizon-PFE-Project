@@ -8,6 +8,8 @@ public class ClientsManager : MonoBehaviour
     public Transform clientsPositionsPanel,eastSpawnPos,westSpawnPos;
     public GameObject client;
 
+    public CashierManager cashMan;
+
     List<Transform> clientsPosesList = new List<Transform>();
     List<bool> clientsBoolAvailble = new List<bool>();
 
@@ -38,9 +40,15 @@ public class ClientsManager : MonoBehaviour
         newClientScript.SetClientsValue(clientsPosesList[randClientPosIndex].position);
         newClientScript.GenerateCakeInBull(cake, cakeCode);
         newClientScript.WalkToPoint(clientsPosesList[randClientPosIndex].position);
-
+        newClientScript.clientMan = this;
     }
 
+    public void InvokeCards(string bulleCakeCode)
+    {
+        cashMan.cakeCode = bulleCakeCode;
+        cashMan.cardMan.ShowCadPanel();
+        cashMan.cardMan.GenerateRandomCards();
+    }
 
 
 }

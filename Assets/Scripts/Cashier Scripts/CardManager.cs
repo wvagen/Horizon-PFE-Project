@@ -9,10 +9,15 @@ public class CardManager : MonoBehaviour
 
     public int cardsNumber = 3;
 
-
+    string correctCakeCode;
     List<string> randomGeneratedCodesList = new List<string>();
 
     #region public_methods
+
+    public void ShowCadPanel()
+    {
+        this.gameObject.SetActive(true);
+    }
     public void GenerateRandomCards()
     {
         short randCorrectCardPos = (short)Random.Range(0, cardsNumber);
@@ -20,14 +25,17 @@ public class CardManager : MonoBehaviour
 
         GenerateRandomCodesAndFillList();
         randomGeneratedCodesList[randCorrectCardPos] = cashMan.cakeCode;
+        correctCakeCode = cashMan.cakeCode;
 
         for (int i = 0; i < cardsNumber; i++)
         {
-            Debug.Log("HEY1");
            GameObject newCard = Instantiate(cardGameObject,Vector2.zero,Quaternion.identity,transform);
            cashMan.cakeCode = randomGeneratedCodesList[i];
            cashMan.GenerateCake();
            cashMan.cakeScript.transform.SetParent(newCard.transform);
+
+           newCard.GetComponent<Card>().correctCakeCode = correctCakeCode;
+           newCard.GetComponent<Card>().myCakeCode = randomGeneratedCodesList[i]; 
 
         }
     }

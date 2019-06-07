@@ -8,11 +8,17 @@ public class Client : MonoBehaviour
 
     public GameObject progBarAndEmoji;
     public Transform bullsPanel;
+    public Transform maleHair, maleClothes;
+    public Transform femaleHair, femaleClothes;
     public Sprite[] emojis;
     public Color[] progBarColors;
 
+    public Color[] skinColors,hairColors;
+
     public float patienceTime = 60f;
     public Image myEmoji,progrBar;
+
+    public ClientsManager clientMan;
 
     Animator myAnim;
     Transform chosenBull;
@@ -22,6 +28,9 @@ public class Client : MonoBehaviour
 
     float realTime;
 
+    List<GameObject> femaleHairList = new List<GameObject>(),
+        femaleClothesList = new List<GameObject>(), maleHairList = new List<GameObject>(), maleClothesList = new List<GameObject>();
+
     bool canStartWaiting = false;
 
     short nextPatienceIndexValue = 0;
@@ -30,12 +39,54 @@ public class Client : MonoBehaviour
     {
         realTime = patienceTime;
         ChangeEmojiAndColor();
-        
+        initLists();
+        RandomMyLook();
     }
 
     void Update()
     {
         if (realTime >= 0 && canStartWaiting) DecreaseTimer();
+    }
+
+    void initLists()
+    {
+        for (int i = 0; i < maleHair.childCount; i++)
+        {
+            maleHairList.Add(maleHair.GetChild(i).gameObject);
+        }
+        for (int i = 0; i < maleClothes.childCount; i++)
+        {
+            maleClothesList.Add(maleClothes.GetChild(i).gameObject);
+        }
+        for (int i = 0; i < femaleHair.childCount; i++)
+        {
+            femaleHairList.Add(femaleHair.GetChild(i).gameObject);
+        }
+        for (int i = 0; i < femaleClothes.childCount; i++)
+        {
+            femaleClothesList.Add(femaleClothes.GetChild(i).gameObject);
+        }
+    }
+
+    void RandomMyLook()
+    {
+        GameObject tempHair;
+        GetComponent<Image>().color = skinColors[Random.Range(0, skinColors.Length)];
+        if (Random.Range(0, 3) == 0)
+        {
+            tempHair = femaleHairList[Random.Range(0, femaleHairList.Count)];
+            femaleClothesList[Random.Range(0, femaleClothesList.Count)].SetActive(true);
+
+        }
+        else
+        {
+            tempHair = maleHairList[Random.Range(0, maleHairList.Count)];
+            maleClothesList[Random.Range(0, maleClothesList.Count)].SetActive(true);
+        }
+
+        tempHair.SetActive(true);
+        tempHair.GetComponent<Image>().color = hairColors[Random.Range(0, hairColors.Length)];
+
     }
 
     void DecreaseTimer()
@@ -86,7 +137,13 @@ public class Client : MonoBehaviour
     public void SelectClient()
     {
         if (!canStartWaiting) return;
+        transform.SetSiblingIndex(transform.parent.childCount - 1);
         StartCoroutine(ScaleAnimation(chosenBull.localScale.y >= initBullScale.y));
+    }
+
+    public void SelectBulle()
+    {
+        clientMan.InvokeCards(cakeCode);
     }
 
     #endregion
