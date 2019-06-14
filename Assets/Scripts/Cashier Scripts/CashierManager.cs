@@ -8,10 +8,13 @@ public class CashierManager : MonoBehaviour
 
     public CardManager cardMan;
     public ClientsManager clientMan;
+    public ComputerManager compMan;
     public GameObject cake,cakePart;
     public Cake cakeScript;
     public Transform cakeSpawnPos;
     public Color chocolateCol, bananaCol, appleCol;
+
+    public Animator decorationAnimator;
 
     public int flavorLength = 3;
     public string cakeCode;//exp : 132102000 - 1221231
@@ -24,7 +27,12 @@ public class CashierManager : MonoBehaviour
 
     public static int level = 1;
 
+
+    GameNetworkManager network;
+
     int xPartsLength, yPartsLength;
+
+    bool canComputerStuff = false;
 
 #region public_methods
     public void GenerateCake()
@@ -53,8 +61,26 @@ public class CashierManager : MonoBehaviour
         clientMan.GenerateNewClient(cakeScript.gameObject, cakeCode);
     }
 
+    public void GenerateComputerScreen()
+    {
+        decorationAnimator.SetBool("isFlashing", true);
+        canComputerStuff = true;
+    }
+
+    public void ComputerBtn()
+    {
+        if (!canComputerStuff) return;
+        decorationAnimator.SetBool("isFlashing", false);
+        compMan.gameObject.SetActive(true);
+        compMan.PlayGeneratedNotes();
+    }
+
 #endregion
 
+    void Start()
+    {
+        network = GetComponentInParent<GameNetworkManager>();
+    }
     void decodeCakeCode()
     {
         xPartsLength = int.Parse(cakeCode[1].ToString());

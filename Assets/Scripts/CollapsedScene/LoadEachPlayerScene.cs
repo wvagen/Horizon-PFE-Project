@@ -11,6 +11,7 @@ public class LoadEachPlayerScene : NetworkBehaviour
     public GameObject CakeMakerScene;
     public GameObject DoughScene;
 
+    public Canvas myCanvas;
 
     SetupLocalPlayer localPlayer;
     static string[] Roles = new string[] { "DS", "MS", "CMS" };
@@ -29,7 +30,7 @@ public class LoadEachPlayerScene : NetworkBehaviour
                 case "DS": Instantiate(DoughScene, Vector2.zero, Quaternion.identity); break;
                 default: Debug.Log("Scene not registred"); break;
             }
-
+            myCanvas.worldCamera = Camera.main;
         }
     }
 

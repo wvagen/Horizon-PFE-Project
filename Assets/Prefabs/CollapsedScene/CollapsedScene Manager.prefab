@@ -48,7 +48,7 @@ Canvas:
   m_GameObject: {fileID: 1500892996}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 7165912177862684675}
   - component: {fileID: 6157942406992702781}
   - component: {fileID: 6157942406992702723}
+  - component: {fileID: 8977421767302835902}
   m_Layer: 0
   m_Name: CollapsedScene Manager
   m_TagString: Untagged
@@ -244,6 +245,7 @@ MonoBehaviour:
     type: 3}
   DoughScene: {fileID: 6688169115569245983, guid: 65030a58da4d49f4e85dfaf944cba3e3,
     type: 3}
+  myCanvas: {fileID: 0}
 --- !u!114 &6157942406992702723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,3 +279,15 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &8977421767302835902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6157942406992702782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870b86dd59ffdda41b2eac7fd9c94430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

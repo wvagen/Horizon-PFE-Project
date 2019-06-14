@@ -18,6 +18,7 @@ public class ComputerBtn : MonoBehaviour
 
     public void PressButton(bool isPressedBtn)
     {
+        if (isPressedBtn && compMan.isPlayingNotes) return;
         audioMan.PlayOneShot(myAudio);
         if (isPressedBtn) compMan.SaveNote(this.gameObject.name);
         myCol = insideColorImg.color;

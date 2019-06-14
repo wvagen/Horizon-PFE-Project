@@ -34,8 +34,10 @@ public class CardManager : MonoBehaviour
            cashMan.GenerateCake();
            cashMan.cakeScript.transform.SetParent(newCard.transform);
 
-           newCard.GetComponent<Card>().correctCakeCode = correctCakeCode;
-           newCard.GetComponent<Card>().myCakeCode = randomGeneratedCodesList[i]; 
+           Card newCardScript = newCard.GetComponent<Card>();
+           newCardScript.correctCakeCode = correctCakeCode;
+           newCardScript.myCakeCode = randomGeneratedCodesList[i];
+           newCardScript.cardMan = this;
 
         }
     }

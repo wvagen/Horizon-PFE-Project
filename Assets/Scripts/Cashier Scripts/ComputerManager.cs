@@ -6,12 +6,18 @@ using UnityEngine.UI;
 public class ComputerManager : MonoBehaviour
 {
 
-    public Image screenImg;
+    public Transform screenLocation;
+
+    public Image tickImg;
 
     public string notesRecorded = "";
     public string generatedNotes = "";
 
     public int generatedNotesLength = 3;
+
+    public bool isPlayingNotes = false;
+
+    public Cake cakeToGenerate;
 
     float playAnimationSpeed;
     int noteIndexReached = 0;
@@ -25,6 +31,7 @@ public class ComputerManager : MonoBehaviour
             notesList.Add(transform.GetChild(i).GetComponent<ComputerBtn>());
         }
         LevelDependancy();
+        gameObject.SetActive(false);
     }
 
     void generateRandomPattern()
@@ -38,10 +45,12 @@ public class ComputerManager : MonoBehaviour
 
     void reset()
     {
-        screenImg.fillAmount = 0;
         noteIndexReached = 0;
         notesRecorded = "";
+        tickImg.fillAmount = 0;
     }
+
+    #region public_metehods
 
     public void PlayGeneratedNotes()
     {
@@ -55,19 +64,29 @@ public class ComputerManager : MonoBehaviour
         if (generatedNotes[noteIndexReached].ToString() == note)
         {
             noteIndexReached++;
-            screenImg.fillAmount += 1f / generatedNotesLength;
             notesRecorded += note;
+            tickImg.fillAmount += 1.0f / generatedNotesLength;
+        }
+        else
+        {
+            reset();
+            StartCoroutine(PlayGeneratedNotesNumerator());
         }
         
     }
 
+
+    #endregion
+
     IEnumerator PlayGeneratedNotesNumerator()
     {
+        isPlayingNotes = true;
         for (int i = 0; i < generatedNotesLength; i++)
         {
             notesList[int.Parse(generatedNotes[i].ToString())].PressButton(false);
             yield return new WaitForSeconds(playAnimationSpeed);
         }
+        isPlayingNotes = false;
     }
 
     void LevelDependancy()

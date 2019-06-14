@@ -7,6 +7,8 @@ public class Card : MonoBehaviour
 
    public GameObject explostionEffect;
 
+   public CardManager cardMan;
+
    public string myCakeCode;
    public string correctCakeCode;
 
@@ -23,9 +25,16 @@ public class Card : MonoBehaviour
 
        if (myCakeCode == correctCakeCode)
        {
-             
            Destroy(Instantiate(explostionEffect, transform.position, Quaternion.identity), 3);
+           StartCoroutine(MoveOnToScreen());
        }
+   }
+
+   IEnumerator MoveOnToScreen()
+   {
+       yield return new WaitForSeconds(1);
+       cardMan.gameObject.SetActive(false);
+       cardMan.cashMan.GenerateComputerScreen();
    }
 
    public void HideCake()
