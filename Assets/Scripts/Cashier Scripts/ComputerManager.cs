@@ -7,8 +7,10 @@ public class ComputerManager : MonoBehaviour
 {
 
     public Transform screenLocation;
-
+    public AudioSource audioMan;
     public Image tickImg;
+
+    public CashierManager cashMan;
 
     public string notesRecorded = "";
     public string generatedNotes = "";
@@ -72,7 +74,10 @@ public class ComputerManager : MonoBehaviour
             reset();
             StartCoroutine(PlayGeneratedNotesNumerator());
         }
-        
+        if (noteIndexReached == generatedNotesLength)
+        {
+            cashMan.ProceedToDoughRole();
+        }
     }
 
 
