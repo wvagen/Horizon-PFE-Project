@@ -14,7 +14,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CollapsedScene.unity
     guid: 19c7e14882700a7498bb2ddca526551d
-  - enabled: 1
-    path: Assets/Scenes/Cashier Scene.unity
-    guid: 230ee41e91dc8ed4b89f969a82f0df98
   m_configObjects: {}

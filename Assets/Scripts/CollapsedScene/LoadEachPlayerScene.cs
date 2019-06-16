@@ -10,12 +10,12 @@ public class LoadEachPlayerScene : NetworkBehaviour
     public GameObject MapScene;
     public GameObject CakeMakerScene;
     public GameObject DoughScene;
-    public GameObject cashierScene;
+
+    public Canvas myCanvas;
 
     SetupLocalPlayer localPlayer;
-    static string[] Roles = new string[] { "DS", "MS", "CMS" , "CS"};
+    static string[] Roles = new string[] { "DS", "MS", "CMS" };
 
-    GameObject loadedScene;
     void Start()
     {
 
@@ -25,16 +25,12 @@ public class LoadEachPlayerScene : NetworkBehaviour
 
             switch (localPlayer.pRoleName)
             {
-                case "MS": loadedScene = Instantiate(MapScene, Vector2.zero, Quaternion.identity,transform); break;
-                case "CMS": loadedScene = Instantiate(CakeMakerScene, Vector2.zero, Quaternion.identity,transform); break;
-                case "DS": loadedScene = Instantiate(DoughScene, Vector2.zero, Quaternion.identity,transform); break;
-                case "CS": loadedScene = Instantiate(cashierScene, Vector2.zero, Quaternion.identity,transform); break;
+                case "MS": Instantiate(MapScene, Vector2.zero, Quaternion.identity); break;
+                case "CMS": Instantiate(CakeMakerScene, Vector2.zero, Quaternion.identity); break;
+                case "DS": Instantiate(DoughScene, Vector2.zero, Quaternion.identity); break;
                 default: Debug.Log("Scene not registred"); break;
             }
-            localPlayer.playerNameTxt.enabled = true;
-            localPlayer.playerNameTxt.text = localPlayer.pRoleName;
-            loadedScene.GetComponentInChildren<Canvas>().worldCamera = Camera.main;
-            GetComponent<GameNetworkManager>().localPlayer = localPlayer;
+            myCanvas.worldCamera = Camera.main;
         }
     }
 

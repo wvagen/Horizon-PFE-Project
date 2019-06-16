@@ -10,8 +10,6 @@ public class ClientsManager : MonoBehaviour
 
     public CashierManager cashMan;
 
-    public float patienceTime = 60;
-
     List<Transform> clientsPosesList = new List<Transform>();
     List<bool> clientsBoolAvailble = new List<bool>();
 

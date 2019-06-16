@@ -15,6 +15,7 @@ public class Client : MonoBehaviour
 
     public Color[] skinColors,hairColors;
 
+    public float patienceTime = 60f;
     public Image myEmoji,progrBar;
 
     public ClientsManager clientMan;
@@ -25,7 +26,7 @@ public class Client : MonoBehaviour
 
     string cakeCode ="";
 
-    float patienceTime,realTime;
+    float realTime;
 
     List<GameObject> femaleHairList = new List<GameObject>(),
         femaleClothesList = new List<GameObject>(), maleHairList = new List<GameObject>(), maleClothesList = new List<GameObject>();
@@ -36,7 +37,6 @@ public class Client : MonoBehaviour
 
     void Start()
     {
-        patienceTime = clientMan.patienceTime;
         realTime = patienceTime;
         ChangeEmojiAndColor();
         initLists();

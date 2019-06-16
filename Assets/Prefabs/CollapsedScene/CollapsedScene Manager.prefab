@@ -48,7 +48,7 @@ Canvas:
   m_GameObject: {fileID: 1500892996}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1644034733}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -243,10 +243,9 @@ MonoBehaviour:
   MapScene: {fileID: 181756252167164998, guid: 5778ae7de712ade4388a0806db44dc2d, type: 3}
   CakeMakerScene: {fileID: 3831117493922655739, guid: 8d49f2b6c8638f54fbb8def97a5b4901,
     type: 3}
-  DoughScene: {fileID: 4861816107213948100, guid: 65030a58da4d49f4e85dfaf944cba3e3,
+  DoughScene: {fileID: 6688169115569245983, guid: 65030a58da4d49f4e85dfaf944cba3e3,
     type: 3}
-  cashierScene: {fileID: 764631430704611821, guid: a623ff5f34aee014dbfe4a42e89dc703,
-    type: 3}
+  myCanvas: {fileID: 0}
 --- !u!114 &6157942406992702723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,5 +291,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b86dd59ffdda41b2eac7fd9c94430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeValue: 0
-  localPlayer: {fileID: 7165912177862684675}

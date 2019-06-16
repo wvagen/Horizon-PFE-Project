@@ -13,13 +13,13 @@ public class ComputerBtn : MonoBehaviour
     Color myCol;
 
     void Start(){
-        audioMan = compMan.audioMan;
+        audioMan = Camera.main.GetComponent<AudioSource>();
     }
 
     public void PressButton(bool isPressedBtn)
     {
         if (isPressedBtn && compMan.isPlayingNotes) return;
-       // audioMan.PlayOneShot(myAudio);
+        audioMan.PlayOneShot(myAudio);
         if (isPressedBtn) compMan.SaveNote(this.gameObject.name);
         myCol = insideColorImg.color;
         StartCoroutine(colorFadingAnimation());

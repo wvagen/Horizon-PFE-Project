@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 
-public class CashierManager : NetworkBehaviour
+public class CashierManager : MonoBehaviour
 {
 
     public CardManager cardMan;
     public ClientsManager clientMan;
     public ComputerManager compMan;
-    public GameNetworkManager network;
-
     public GameObject cake,cakePart;
     public Cake cakeScript;
     public Transform cakeSpawnPos;
@@ -31,7 +28,7 @@ public class CashierManager : NetworkBehaviour
     public static int level = 1;
 
 
-   
+    GameNetworkManager network;
 
     int xPartsLength, yPartsLength;
 
@@ -76,13 +73,6 @@ public class CashierManager : NetworkBehaviour
         decorationAnimator.SetBool("isFlashing", false);
         compMan.gameObject.SetActive(true);
         compMan.PlayGeneratedNotes();
-    }
-
-    public void ProceedToDoughRole()
-    {
-        Debug.Log(isServer);
-        if (isServer) return;
-        network.CmdGenerateNewOrder(10);
     }
 
 #endregion
