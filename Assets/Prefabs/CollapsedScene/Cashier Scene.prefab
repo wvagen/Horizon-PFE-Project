@@ -1486,6 +1486,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 764631430704611820}
+  - component: {fileID: 3095014012582522144}
   m_Layer: 0
   m_Name: Cashier Scene
   m_TagString: Untagged
@@ -1510,6 +1511,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3095014012582522144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764631430704611821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1 &764631430757620404
 GameObject:
   m_ObjectHideFlags: 0
@@ -4275,7 +4309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 764631431766743261}
   - component: {fileID: 764631431766743262}
-  - component: {fileID: 7607841147248745306}
+  - component: {fileID: 7949181690623164498}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -4312,7 +4346,6 @@ MonoBehaviour:
   cardMan: {fileID: 764631432119294148}
   clientMan: {fileID: 764631430545960527}
   compMan: {fileID: 764631430484481312}
-  network: {fileID: 0}
   cake: {fileID: 2273568181919024178, guid: 23fe2395a20e691409b6b63fab1ec7e6, type: 3}
   cakePart: {fileID: 4452033037105627965, guid: 64021a06cb847944088443748aa0c76a,
     type: 3}
@@ -4322,9 +4355,10 @@ MonoBehaviour:
   bananaCol: {r: 1, g: 0.84019786, b: 0, a: 1}
   appleCol: {r: 0.764151, g: 0.06127627, b: 0.06127627, a: 1}
   decorationAnimator: {fileID: 764631431981350017}
+  network: {fileID: 0}
   flavorLength: 3
   cakeCode: 1221231
---- !u!114 &7607841147248745306
+--- !u!114 &7949181690623164498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

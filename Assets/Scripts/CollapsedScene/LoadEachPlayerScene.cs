@@ -28,12 +28,16 @@ public class LoadEachPlayerScene : NetworkBehaviour
                 case "MS": loadedScene = Instantiate(MapScene, Vector2.zero, Quaternion.identity,transform); break;
                 case "CMS": loadedScene = Instantiate(CakeMakerScene, Vector2.zero, Quaternion.identity,transform); break;
                 case "DS": loadedScene = Instantiate(DoughScene, Vector2.zero, Quaternion.identity,transform); break;
-                case "CS": loadedScene = Instantiate(cashierScene, Vector2.zero, Quaternion.identity,transform); break;
+                case "CS": loadedScene = Instantiate(cashierScene, Vector2.zero, Quaternion.identity,transform);
+                    loadedScene.GetComponentInChildren<CashierManager>().network = GetComponent<GameNetworkManager>();
+                    break;
                 default: Debug.Log("Scene not registred"); break;
             }
             localPlayer.playerNameTxt.enabled = true;
             localPlayer.playerNameTxt.text = localPlayer.pRoleName;
             loadedScene.GetComponentInChildren<Canvas>().worldCamera = Camera.main;
+
+            NetworkServer.Spawn(loadedScene);
             GetComponent<GameNetworkManager>().localPlayer = localPlayer;
         }
     }

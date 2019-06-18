@@ -9,13 +9,14 @@ public class GameNetworkManager : NetworkBehaviour
     //Shared variables
 
     [SyncVar]
-    public float timeValue ;
+    public float timeValue = 10 ;
 
     //End of shared variables
 
     public SetupLocalPlayer localPlayer;
-    DoughManager doughMan;
 
+    DoughManager doughMan;
+    CashierManager cashMan;
     
 
     void Start()
@@ -24,25 +25,16 @@ public class GameNetworkManager : NetworkBehaviour
             switch (localPlayer.pRoleName)
             {
                 case "DS": doughMan = GetComponentInChildren<DoughManager>(); break;
-                
+                case "CS": cashMan = GetComponentInChildren<CashierManager>();Debug.Log ("NIGGER YES") ; break;
             }
         }
-        if (isServer)
-        {
-            RpcGenerateNewOrder();
-             InvokeRepeating("InvokeFunctions", 0, 3);
-        }
-    }
-
-    void InvokeFunctions()
-    {
-        CmdGenerateNewOrder(10);
+        
     }
 
     [Command]
-    public void CmdGenerateNewOrder(float time)
+    public void CmdGenerateNewOrder()
     {
-            timeValue = time;
+        if (!isServer) return;
             RpcGenerateNewOrder();
     }
 

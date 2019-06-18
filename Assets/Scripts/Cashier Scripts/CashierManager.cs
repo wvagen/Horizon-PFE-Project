@@ -10,7 +10,6 @@ public class CashierManager : NetworkBehaviour
     public CardManager cardMan;
     public ClientsManager clientMan;
     public ComputerManager compMan;
-    public GameNetworkManager network;
 
     public GameObject cake,cakePart;
     public Cake cakeScript;
@@ -18,6 +17,8 @@ public class CashierManager : NetworkBehaviour
     public Color chocolateCol, bananaCol, appleCol;
 
     public Animator decorationAnimator;
+
+    public GameNetworkManager network;
 
     public int flavorLength = 3;
     public string cakeCode;//exp : 132102000 - 1221231
@@ -80,17 +81,10 @@ public class CashierManager : NetworkBehaviour
 
     public void ProceedToDoughRole()
     {
-        Debug.Log(isServer);
-        if (isServer) return;
-        network.CmdGenerateNewOrder(10);
+        network.CmdGenerateNewOrder();
     }
 
 #endregion
-
-    void Start()
-    {
-        network = GetComponentInParent<GameNetworkManager>();
-    }
     void decodeCakeCode()
     {
         xPartsLength = int.Parse(cakeCode[1].ToString());
