@@ -9,6 +9,8 @@ namespace Prototype.NetworkLobby
     {
         public LobbyManager lobbyManager;
 
+        public Animator otherCanvasAnimator;
+
         public RectTransform lobbyServerList;
         public RectTransform lobbyPanel;
 
@@ -24,11 +26,14 @@ namespace Prototype.NetworkLobby
 
         public void OnClickHost()
         {
+            otherCanvasAnimator.Play("Host_Join");
             lobbyManager.StartHost();
         }
 
         public void OnClickJoin()
         {
+            otherCanvasAnimator.Play("Host_Join");
+
             lobbyManager.ChangeTo(lobbyPanel);
 
             lobbyManager.networkAddress = ipInput.text;

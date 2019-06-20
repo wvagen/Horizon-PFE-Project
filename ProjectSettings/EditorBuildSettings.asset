@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Menu.unity
-    guid: f2329eec1339e0640b71d9424ee2e8e3
+    path: Assets/Scenes/Main Menu 2.0.unity
+    guid: c5160dbd9bcd8814a80e789f8382ae10
   - enabled: 1
     path: Assets/Scenes/Dough Scene 2.0.unity
     guid: 798b70e6c5669b04ab0c2ca3202d1541
@@ -17,7 +17,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Cashier Scene.unity
     guid: 230ee41e91dc8ed4b89f969a82f0df98
-  - enabled: 1
-    path: Assets/Scenes/Main Menu 2.0.unity
-    guid: c5160dbd9bcd8814a80e789f8382ae10
   m_configObjects: {}

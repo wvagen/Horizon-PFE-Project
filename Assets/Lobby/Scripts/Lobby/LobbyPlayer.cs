@@ -26,10 +26,12 @@ namespace Prototype.NetworkLobby
         public Button waitingPlayerButton;
         public Button removePlayerButton;
 
+        public Sprite[] rolesSprites; //0 = DS || 1 = MS || 2 = CMS || 3 = CS 
+
         public GameObject localIcone;
         public GameObject remoteIcone;
 
-        public Text roleBtnTxt;
+        public Image roleBtnImg;
 
         //OnMyName function will be invoked on clients when server change the value of playerName
         [SyncVar(hook = "OnMyName")]
@@ -198,8 +200,8 @@ namespace Prototype.NetworkLobby
 
         public void OnPlayerListChanged(int idx)
         { 
-            GetComponent<Image>().color = (idx % 2 == 0) ? EvenRowColor : OddRowColor;
-        }
+           // GetComponent<Image>().color = (idx % 2 == 0) ? EvenRowColor : OddRowColor;
+        }   
 
         ///===== callback from sync var
 
@@ -212,7 +214,20 @@ namespace Prototype.NetworkLobby
         public void OnMyRoleName(string newRoleName)
         {
             playerRole = newRoleName;
-            roleBtnTxt.text = newRoleName;
+            roleBtnImg.sprite = changeRoleSpriteCases(newRoleName);
+        }
+
+        Sprite changeRoleSpriteCases(string roleName)
+        {
+            switch (roleName)
+            {
+                //0 = DS || 1 = MS || 2 = CMS || 3 = CS 
+                case "DS": return rolesSprites[0];
+                case "MS": return rolesSprites[1];
+                case "CMS": return rolesSprites[2];
+                case "CS": return rolesSprites[3];
+                default: return null;
+            }
         }
 
         public void OnMyColor(Color newColor)
