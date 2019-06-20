@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Prototype.NetworkLobby;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -15,12 +16,16 @@ public class MainMenuManager : MonoBehaviour
 
     public Animator myAnim;
 
+    public LobbyMainMenu lobby;
+
     public static bool sfxEnabled = false, musicEnabled = false;
+
+    public int indexOfTimline = 0;
 
     Vector2 wantedScale, initScale;
 
     int cardTranslateSpeed = 5;
-    int indexOfTimline = 0;
+    
     short indexOfCardSelected = 0;
     bool canTranslateCards = true;
 
@@ -33,18 +38,10 @@ public class MainMenuManager : MonoBehaviour
     public void Play()
     {
         myAnim.Play("PlayClicked");
-        
+        indexOfTimline++;
     }
 
-    public void MultiplaeryBtn()
-    {
-        if (indexOfTimline == 0)
-        {
-            MultiplayerBtn.PlayButtonAnimation();
-            SoloBtn.PlayButtonAnimation();
-            indexOfTimline = 1;
-        }
-    }
+ 
 
     public void ReturnBtn()
     {
@@ -59,6 +56,8 @@ public class MainMenuManager : MonoBehaviour
             default: Debug.Log("State not registred"); break;
         }
     }
+
+
     public void SFX()
     {
         if (sfxEnabled)
@@ -97,13 +96,31 @@ public class MainMenuManager : MonoBehaviour
         myAnim.Play("SettingsClose");
     }
 
+    public void MultiplaeryBtn()
+    {
+        if (indexOfTimline == 1)
+        {
+            MultiplayerBtn.PlayButtonAnimation();
+            SoloBtn.PlayButtonAnimation();
+            indexOfTimline = 2;
+            MultiplayerBtn.GetComponent<Button>().onClick.AddListener(lobby.OnClickJoin);
+        }
+
+
+    }
+
     public void PlaySoloClicked()
     {
-        if (indexOfTimline == 0){
+        if (indexOfTimline == 1)
+        {
             myAnim.Play("PlaySoloClicked");
             indexOfTimline = 2;
-            Debug.Log(indexOfTimline);
+
+        }else if (indexOfTimline == 2)
+        {
+            SoloBtn.GetComponent<Button>().onClick.AddListener(lobby.OnClickHost);
         }
+        
     }
 
     public void RightBtn()
