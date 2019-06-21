@@ -26,12 +26,14 @@ namespace Prototype.NetworkLobby
 
         public void OnClickHost()
         {
+            if (!MainMenuManager.isMultiplayerButtonClicked) return;
             otherCanvasAnimator.Play("Host_Join");
             lobbyManager.StartHost();
         }
 
         public void OnClickJoin()
         {
+            if (!MainMenuManager.isMultiplayerButtonClicked) return;
             otherCanvasAnimator.Play("Host_Join");
 
             lobbyManager.ChangeTo(lobbyPanel);

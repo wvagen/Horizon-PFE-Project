@@ -20,13 +20,15 @@ public class MainMenuManager : MonoBehaviour
 
     public static bool sfxEnabled = false, musicEnabled = false;
 
-    public int indexOfTimline = 0;
+    public static  bool isMultiplayerButtonClicked = false;
 
     Vector2 wantedScale, initScale;
 
     int cardTranslateSpeed = 5;
     
     short indexOfCardSelected = 0;
+    short timeLimeIndex = 0;
+
     bool canTranslateCards = true;
 
     void Start()
@@ -38,21 +40,24 @@ public class MainMenuManager : MonoBehaviour
     public void Play()
     {
         myAnim.Play("PlayClicked");
-        indexOfTimline++;
+        timeLimeIndex = 0;
     }
 
  
 
     public void ReturnBtn()
     {
-        switch (indexOfTimline)
+        switch (timeLimeIndex)
         {
             case 0: myAnim.Play("Return0"); break;
             case 1: 
                 MultiplayerBtn.ReturnBtn();
                 SoloBtn.ReturnBtn();
-                indexOfTimline--;break;
-            case 2: myAnim.Play("Return1"); indexOfTimline = 0;  break;
+                isMultiplayerButtonClicked = false;
+                timeLimeIndex = 0;
+
+                break;
+            case 2: myAnim.Play("Return1"); timeLimeIndex = 0; isMultiplayerButtonClicked = false; break;
             default: Debug.Log("State not registred"); break;
         }
     }
@@ -98,29 +103,30 @@ public class MainMenuManager : MonoBehaviour
 
     public void MultiplaeryBtn()
     {
-        if (indexOfTimline == 1)
+
+        if (!isMultiplayerButtonClicked)
         {
             MultiplayerBtn.PlayButtonAnimation();
             SoloBtn.PlayButtonAnimation();
-            indexOfTimline = 2;
-            MultiplayerBtn.GetComponent<Button>().onClick.AddListener(lobby.OnClickJoin);
+            timeLimeIndex = 1;
         }
+        StartCoroutine(enableMultiplayerBoolean());
 
+    }
 
+    IEnumerator enableMultiplayerBoolean()
+    {
+        yield return new WaitForEndOfFrame();
+        isMultiplayerButtonClicked = true;
     }
 
     public void PlaySoloClicked()
     {
-        if (indexOfTimline == 1)
+        if (!isMultiplayerButtonClicked)
         {
+            timeLimeIndex = 2;
             myAnim.Play("PlaySoloClicked");
-            indexOfTimline = 2;
-
-        }else if (indexOfTimline == 2)
-        {
-            SoloBtn.GetComponent<Button>().onClick.AddListener(lobby.OnClickHost);
         }
-        
     }
 
     public void RightBtn()
