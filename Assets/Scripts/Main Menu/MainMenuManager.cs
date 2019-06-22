@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Prototype.NetworkLobby;
 
 public class MainMenuManager : MonoBehaviour
@@ -33,6 +34,7 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
+    
         initScale = new Vector2(1.5f, 1.5f);
         wantedScale = initScale * 1.2f;
     }
@@ -58,6 +60,9 @@ public class MainMenuManager : MonoBehaviour
 
                 break;
             case 2: myAnim.Play("Return1"); timeLimeIndex = 0; isMultiplayerButtonClicked = false; break;
+            case 3:
+                myAnim.Play("ReturnFromHost_Join");
+                break;
             default: Debug.Log("State not registred"); break;
         }
     }
@@ -110,6 +115,10 @@ public class MainMenuManager : MonoBehaviour
             SoloBtn.PlayButtonAnimation();
             timeLimeIndex = 1;
         }
+        else
+        {
+            timeLimeIndex = 3;
+        }
         StartCoroutine(enableMultiplayerBoolean());
 
     }
@@ -126,6 +135,10 @@ public class MainMenuManager : MonoBehaviour
         {
             timeLimeIndex = 2;
             myAnim.Play("PlaySoloClicked");
+        }
+        else
+        {
+            timeLimeIndex = 3;
         }
     }
 

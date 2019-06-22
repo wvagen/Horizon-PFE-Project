@@ -30,6 +30,7 @@ namespace Prototype.NetworkLobby
 
         public GameObject localIcone;
         public GameObject remoteIcone;
+        public GameObject arrowMeIndicator;
 
         public Image roleBtnImg;
 
@@ -127,6 +128,8 @@ namespace Prototype.NetworkLobby
                 CmdChangeRole();
 
             ChangeReadyButtonColor(JoinColor);
+
+            arrowMeIndicator.SetActive(true);
 
             readyButton.transform.GetChild(0).GetComponent<Text>().text = "JOIN";
             readyButton.interactable = true;

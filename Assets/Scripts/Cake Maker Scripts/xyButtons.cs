@@ -20,19 +20,41 @@ public class xyButtons : MonoBehaviour
     {
         if (isOnXAxis){
             if (isShowing)
+            {
+                StartCoroutine(handMoveToButton(man.rightHand, true));
                 myAnim.Play("yFillAnim");
-            else myAnim.Play("yFillAnimHide");
-
+            }
+            else{
+                man.MoveHandToButtonPosition(true,transform.position);
+                myAnim.Play("yFillAnimHide");
+            }
         }
         else
         {
+
             if (isShowing)
+            {
+                StartCoroutine(handMoveToButton(man.leftHand, false));
                 myAnim.Play("xFillAnim");
-            else myAnim.Play("xFillAnimHide");
+            }
+            else {
+                man.MoveHandToButtonPosition(false, transform.position);
+                myAnim.Play("xFillAnimHide");
+            }
         }
     }
 
-    
+    IEnumerator handMoveToButton(Transform hand, bool isRightHand)
+    {
+        while (Vector2.Distance(hand.position,transform.position) > 0.2f){
+            hand.position = Vector2.MoveTowards(hand.position,transform.position,man.handAnimationSpeed *((isRightHand) ? 1.5f:1) * Time.deltaTime);
+        yield return new WaitForEndOfFrame();
+        }
+
+       man.MoveHandToTargetPosition(isRightHand);
+    }
+
+
 
 
 }

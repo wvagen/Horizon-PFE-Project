@@ -36,6 +36,7 @@ namespace Prototype.NetworkLobby
 
         public Text statusInfo;
         public Text hostInfo;
+        public Text myIpAdress;
 
         //Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
         //of players, so that even client know how many player there is.
@@ -56,7 +57,7 @@ namespace Prototype.NetworkLobby
         {
             s_Singleton = this;
             _lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();
-            currentPanel = mainMenuPanel;
+            //currentPanel = mainMenuPanel;
 
             backButton.gameObject.SetActive(false);
             GetComponent<Canvas>().enabled = true;
@@ -130,7 +131,7 @@ namespace Prototype.NetworkLobby
 
             currentPanel = newPanel;
 
-            if (currentPanel != mainMenuPanel)
+            /*if (currentPanel != mainMenuPanel)
             {
                 backButton.gameObject.SetActive(true);
             }
@@ -139,7 +140,7 @@ namespace Prototype.NetworkLobby
                 backButton.gameObject.SetActive(false);
                 SetServerInfo("Offline", "None");
                 _isMatchmaking = false;
-            }
+            }*/
         }
 
         public void DisplayIsConnecting()
@@ -177,7 +178,7 @@ namespace Prototype.NetworkLobby
 
         public void SimpleBackClbk()
         {
-            ChangeTo(mainMenuPanel);
+           // ChangeTo(mainMenuPanel);
         }
                  
         public void StopHostClbk()
@@ -193,7 +194,7 @@ namespace Prototype.NetworkLobby
             }
 
             
-            ChangeTo(mainMenuPanel);
+           // ChangeTo(mainMenuPanel);
         }
 
         public void StopClientClbk()
@@ -205,13 +206,13 @@ namespace Prototype.NetworkLobby
                 StopMatchMaker();
             }
 
-            ChangeTo(mainMenuPanel);
+            //ChangeTo(mainMenuPanel);
         }
 
         public void StopServerClbk()
         {
             StopServer();
-            ChangeTo(mainMenuPanel);
+          //  ChangeTo(mainMenuPanel);
         }
 
         class KickMsg : MessageBase { }
@@ -387,10 +388,12 @@ namespace Prototype.NetworkLobby
 
         // ----------------- Client callbacks ------------------
 
-        /*public override void OnClientConnect(NetworkConnection conn)
+        public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
 
+            myIpAdress.text = networkAddress;
+            myIpAdress.gameObject.SetActive(true);
             infoPanel.gameObject.SetActive(false);
 
             conn.RegisterHandler(MsgKicked, KickedMessageHandler);
@@ -401,18 +404,21 @@ namespace Prototype.NetworkLobby
                 backDelegate = StopClientClbk;
                 SetServerInfo("Client", networkAddress);
             }
-        }*/
+        }       
 
-
+        public void clientDisconnect()
+        {
+            NetworkManager.singleton.client.Disconnect();
+        }
         public override void OnClientDisconnect(NetworkConnection conn)
         {
             base.OnClientDisconnect(conn);
-            ChangeTo(mainMenuPanel);
+           // ChangeTo(mainMenuPanel);
         }
 
         public override void OnClientError(NetworkConnection conn, int errorCode)
         {
-            ChangeTo(mainMenuPanel);
+            //ChangeTo(mainMenuPanel);
             infoPanel.Display("Client error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
         }
     }

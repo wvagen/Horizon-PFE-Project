@@ -8,12 +8,14 @@ public class CakeMakerManager : MonoBehaviour
 {
 
     public GameObject cake,cakePart,xyButtons;
+    public Transform rightHand, leftHand;
     public Transform cakePartsLocation, xButtonsLocation, yButtonsLocation,cakePreviewLocation;
     public Color bananaCol, appleCol, chocolatCol;
     public Animator filterAnim;
 
     public int xAxeLength = 2, yAxeLength = 2;
     public short level = 1;
+    public short handAnimationSpeed = 50;
 
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
@@ -25,10 +27,16 @@ public class CakeMakerManager : MonoBehaviour
     List<GameObject> clickedBtnsGameObject = new List<GameObject>();
     List<Cake> cakePreviewsList = new List<Cake>();
 
+    Vector2 initRightHandPos, initLeftHandPos;
+    const float southEdgeCakeYValue = -3f;
+    const float eastEdgeCakeXValue = 3.62f;
     void Start()
     {
         blockedBtns = new int[Mathf.Max(xAxeLength, yAxeLength), Mathf.Max(xAxeLength, yAxeLength)];
         cakePartTaste = new string[Mathf.Max(xAxeLength, yAxeLength), Mathf.Max(xAxeLength, yAxeLength)];
+
+        initRightHandPos = rightHand.position;
+        initLeftHandPos = leftHand.position;
     }
 
     #region Public_Methods
@@ -122,7 +130,79 @@ public class CakeMakerManager : MonoBehaviour
 
     }
 
+    public void returnHandsToInitPosition()
+    {
+        StartCoroutine(returnHandsToInitPositionIEnumerator());
+    }
+    public void MoveHandToTargetPosition(bool isRightHand)
+    {
+        StartCoroutine(MoveHandToTargetPositionIEnumerator(isRightHand));
+    }
+
+    public void MoveHandToButtonPosition(bool isRightHand,Vector2 buttonLocation)
+    {
+        //hiding field
+        StartCoroutine(MoveHandToButtonPositionIEnumerator(isRightHand, buttonLocation));
+    }
+
     #endregion
+
+
+    IEnumerator returnHandsToInitPositionIEnumerator()
+    {
+        while ((Vector2.Distance(rightHand.position,initRightHandPos) > 0.1f) || Vector2.Distance(leftHand.position,initLeftHandPos) > 0.1f) {
+           rightHand.position = Vector2.MoveTowards(rightHand.position,initRightHandPos,handAnimationSpeed*Time.deltaTime);
+           leftHand.position = Vector2.MoveTowards(leftHand.position,initLeftHandPos,handAnimationSpeed*Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator MoveHandToTargetPositionIEnumerator(bool isRightHand)
+    {
+         Vector2 targetLocation ;
+         Transform targetHand;
+
+        if (isRightHand){
+           targetLocation = new Vector2(rightHand.position.x,southEdgeCakeYValue);
+           targetHand = rightHand;
+        }else{
+           targetLocation = new Vector2(eastEdgeCakeXValue, leftHand.position.y);
+           targetHand = leftHand;
+        }
+            
+           while ((Vector2.Distance(targetHand.position , targetLocation) > 0.1f))
+           {
+               targetHand.position = Vector2.MoveTowards(targetHand.position, targetLocation, handAnimationSpeed / 2 * Time.deltaTime);
+               yield return new WaitForEndOfFrame();
+           }
+        returnHandsToInitPosition();
+    }
+
+    IEnumerator MoveHandToButtonPositionIEnumerator(bool isRightHand,Vector2 buttonLocation)
+    {
+        Vector2 initPos;
+        Transform targetHand;
+        if (isRightHand) {
+            initPos = new Vector2(buttonLocation.x, southEdgeCakeYValue);
+            targetHand = rightHand;
+        }
+        else {
+            initPos = new Vector2(eastEdgeCakeXValue, buttonLocation.y);
+            targetHand = leftHand;
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            while (Vector2.Distance(initPos, targetHand.position) > 0.1f)
+            {
+                targetHand.position = Vector2.MoveTowards(targetHand.position, initPos, handAnimationSpeed * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            yield return new WaitForEndOfFrame();
+            initPos = buttonLocation;
+        }
+        returnHandsToInitPosition();
+    }
 
     void GeneerateCakeAndParts()
     {
