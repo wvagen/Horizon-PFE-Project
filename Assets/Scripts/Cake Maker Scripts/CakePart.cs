@@ -25,6 +25,10 @@ public class CakePart : MonoBehaviour
             decoration.color = newCol;
         }
         
+        Color myCol = GetComponent<Image>().color;
+        myCol.a = 0.8f;
+        GetComponent<Image>().color = myCol;
+
     }
 
     public void setDecorationRectSize(RectTransform cakeTransRect)

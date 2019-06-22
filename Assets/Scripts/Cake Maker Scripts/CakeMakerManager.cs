@@ -19,7 +19,7 @@ public class CakeMakerManager : MonoBehaviour
 
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
-    string[] fruitNames = { "banana", "apple", "chocolat" };
+    string[] fruitNames = { "banana", "strawberry", "chocolat" };
     short cakeFilter = -1;//0 : star filter ....
 
 
@@ -272,7 +272,7 @@ public class CakeMakerManager : MonoBehaviour
         switch (fruitName)
         {
             case "banana": return bananaCol;
-            case "apple": return appleCol;
+            case "strawberry": return appleCol;
             case "chocolat": return chocolatCol;
             default: return Color.black;
         }
