@@ -10,10 +10,15 @@ public class xyButtons : MonoBehaviour
     public bool isOnXAxis = false;
     public Animator myAnim;
 
+    public Image arrow;
+
+
     public void setMyFunction(int x, int y)
     {
-        Debug.Log("(" + x + "," + y + ")");
+
         GetComponent<Button>().onClick.AddListener(delegate { man.ButtonCordinateClicked(x, y); });
+        if (isOnXAxis) arrow.transform.eulerAngles = Vector3.forward * -90;
+
     }
 
     public void FillingAnimation(bool isShowing)
@@ -23,10 +28,12 @@ public class xyButtons : MonoBehaviour
             {
                 StartCoroutine(handMoveToButton(man.rightHand, true));
                 myAnim.Play("yFillAnim");
+                arrow.transform.localScale = new Vector2(-1, 1);
             }
             else{
                 man.MoveHandToButtonPosition(true,transform.position);
                 myAnim.Play("yFillAnimHide");
+                arrow.transform.localScale = Vector2.one;
             }
         }
         else
@@ -36,10 +43,12 @@ public class xyButtons : MonoBehaviour
             {
                 StartCoroutine(handMoveToButton(man.leftHand, false));
                 myAnim.Play("xFillAnim");
+                arrow.transform.localScale = new Vector2(-1, 1);
             }
             else {
                 man.MoveHandToButtonPosition(false, transform.position);
                 myAnim.Play("xFillAnimHide");
+                arrow.transform.localScale = Vector2.one;
             }
         }
     }

@@ -28,8 +28,8 @@ public class CakeMakerManager : MonoBehaviour
     List<Cake> cakePreviewsList = new List<Cake>();
 
     Vector2 initRightHandPos, initLeftHandPos;
-    const float southEdgeCakeYValue = -3f;
-    const float eastEdgeCakeXValue = 3.62f;
+    const float southEdgeCakeYValue = -3.13f;
+    const float eastEdgeCakeXValue = 3;
     void Start()
     {
         blockedBtns = new int[Mathf.Max(xAxeLength, yAxeLength), Mathf.Max(xAxeLength, yAxeLength)];
