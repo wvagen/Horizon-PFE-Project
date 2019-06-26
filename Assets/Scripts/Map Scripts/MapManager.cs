@@ -126,7 +126,7 @@ public class MapManager : MonoBehaviour
 
     public void GenerateRecipe()
     {
-        Vector3 randomRotation = new Vector3(0, 0, Random.Range(-5f, 5f));
+        Vector3 randomRotation = new Vector3(0, 0, Random.Range(-2f, 2f));
         GameObject newRecipe = Instantiate(recipeGameObject, recipeFieldContainer.position, Quaternion.Euler(randomRotation), recipeFieldContainer);
         Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
 
@@ -159,7 +159,7 @@ public class MapManager : MonoBehaviour
         {
             case "United States": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 100, 500); break;
             case "Frensh": countryInfoPanelScript.GenerateOffer(this, "Apple", fruitDic["Apple"], 75, 200); break;
-                
+            case "Brazil": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 100, 500); break;     
         }
 
     }

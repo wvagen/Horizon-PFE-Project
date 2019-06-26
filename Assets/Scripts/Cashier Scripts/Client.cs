@@ -11,11 +11,12 @@ public class Client : MonoBehaviour
     public Transform maleHair, maleClothes;
     public Transform femaleHair, femaleClothes;
     public Sprite[] emojis;
+    public Sprite[] emotions;
     public Color[] progBarColors;
 
     public Color[] skinColors,hairColors;
 
-    public Image myEmoji,progrBar;
+    public Image myEmotion,myEmoji,progrBar;
 
     public ClientsManager clientMan;
 
@@ -102,6 +103,7 @@ public class Client : MonoBehaviour
     {
         
         myEmoji.sprite = emojis[nextPatienceIndexValue];
+        myEmotion.sprite = emotions[nextPatienceIndexValue];
         progrBar.color = progBarColors[nextPatienceIndexValue];
         if (nextPatienceIndexValue < emojis.Length - 1) nextPatienceIndexValue++;
     }
