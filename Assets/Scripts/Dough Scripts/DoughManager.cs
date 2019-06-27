@@ -10,23 +10,25 @@ public class DoughManager : MonoBehaviour {
 
     public Color wrongRecipeColor, missingRecipeColor, correctRecipeColor;
 
+    public GameObject confirmBtn, deleteBowlBtn;
     public GameObject doughRequirment;
     public GameObject[] InputPanel;
     public Transform recipeFieldContainer;
 
     public Bowl bowl;
 
+    public Animator myAnim;
+
     public Text eggsSlot1Txt, eggsSlot2Txt;
     public Text flourSlot1Txt, flourSlot2Txt;
 
-    public Animator myAnim;
-
-    public static Bowl draggedBowl = null;
     public static int orderNum = 1;
     public static float clientTimer = 30;
 
     List<Recipe> recipeList = new List<Recipe>();
+    
 
+    bool isPhoneScaled = false;
 
 	void Start () {
         SetSlotsTxtValues();
@@ -81,13 +83,19 @@ public class DoughManager : MonoBehaviour {
     }
 
 
-    public void SwallawBtn()
+    public void PhoneBtn()
     {
-
-        myAnim.Play("Swallaw");
-
+        if (isPhoneScaled)
+        {
+            isPhoneScaled = false;
+            myAnim.Play("Phone Scaling");
+        }
+        else
+        {
+            isPhoneScaled = true;
+            myAnim.Play("Phone Shrink");
+        }
     }
-
 
     public void levelUptestBtn()
     {
@@ -96,6 +104,8 @@ public class DoughManager : MonoBehaviour {
 
     public void EnableInputPanel(int indexOfEnabling)
     {
+
+        deleteBowlBtn.SetActive(false);
         foreach (GameObject item in InputPanel)
         {
             item.SetActive(false);
@@ -107,7 +117,6 @@ public class DoughManager : MonoBehaviour {
 
     void levelUp()
     {
-        myAnim.Play("LevelUp");
         quantitysToAdd[0]++;
         quantitysToAdd[1]++;
 

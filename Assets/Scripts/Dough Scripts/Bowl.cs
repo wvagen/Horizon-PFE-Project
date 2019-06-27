@@ -8,12 +8,11 @@ public class Bowl : MonoBehaviour {
     public GameObject requirment;
     public Transform requirmentsPanelPos;
     public Recipe compatibleList;
-    
+    public DoughManager doughMan;
+
     List<Requirment> reqList = new List<Requirment>();
-    
 
-    Vector2 startPos;
-
+    bool isDeleteBtnActive = false;
 
     #region Public_Methods
     public void setRequirment(string typeName, Sprite typeSprite, int quantity)
@@ -24,23 +23,19 @@ public class Bowl : MonoBehaviour {
 
     }
 
-    public void OnDown()
+    public void BowlBtn()
     {
-        startPos = transform.position;
-        DoughManager.draggedBowl = this;
+        if (isDeleteBtnActive)
+        {
+            isDeleteBtnActive = false;
+            doughMan.deleteBowlBtn.SetActive(false);
+        }
+        else
+        {
+            doughMan.deleteBowlBtn.SetActive(true);
+            isDeleteBtnActive = true;
+        }
     }
-
-    public void OnDrag()
-    {
-        if (DoughManager.draggedBowl)
-            transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    }
-
-    public void OnUp()
-    {
-        transform.position = startPos;
-    }
-
 
     public short CheckMenuList(List<Requirment> menuReqList,short recipeReqListLength){
 
