@@ -45,6 +45,10 @@ public class MainMenuManager : MonoBehaviour
         timeLimeIndex = 0;
     }
 
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
  
 
     public void ReturnBtn()
