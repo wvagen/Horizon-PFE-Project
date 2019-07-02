@@ -10,7 +10,7 @@ public class Bowl : MonoBehaviour {
     public Recipe compatibleList;
     public DoughManager doughMan;
 
-    List<Requirment> reqList = new List<Requirment>();
+   public List<Requirment> reqList = new List<Requirment>();
 
     bool isDeleteBtnActive = false;
 
@@ -35,6 +35,16 @@ public class Bowl : MonoBehaviour {
             doughMan.deleteBowlBtn.SetActive(true);
             isDeleteBtnActive = true;
         }
+    }
+
+    public void DeleteRequirments()
+    {
+        foreach (Requirment r  in reqList)
+        {
+            Destroy(r.gameObject);
+        }
+        reqList = new List<Requirment>();
+        ChangeMyColor(Color.white);
     }
 
     public short CheckMenuList(List<Requirment> menuReqList,short recipeReqListLength){

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class DoughManager : MonoBehaviour {
 
+    public PauseCanvasManager pauseMan;
+
     public Sprite[] requirmentSprites;
     public int[] quantitysToAdd; //0-1 : eggs; 2-3 : flour
 
@@ -26,9 +28,8 @@ public class DoughManager : MonoBehaviour {
     public static float clientTimer = 30;
 
     List<Recipe> recipeList = new List<Recipe>();
-    
 
-    bool isPhoneScaled = false;
+    Recipe correctRecipe;
 
 	void Start () {
         SetSlotsTxtValues();
@@ -77,24 +78,39 @@ public class DoughManager : MonoBehaviour {
                 {
                     case 0: bowl.ChangeMyColor(wrongRecipeColor); break;
                     case 1: bowl.ChangeMyColor(missingRecipeColor); break;
-                    case 2: bowl.ChangeMyColor(correctRecipeColor); break;
+                    case 2: bowl.ChangeMyColor(correctRecipeColor); correctRecipe = bowl.compatibleList; confirmBtn.SetActive(true); break;
                 }
         
     }
 
+    public void ConfirmBtn()
+    {
+        if (pauseMan.ScoreIncrement(correctRecipe.remainingClientTime))
+        {
+            levelUp();
+        }
+
+        correctRecipe.Delete();
+        confirmBtn.SetActive(false);
+        recipeList.Remove(correctRecipe);
+        bowl.DeleteRequirments();
+        correctRecipe = null;
+        CheckBowlColor();
+    }
+
+    public void DeleteBowlRequirments()
+    {
+        bowl.DeleteRequirments();
+    }
 
     public void PhoneBtn()
     {
-        if (isPhoneScaled)
-        {
-            isPhoneScaled = false;
-            myAnim.Play("Phone Scaling");
-        }
-        else
-        {
-            isPhoneScaled = true;
-            myAnim.Play("Phone Shrink");
-        }
+        myAnim.Play("Phone Scaling");      
+    }
+
+    public void ClosePhone()
+    {
+        myAnim.Play("Phone Shrink");
     }
 
     public void levelUptestBtn()
@@ -156,6 +172,12 @@ public class DoughManager : MonoBehaviour {
 
     void CheckBowlColor()
     {
+
+        if (bowl.reqList.Count == 0)
+        {
+            bowl.ChangeMyColor(Color.white);
+            return;
+        }
         short indexOfFindess = 0;
             foreach (Recipe r in recipeList)
             {
@@ -167,7 +189,7 @@ public class DoughManager : MonoBehaviour {
             {
                 case 0: bowl.ChangeMyColor(wrongRecipeColor); break;
                 case 1: bowl.ChangeMyColor(missingRecipeColor); break;
-                case 2: bowl.ChangeMyColor(correctRecipeColor); break;
+                case 2: bowl.ChangeMyColor(correctRecipeColor); correctRecipe = bowl.compatibleList; confirmBtn.SetActive(true); break;
             }
     }
 

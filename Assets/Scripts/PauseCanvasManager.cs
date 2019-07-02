@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class PauseCanvasManager : MonoBehaviour
 {
     public Image progBarFiller,pauseBtnImg,stars,emoji;
-    public Text levelValueTxt;
+    public Text levelValueTxt,starsUpTxt;
 
     public Text infoPanelTitle,scoreTxt;
 
@@ -33,19 +33,23 @@ public class PauseCanvasManager : MonoBehaviour
 
     #region public_Methods
 
-    public void IncreaseXP()
+
+    public bool ScoreIncrement(float timeValue)
     {
-        xp++;
-        if (xp >= (levelValue + 1)) levelUp();
-        setProgBar();
+        //return true if levelUp
+        bool isLevelUp = IncreaseXP();
+        int scoreToBeAdded = (levelValue * 10) + (int)(timeValue);
+        starsUpTxt.text = scoreToBeAdded.ToString();
+        scoreAmount += scoreToBeAdded;
+        Increase_Decrease_SatisfactionLevel(true);
+        setScoreValueTxt();
+        return isLevelUp;
     }
 
     public void OptionBtn()
     {
         myAnim.Play("pause");
     }
-
-
 
     public void ResumeBtn()
     {
@@ -69,6 +73,7 @@ public class PauseCanvasManager : MonoBehaviour
     {
         myAnim.Play("ConfirmationShow");
     }
+
     public void ConfirmationPanelHide()
     {
         myAnim.Play("ConfirmationHide");
@@ -81,9 +86,16 @@ public class PauseCanvasManager : MonoBehaviour
 
     public void Increase_Decrease_SatisfactionLevel(bool isIncreasing)
     {
-        if (isIncreasing) satisfactionLevel += 0.1f;
-        else satisfactionLevel -= 0.1f;
-
+        if (isIncreasing)
+        {
+            myAnim.Play("StarsUp");
+            satisfactionLevel += 0.1f;
+        }
+        else
+        {
+            myAnim.Play("StarsDown");
+            satisfactionLevel -= 0.1f;
+        }
         if (satisfactionLevel > 1) satisfactionLevel = 1;
         if (satisfactionLevel < 0) satisfactionLevel = 0;
         UpdateSatisfactionLevelEmojiAndStars();
@@ -91,6 +103,21 @@ public class PauseCanvasManager : MonoBehaviour
     }
 
     #endregion
+
+    bool IncreaseXP()
+    {
+        xp++;
+        if (xp >= (levelValue + 1))
+        {
+            levelUp();
+            setProgBar();
+            return true;
+        }
+        setProgBar();
+        return false;
+        
+    }
+
 
     void UpdateSatisfactionLevelEmojiAndStars()
     {

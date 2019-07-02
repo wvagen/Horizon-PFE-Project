@@ -15,7 +15,8 @@ public class Recipe : MonoBehaviour {
 
     public List<Requirment> reqList = new List<Requirment>();
 
-    float remainingClientTime,initClientTimer;
+    public float remainingClientTime ;
+    float initClientTimer;
 
     bool isTimeOver = false;
 
@@ -61,17 +62,10 @@ public class Recipe : MonoBehaviour {
         reqList.Add(newReqScript);
 
     }
-
-    public void Delete(Bowl bowlToDestory)
-    {
-        Destroy(Instantiate(fireWorkEffect, transform.position, Quaternion.identity), 2);
-        Destroy(bowlToDestory.gameObject);
-        StartCoroutine(fadeOutAnimation());
-
-    }
     public void Delete()
     {
-        Destroy(Instantiate(fireWorkEffect, transform.position, Quaternion.identity), 2);
+
+        Destroy(Instantiate(fireWorkEffect, (Vector2) transform.position, Quaternion.identity), 2);
         StartCoroutine(fadeOutAnimation());
 
     }
