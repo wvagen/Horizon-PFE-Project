@@ -25,7 +25,7 @@ public class DoughManager : MonoBehaviour {
     public Text flourSlot1Txt, flourSlot2Txt;
 
     public static int orderNum = 1;
-    public static float clientTimer = 5;
+    public static float clientTimer = 30;
 
     List<Recipe> recipeList = new List<Recipe>();
 

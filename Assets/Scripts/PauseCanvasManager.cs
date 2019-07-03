@@ -28,7 +28,7 @@ public class PauseCanvasManager : MonoBehaviour
 
     int xp = 0;
 
-    short activeSceneIndex ; //1 : Dough Scene || 3: Cashier Scene || 4: Cake Maker Scene || 5: Map Scene
+    short activeSceneIndex ; //1 : Dough Scene || 2: Cashier Scene || 3: Cake Maker Scene || 4: Map Scene
 
     void Start()
     {
@@ -206,7 +206,7 @@ public class PauseCanvasManager : MonoBehaviour
     IEnumerator GoToValueAnimation(int value,Text valueTxt){
 
         float realTimeValue = 0;
-        while (realTimeValue < value){
+        while ((int)realTimeValue < value){
             realTimeValue += Time.deltaTime * value ;
             valueTxt.text = ((int) realTimeValue).ToString();
             yield return new WaitForEndOfFrame();

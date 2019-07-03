@@ -17,6 +17,8 @@ public class MainMenuManager : MonoBehaviour
 
     public Animator myAnim;
 
+    public Text[] bestScoresReached, bestLevelsReached;
+
     public LobbyMainMenu lobby;
 
     public static bool sfxEnabled = false, musicEnabled = false;
@@ -37,12 +39,32 @@ public class MainMenuManager : MonoBehaviour
     
         initScale = new Vector2(1.5f, 1.5f);
         wantedScale = initScale * 1.2f;
+        LoadData();
+    }
+
+    void LoadData()
+    {
+        for (int i = 0; i < bestScoresReached.Length; i++)
+        {
+            bestScoresReached[i].text = PlayerPrefs.GetInt("bestScore" + (i+1).ToString(), 0).ToString();
+            bestLevelsReached[i].text = PlayerPrefs.GetInt("bestLevel" + (i + 1).ToString(), 1).ToString();
+        }
     }
 
     public void Play()
     {
         myAnim.Play("PlayClicked");
         timeLimeIndex = 0;
+    }
+
+    public void LeaderBoardBtn()
+    {
+        myAnim.Play("LeaderBoardShow");
+    }
+
+    public void LeaderBoardExit()
+    {
+        myAnim.Play("LeaderBoardHide");
     }
 
     public void LoadScene(string sceneName)
