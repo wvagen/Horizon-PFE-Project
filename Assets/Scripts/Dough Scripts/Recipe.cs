@@ -11,6 +11,8 @@ public class Recipe : MonoBehaviour {
     public GameObject requirment;
     public Transform requirmentsPanelPos;
 
+    public DoughManager doughMan;
+    
     public GameObject fireWorkEffect;
 
     public List<Requirment> reqList = new List<Requirment>();
@@ -36,6 +38,8 @@ public class Recipe : MonoBehaviour {
         {
             isTimeOver = true;
             //Time over state
+            doughMan.pauseMan.Increase_Decrease_SatisfactionLevel(false);
+            doughMan.DeleteRecipe(this);
             Debug.Log("Time OVER!");
         }
     }

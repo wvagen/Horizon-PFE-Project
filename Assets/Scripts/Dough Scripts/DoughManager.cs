@@ -25,7 +25,7 @@ public class DoughManager : MonoBehaviour {
     public Text flourSlot1Txt, flourSlot2Txt;
 
     public static int orderNum = 1;
-    public static float clientTimer = 30;
+    public static float clientTimer = 5;
 
     List<Recipe> recipeList = new List<Recipe>();
 
@@ -34,6 +34,10 @@ public class DoughManager : MonoBehaviour {
 	void Start () {
         SetSlotsTxtValues();
 	}
+
+    void Update(){
+        myAnim.SetBool("isRecipeFound",recipeList.Count != 0);
+    }
 
     #region Public_Methods
 
@@ -54,6 +58,8 @@ public class DoughManager : MonoBehaviour {
         newDoughRecipe.setOrderInfo(orderNum,0);
         newDoughRecipe.setRequirment("Egg", requirmentSprites[0], genrateRandNumDependingOnSlots(quantitysToAdd[0],quantitysToAdd[1]));
         newDoughRecipe.setRequirment("Flour", requirmentSprites[1], Random.Range(1, 5) * 25);
+        newDoughRecipe.doughMan = this;
+
 
         recipeList.Add(newDoughRecipe);
 
@@ -103,6 +109,11 @@ public class DoughManager : MonoBehaviour {
         bowl.DeleteRequirments();
     }
 
+    public void DeleteRecipe(Recipe r){
+        recipeList.Remove(r);
+        r.Delete();
+    }
+
     public void PhoneBtn()
     {
         myAnim.Play("Phone Scaling");      
@@ -136,12 +147,12 @@ public class DoughManager : MonoBehaviour {
         quantitysToAdd[0]++;
         quantitysToAdd[1]++;
 
+        myAnim.Play("LevelUp");
         foreach (Recipe r in recipeList)
         {
             if (!(isCombination(quantitysToAdd[0], quantitysToAdd[1], r.reqList[0].quantity)))
             {
-                recipeList.Remove(r);
-                r.Delete();
+                DeleteRecipe(r);
             }
         }
     }
