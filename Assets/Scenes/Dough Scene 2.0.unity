@@ -299,11 +299,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114574149327259434, guid: 5ca863bb3fcec4349b429ce19839f6a6,
-        type: 3}
-      propertyPath: doughMan
-      value: 
-      objectReference: {fileID: 1979649408}
     - target: {fileID: 224260223918502900, guid: 5ca863bb3fcec4349b429ce19839f6a6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -324,6 +319,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -16.8
       objectReference: {fileID: 0}
+    - target: {fileID: 114574149327259434, guid: 5ca863bb3fcec4349b429ce19839f6a6,
+        type: 3}
+      propertyPath: doughMan
+      value: 
+      objectReference: {fileID: 1979649408}
     - target: {fileID: 114942341503703082, guid: 5ca863bb3fcec4349b429ce19839f6a6,
         type: 3}
       propertyPath: m_Spacing
@@ -914,7 +914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &916971028
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1559,6 +1559,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2208841344116677412, guid: 328d34e7ac5cc984fb2e23ce35b23c88,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 113.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2208841344116677412, guid: 328d34e7ac5cc984fb2e23ce35b23c88,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 173.7
+      objectReference: {fileID: 0}
     - target: {fileID: 2487749345169819232, guid: 328d34e7ac5cc984fb2e23ce35b23c88,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1584,16 +1594,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 21e9e97290213f849b0c554351b497a3,
         type: 3}
-    - target: {fileID: 2208841344116677412, guid: 328d34e7ac5cc984fb2e23ce35b23c88,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 113.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2208841344116677412, guid: 328d34e7ac5cc984fb2e23ce35b23c88,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 173.7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328d34e7ac5cc984fb2e23ce35b23c88, type: 3}
 --- !u!224 &1332663371 stripped
@@ -2730,7 +2730,7 @@ MonoBehaviour:
   requirmentSprites:
   - {fileID: 21300000, guid: 41cafa8ab61825345b756e1a65c74479, type: 3}
   - {fileID: 21300000, guid: f686ddb8acc7da64089aadbb84c4395d, type: 3}
-  quantitysToAdd: 01000000020000001900000032000000
+  quantitysToAdd: 0100000002000000050000000a000000
   wrongRecipeColor: {r: 0.78431374, g: 0.28235295, b: 0.21960784, a: 1}
   missingRecipeColor: {r: 0.78431374, g: 0.78431374, b: 0.21960784, a: 1}
   correctRecipeColor: {r: 0.41960785, g: 0.78431374, b: 0.21960784, a: 1}

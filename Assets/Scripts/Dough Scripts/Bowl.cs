@@ -12,8 +12,6 @@ public class Bowl : MonoBehaviour {
 
    public List<Requirment> reqList = new List<Requirment>();
 
-    bool isDeleteBtnActive = false;
-
     #region Public_Methods
     public void setRequirment(string typeName, Sprite typeSprite, int quantity)
     {
@@ -25,16 +23,7 @@ public class Bowl : MonoBehaviour {
 
     public void BowlBtn()
     {
-        if (isDeleteBtnActive)
-        {
-            isDeleteBtnActive = false;
-            doughMan.deleteBowlBtn.SetActive(false);
-        }
-        else
-        {
-            doughMan.deleteBowlBtn.SetActive(true);
-            isDeleteBtnActive = true;
-        }
+        doughMan.deleteBowlBtn.SetActive(true);
     }
 
     public void DeleteRequirments()

@@ -27,7 +27,7 @@ public class PauseCanvasManager : MonoBehaviour
     int levelValue = 1,scoreAmount = 0;
 
     int xp = 0;
-
+    bool isGameOver = false;
     short activeSceneIndex ; //1 : Dough Scene || 2: Cashier Scene || 3: Cake Maker Scene || 4: Map Scene
 
     void Start()
@@ -39,9 +39,7 @@ public class PauseCanvasManager : MonoBehaviour
         activeSceneIndex =(short) SceneManager.GetActiveScene().buildIndex;
 
         bestScore = PlayerPrefs.GetInt("bestScore" + activeSceneIndex ,0);
-        Debug.Log(bestScore);
         bestLevelReached = PlayerPrefs.GetInt("bestLevel" + activeSceneIndex,1);
-        Debug.Log(bestLevelReached);
         myAnim = GetComponent<Animator>();
     }
 
@@ -143,7 +141,9 @@ public class PauseCanvasManager : MonoBehaviour
             satisfactionLevel -= 0.1f;
         }
         if (satisfactionLevel > 1) satisfactionLevel = 1;
-        if (satisfactionLevel < 0) {
+        if (satisfactionLevel < 0 && !isGameOver)
+        {
+            isGameOver = true;
             GameOver();
             satisfactionLevel = 0;
         }

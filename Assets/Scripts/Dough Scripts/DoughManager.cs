@@ -25,7 +25,12 @@ public class DoughManager : MonoBehaviour {
     public Text flourSlot1Txt, flourSlot2Txt;
 
     public static int orderNum = 1;
-    public static float clientTimer = 30;
+
+    //if player is offline
+    float timerToWaitForNextRequirementMenu = 10;
+    public static float clientTimer = 60;
+    bool isGenerated = false;
+    //Bot stuff ends here
 
     List<Recipe> recipeList = new List<Recipe>();
 
@@ -37,6 +42,17 @@ public class DoughManager : MonoBehaviour {
 
     void Update(){
         myAnim.SetBool("isRecipeFound",recipeList.Count != 0);
+
+        if (!isGenerated) StartCoroutine(PlayBot());
+    }
+
+    IEnumerator PlayBot()
+    {
+        isGenerated = true;
+        GenerateNewRequirmentMenu();
+        yield return new WaitForSeconds(timerToWaitForNextRequirementMenu);
+        
+        isGenerated = false;
     }
 
     #region Public_Methods
@@ -57,7 +73,7 @@ public class DoughManager : MonoBehaviour {
 
         newDoughRecipe.setOrderInfo(orderNum,0);
         newDoughRecipe.setRequirment("Egg", requirmentSprites[0], genrateRandNumDependingOnSlots(quantitysToAdd[0],quantitysToAdd[1]));
-        newDoughRecipe.setRequirment("Flour", requirmentSprites[1], Random.Range(1, 5) * 25);
+        newDoughRecipe.setRequirment("Flour", requirmentSprites[1], genrateRandNumDependingOnSlots(quantitysToAdd[2], quantitysToAdd[3]));
         newDoughRecipe.doughMan = this;
 
 
@@ -95,13 +111,13 @@ public class DoughManager : MonoBehaviour {
         {
             levelUp();
         }
-
         correctRecipe.Delete();
         confirmBtn.SetActive(false);
         recipeList.Remove(correctRecipe);
         bowl.DeleteRequirments();
         correctRecipe = null;
         CheckBowlColor();
+        DeleteUncompatibleCombinationsRecipe();
     }
 
     public void DeleteBowlRequirments()
@@ -147,10 +163,25 @@ public class DoughManager : MonoBehaviour {
         quantitysToAdd[0]++;
         quantitysToAdd[1]++;
 
+        quantitysToAdd[2] += 10;
+        quantitysToAdd[3] += 10;
+
+        if (timerToWaitForNextRequirementMenu > 1f) timerToWaitForNextRequirementMenu -= 0.1f;
+        if (clientTimer > 10) clientTimer -= 0.5f;
+
         myAnim.Play("LevelUp");
+        
+    }
+
+    void DeleteUncompatibleCombinationsRecipe()
+    {
         foreach (Recipe r in recipeList)
         {
             if (!(isCombination(quantitysToAdd[0], quantitysToAdd[1], r.reqList[0].quantity)))
+            {
+                DeleteRecipe(r);
+            }
+            if (!(isCombination(quantitysToAdd[2], quantitysToAdd[3], r.reqList[1].quantity)))
             {
                 DeleteRecipe(r);
             }

@@ -7,11 +7,11 @@ using UnityEngine.EventSystems;
 public class CakeMakerManager : MonoBehaviour
 {
 
-    public GameObject cake,cakePart,xyButtons;
+    public GameObject cake,cakePart,xyButtons,cakePreview;
     public Transform rightHand, leftHand;
     public Transform cakePartsLocation, xButtonsLocation, yButtonsLocation,cakePreviewLocation;
     public Color bananaCol, appleCol, chocolatCol;
-    public Animator filterAnim;
+    public Animator filterAnim,canvasAnim;
 
     public int xAxeLength = 2, yAxeLength = 2;
     public short level = 1;
@@ -37,6 +37,10 @@ public class CakeMakerManager : MonoBehaviour
 
         initRightHandPos = rightHand.position;
         initLeftHandPos = leftHand.position;
+    }
+
+    void Update() {
+        canvasAnim.SetBool("isRecipeEmpty", cakePreviewsList.Count == 0);
     }
 
     #region Public_Methods
@@ -128,6 +132,15 @@ public class CakeMakerManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void ScalePhone()
+    {
+        canvasAnim.Play("PhoneScale");
+    }
+    public void ShrinkPhone()
+    {
+        canvasAnim.Play("PhoneShrink");
     }
 
     public void returnHandsToInitPosition()
@@ -228,13 +241,15 @@ public class CakeMakerManager : MonoBehaviour
     
     void GeneerateCakeAndPartsForListAndPreview()
     {
-        GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakePreviewLocation);
+        GameObject newCakePreviw = Instantiate(cakePreview, Vector2.zero,Quaternion.identity, cakePreviewLocation);
+        CakePreview cakePreviewScript = newCakePreviw.GetComponent<CakePreview>();
+        GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakePreviewScript.cakePreviewLocation);
+
+        tempCake.GetComponent<Canvas>().enabled = false;
         cakePreviewsList[cakePreviewsList.Count - 1] = tempCake.GetComponent<Cake>();
         RectTransform tempCakeRect = tempCake.GetComponent<RectTransform>();
-        tempCakeRect.sizeDelta = cakePreviewLocation.GetComponent<RectTransform>().sizeDelta;
         tempCakeRect.anchoredPosition = Vector2.zero;
         tempCakeRect.localScale *= 0.74f;
-
 
         tempCake.GetComponent<GridLayoutGroup>().cellSize =
             new Vector2(tempCakeRect.rect.width / xAxeLength, tempCakeRect.rect.height / yAxeLength);
