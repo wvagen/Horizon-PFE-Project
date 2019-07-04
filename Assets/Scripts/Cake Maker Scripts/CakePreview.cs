@@ -13,9 +13,10 @@ public class CakePreview : MonoBehaviour
     public GameObject fireWorkEffect;
     public List<CakePart> cakeParts = new List<CakePart>();
     public string cakeCode;
+    public float realPatienceTime;
 
     CakeMakerManager cakeMan;
-    float totaltpPatienceTime,realPatienceTime;
+    float totaltpPatienceTime;
 
     public void setVars(int orderNum,float timeToWait,string newCakeCode,CakeMakerManager newCakeMan)
     {
@@ -46,6 +47,8 @@ public class CakePreview : MonoBehaviour
         else
         {
             Debug.Log("Game Over");
+            cakeMan.pauseCan.Increase_Decrease_SatisfactionLevel(false);
+            DestroyLeMe();
         }
     }
   

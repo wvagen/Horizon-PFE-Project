@@ -147,7 +147,7 @@ public class PauseCanvasManager : MonoBehaviour
             GameOver();
             satisfactionLevel = 0;
         }
-        UpdateSatisfactionLevelEmojiAndStars();
+         UpdateSatisfactionLevelEmojiAndStars();
 
     }
 
@@ -174,6 +174,7 @@ public class PauseCanvasManager : MonoBehaviour
 
     void UpdateSatisfactionLevelEmojiAndStars()
     {
+        if (satisfactionLevel < 0 || satisfactionLevel > 1) return;
         stars.fillAmount = satisfactionLevel;
         if (satisfactionLevel == 1) emoji.sprite = emojies[4];
         else emoji.sprite = emojies[(int)(satisfactionLevel * 10) / 2];

@@ -13,7 +13,7 @@ public class CakeMakerManager : MonoBehaviour
     public Color bananaCol, appleCol, chocolatCol;
     public Animator filterAnim,canvasAnim;
 
-    public int xAxeLength = 2, yAxeLength = 2;
+    public int xAxeLength = 1, yAxeLength = 1;
     public short level = 1;
     public short handAnimationSpeed = 50;
 
@@ -26,7 +26,8 @@ public class CakeMakerManager : MonoBehaviour
     Cake cakeScript;
     List<GameObject> clickedBtnsGameObject = new List<GameObject>();
     List<CakePreview> cakePreviewsList = new List<CakePreview>();
-    string myCakeCode,generatedcakeCode ="1220120" ; //exp : 132102000 - 1221231
+    List<GameObject> generatedBtns = new List<GameObject>();
+    string myCakeCode,generatedcakeCode ="1220000" ; //exp : 132102000 - 1221231
 
     /*cakeCode[0] = cake shape
      *cakeCode[1] = xLength parts
@@ -38,7 +39,9 @@ public class CakeMakerManager : MonoBehaviour
 
     //Bot Stuff
 
-    float patienceTime = 30;
+    float patienceTime = 10;
+    float timerToWaitForNextRequirementMenu = 5;
+    bool isGenerated = false;
 
     //End Bot Stuff
 
@@ -46,28 +49,69 @@ public class CakeMakerManager : MonoBehaviour
     const float eastEdgeCakeXValue = 3;
     void Start()
     {
-        blockedBtns = new int[Mathf.Max(xAxeLength, yAxeLength), Mathf.Max(xAxeLength, yAxeLength)];
-        cakePartTaste = new string[Mathf.Max(xAxeLength, yAxeLength), Mathf.Max(xAxeLength, yAxeLength)];
-
+        GenerateCakeAndButtons();
         initRightHandPos = rightHand.position;
         initLeftHandPos = leftHand.position;
     }
 
     void Update() {
         canvasAnim.SetBool("isRecipeEmpty", cakePreviewsList.Count == 0);
+        if (!isGenerated) StartCoroutine(PlayBot());
     }
 
-    void CheckCodeAndCakePreviewMatch()
+   public  void CheckCodeAndCakePreviewMatch()
     {
         foreach (CakePreview cakePreview in cakePreviewsList)
         {
-            if (myCakeCode == cakePreview.cakeCode)
+            if (myCakeCode.Equals(cakePreview.cakeCode) )
             {
+                //Increment Score Phase
+                if (pauseCan.ScoreIncrement(cakePreview.realPatienceTime)) levelUp();
+                GenerateRandomCakeCode();
+                DecodeXandYLength(generatedcakeCode);
+                GenerateCakeAndButtons();
                 cakePreviewsList.Remove(cakePreview);
                 cakePreview.DestroyLeMe();
                 break;
             }
         }
+    }
+
+    void GenerateRandomCakeCode()
+    {
+        generatedcakeCode = "1";
+        if (level == 1) generatedcakeCode += "11" + Random.Range(0, fruitNames.Length).ToString();
+        else if (level <= 3)
+        {
+            generatedcakeCode += "22";
+            for (int i = 0; i < 4; i++)
+            {
+                generatedcakeCode += Random.Range(0, fruitNames.Length).ToString();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                generatedcakeCode += Random.Range(0, fruitNames.Length).ToString();
+            }
+        }
+    }
+
+    IEnumerator PlayBot()
+    {
+        isGenerated = true;
+        GenerateRandomCakeCode();
+        GenerateCakePreview();
+        yield return new WaitForSeconds(timerToWaitForNextRequirementMenu);
+        isGenerated = false;
+    }
+
+    void levelUp()
+    {
+        level++;
+        if (timerToWaitForNextRequirementMenu > 1f) timerToWaitForNextRequirementMenu -= 0.1f;
+        if (patienceTime > 10) patienceTime -= 0.5f;
     }
 
     #region Public_Methods
@@ -131,7 +175,6 @@ public class CakeMakerManager : MonoBehaviour
                 }
             }
         }
-        CheckCodeAndCakePreviewMatch();
     }
 
    public void GenerateCakePreview()
@@ -250,6 +293,7 @@ public class CakeMakerManager : MonoBehaviour
 
     void GeneerateCakeAndParts()
     {
+        if (cakeScript != null) Destroy(cakeScript.gameObject);
         GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakePartsLocation);
         cakeScript = tempCake.GetComponent<Cake>();
         myCakeCode = "";
@@ -318,12 +362,14 @@ public class CakeMakerManager : MonoBehaviour
 
     void GenerateButtons()
     {
+        deleteGeneratedBtns();
         for (int i = 0; i < xAxeLength; i++)
         {
             GameObject tempBtn = Instantiate(xyButtons, Vector2.zero, Quaternion.identity, xButtonsLocation);
             tempBtn.GetComponent<xyButtons>().man = this;
             tempBtn.GetComponent<xyButtons>().isOnXAxis = true;
             tempBtn.GetComponent<xyButtons>().setMyFunction(0, i);
+            generatedBtns.Add(tempBtn);
         }
         for (int i = 0; i < yAxeLength; i++)
         {
@@ -331,8 +377,19 @@ public class CakeMakerManager : MonoBehaviour
             tempBtn.GetComponent<xyButtons>().man = this;
             tempBtn.GetComponent<xyButtons>().isOnXAxis = false;
             tempBtn.GetComponent<xyButtons>().setMyFunction(1, i);
+            generatedBtns.Add(tempBtn);
         }
+        blockedBtns = new int[Mathf.Max(xAxeLength, yAxeLength), Mathf.Max(xAxeLength, yAxeLength)];
+        cakePartTaste = new string[Mathf.Max(xAxeLength, yAxeLength), Mathf.Max(xAxeLength, yAxeLength)];
+    }
 
+    void deleteGeneratedBtns()
+    {
+        foreach (GameObject btn in generatedBtns)
+        {
+            Destroy(btn);
+        }
+        generatedBtns = new List<GameObject>();
     }
 
     Color fruitTasteToColor(string fruitName)
