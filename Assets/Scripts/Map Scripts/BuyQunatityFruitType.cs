@@ -10,6 +10,8 @@ public class BuyQunatityFruitType : MonoBehaviour
     public Text priceTxt;
     public CountryInfoPanel country;
 
+    public GameObject fireWorksEffect;
+
     int fruitQuantity,price;
     string fruitName;
     MapManager manScript;
@@ -34,6 +36,9 @@ public class BuyQunatityFruitType : MonoBehaviour
         manScript.SetMoneyValueTxt();
         manScript.stock[fruitName] += fruitQuantity;
         manScript.UpdateStockTxt(fruitName);
+        manScript.moneyValueAdded .text= "-" + price.ToString();
+        manScript.myAnim.Play("LevelUp");
+        Destroy(Instantiate(fireWorksEffect, transform.position, Quaternion.identity), 3);
         country.DeleteOffer(this.gameObject);
     }
 

@@ -28,7 +28,7 @@ public class DoughManager : MonoBehaviour {
 
     //if player is offline
     float timerToWaitForNextRequirementMenu = 10;
-    public static float clientTimer = 60;
+    float clientTimer = 60;
     bool isGenerated = false;
     //Bot stuff ends here
 
@@ -76,6 +76,7 @@ public class DoughManager : MonoBehaviour {
         newDoughRecipe.setRequirment("Flour", requirmentSprites[1], genrateRandNumDependingOnSlots(quantitysToAdd[2], quantitysToAdd[3]));
         newDoughRecipe.doughMan = this;
 
+        newDoughRecipe.initClientTimer = clientTimer;
 
         recipeList.Add(newDoughRecipe);
 

@@ -6,24 +6,26 @@ using UnityEngine.UI;
 
 public class Recipe : MonoBehaviour {
 
+    //This Class is used by MapManager and DoughManager classes
+
     public Text orderNumTxt;
     public Image progressBar;
     public GameObject requirment;
     public Transform requirmentsPanelPos;
 
     public DoughManager doughMan;
-    
+    public MapManager mapMan;
+
     public GameObject fireWorkEffect;
 
     public List<Requirment> reqList = new List<Requirment>();
 
     public float remainingClientTime ;
-    float initClientTimer;
+    public float initClientTimer;
 
     bool isTimeOver = false;
 
 	void Start () {
-        initClientTimer = DoughManager.clientTimer;
         remainingClientTime = initClientTimer;
     }
 
@@ -38,8 +40,16 @@ public class Recipe : MonoBehaviour {
         {
             isTimeOver = true;
             //Time over state
-            doughMan.pauseMan.Increase_Decrease_SatisfactionLevel(false);
-            doughMan.DeleteRecipe(this);
+            if (doughMan != null)
+            {
+                doughMan.pauseMan.Increase_Decrease_SatisfactionLevel(false);
+                doughMan.DeleteRecipe(this);
+            }
+            else if (mapMan != null)
+            {
+                mapMan.pauseMan.Increase_Decrease_SatisfactionLevel(false);
+                mapMan.DeleteRecipe(this);
+            }
             Debug.Log("Time OVER!");
         }
     }
@@ -50,6 +60,23 @@ public class Recipe : MonoBehaviour {
     {
 
         orderNumTxt.text = "Order Num#" + orderNum.ToString();
+
+    }
+
+    //Map Stuff
+    public void GiveFruitRecipe()
+    {
+        //by clicking this button the owned resources will be given
+        foreach (Requirment req in reqList)
+        {
+            if (!mapMan.CheckResourceAvailibilityBeforeDecrease(req.typeName, req.quantity)) return ;
+        }
+        foreach (Requirment req in reqList)
+        {
+            mapMan.DecreaseFruitQuantity(req.typeName, req.quantity);
+        }
+        mapMan.SuccessfulTransaction(remainingClientTime);
+        mapMan.DeleteRecipe(this);
 
     }
 

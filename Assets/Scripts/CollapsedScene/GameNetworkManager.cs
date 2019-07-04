@@ -45,7 +45,7 @@ public class GameNetworkManager : NetworkBehaviour
         if (localPlayer.pRoleName == "DS")
         {
             doughMan.GenerateNewRequirmentMenu();
-            DoughManager.clientTimer = timeValue;
+            //DoughManager.clientTimer = timeValue;
         }
     }
 

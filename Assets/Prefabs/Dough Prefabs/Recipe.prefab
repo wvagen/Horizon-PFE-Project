@@ -339,6 +339,7 @@ GameObject:
   - component: {fileID: 222828863306027752}
   - component: {fileID: 114716556724809888}
   - component: {fileID: 114595228041549486}
+  - component: {fileID: 1378207920}
   m_Layer: 5
   m_Name: Recipe
   m_TagString: Untagged
@@ -421,9 +422,55 @@ MonoBehaviour:
   progressBar: {fileID: 7973320218440673927}
   requirment: {fileID: 1461917745072322, guid: 4f880a8abd4033647a308d4988408d28, type: 3}
   requirmentsPanelPos: {fileID: 224962622872215296}
+  doughMan: {fileID: 0}
+  mapMan: {fileID: 0}
   fireWorkEffect: {fileID: 1247311384876784, guid: 4adffb0018aeda44e9263f901167af1f,
     type: 3}
   reqList: []
+  remainingClientTime: 0
+  initClientTimer: 0
+--- !u!114 &1378207920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872529325114936}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 114716556724809888}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &9037821866602847281
 GameObject:
   m_ObjectHideFlags: 0

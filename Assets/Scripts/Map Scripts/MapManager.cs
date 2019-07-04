@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MapManager : MonoBehaviour
 {
-
+    public PauseCanvasManager pauseMan;
     public GameObject recipeGameObject;
 
     public string[] countryNames;
@@ -22,14 +22,14 @@ public class MapManager : MonoBehaviour
 
     public Transform map, mapNames, recipeFieldContainer;
 
-    public Text moneyValueTxt;
+    public Text moneyValueTxt,moneyValueAdded;
 
     public CountryInfoPanel countryInfoPanelScript;
     public Dictionary<string, CountryBtn> countryDic = new Dictionary<string, CountryBtn>();
     public Dictionary<string, int> stock = new Dictionary<string, int>();
 
     public static int orderNum = 1;
-    public static int moneyValue = 1000;
+    public static int moneyValue = 10000;
     
     Dictionary<string, Sprite> fruitDic = new Dictionary<string, Sprite>();
 
@@ -39,9 +39,11 @@ public class MapManager : MonoBehaviour
     StockTxtManager stockTxtMan;
 
     bool isCollapsed = false;
+    bool isMoneyGenerated = false;
+    int level = 1;
 
     //bot stuff
-
+    float patienceTime = 30;
     bool isStockDeacreased = false;
     float durationOfStockDecreasing = .5f;
     //bot end stuff
@@ -57,6 +59,7 @@ public class MapManager : MonoBehaviour
         if (map.localScale.x >= 4) mapNames.gameObject.SetActive(true);
         else mapNames.gameObject.SetActive(false);
         if (!isStockDeacreased) StartCoroutine(DecreaseStockQuantity());
+        if (!isMoneyGenerated) StartCoroutine(moneyGenerator());
     }
 
     IEnumerator DecreaseStockQuantity()
@@ -81,6 +84,16 @@ public class MapManager : MonoBehaviour
 
         yield return new WaitForSeconds(durationOfStockDecreasing);
         isStockDeacreased = false;
+    }
+
+    IEnumerator moneyGenerator()
+    {
+        isMoneyGenerated = true;
+        moneyValue += level * 10;
+        SetMoneyValueTxt();
+        yield return new WaitForSeconds(1);
+        isMoneyGenerated = false;
+
     }
 
     void InitVars()
@@ -153,6 +166,27 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public bool CheckResourceAvailibilityBeforeDecrease(string fruitName, int quantityToDecrease)
+    {
+        //true means can Deacrease false cant
+        return (stock[fruitName] >= quantityToDecrease);
+    }
+
+    public void DecreaseFruitQuantity(string fruitName,int quantityToDecrease)
+    {
+        stock[fruitName] -= quantityToDecrease;
+        UpdateStockTxt(fruitName);
+    }
+    public void SuccessfulTransaction(float patienceTime)
+    {
+        if (pauseMan.ScoreIncrement(patienceTime)) LevelUp();
+    }
+    public void DeleteRecipe(Recipe r)
+    {
+        recipeList.Remove(r);
+        r.Delete();
+    }
+
     public void ExitBtn()
     {
         countryInfoPanelScript.DeselectCountry();
@@ -164,10 +198,14 @@ public class MapManager : MonoBehaviour
         Vector3 randomRotation = new Vector3(0, 0, Random.Range(-2f, 2f));
         GameObject newRecipe = Instantiate(recipeGameObject, recipeFieldContainer.position, Quaternion.Euler(randomRotation), recipeFieldContainer);
         Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
+        newDoughRecipe.mapMan = this;
+        newDoughRecipe.GetComponent<Button>().enabled = true;
+        newDoughRecipe.GetComponent<Button>().onClick.AddListener(newDoughRecipe.GiveFruitRecipe);
+        newDoughRecipe.initClientTimer = patienceTime;
 
         newDoughRecipe.setOrderInfo(orderNum, 0);
-        newDoughRecipe.setRequirment("Banana", fruits[0], Random.Range(3, 10));
-        newDoughRecipe.setRequirment("Strawberry", fruits[1], Random.Range(1, 5) * 25);
+        newDoughRecipe.setRequirment("Banana", fruits[0], 5);
+        newDoughRecipe.setRequirment("Strawberry", fruits[1], 10);
 
         recipeList.Add(newDoughRecipe);
 
@@ -183,6 +221,8 @@ public class MapManager : MonoBehaviour
     {
         stockTxtMan.changeStocktxt(fruitName, stock[fruitName]);
     }
+
+
 
 #endregion
 
@@ -203,6 +243,15 @@ public class MapManager : MonoBehaviour
     {
         countryDic[item].EnableImgTarget();
         targetImgsEnabled.Add(countryDic[item].targetImg);
+    }
+
+    void LevelUp()
+    {
+        moneyValue += level * 100;
+        moneyValueAdded.text = "+" + (level * 100).ToString();
+        myAnim.Play("LevelUp");
+        level++;
+        SetMoneyValueTxt();
     }
     
 }
