@@ -52,7 +52,7 @@ public class CashierManager : NetworkBehaviour
         cakeCode = "122";
         for (int i = 0; i < 4; i++)
         {
-            cakeCode += ((int)Random.Range(1, 4)).ToString();
+            cakeCode += ((int)Random.Range(0, 3)).ToString();
         }
         
     }

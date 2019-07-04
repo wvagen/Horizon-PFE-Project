@@ -6,10 +6,14 @@ using UnityEngine.UI;
 public class PatternScript : MonoBehaviour {
 
 	public PatternManager myClass;
+    public bool canDrawOver = true;
+
     Image myImg;
     Color myColor;
 
     bool canColorDissappear = false;
+    
+
 	void Start(){
     myImg = GetComponent<Image>();
     myColor = myImg.color;
@@ -61,8 +65,10 @@ public class PatternScript : MonoBehaviour {
 
     public void OnPointerDown()
     {
+        myClass.line.positionCount++;
         myClass.canDrawPatten = true;
         RecordThePattern();
+        
     }
 
 
@@ -75,26 +81,24 @@ public class PatternScript : MonoBehaviour {
 
     public void OnPointerUp()
     {
-        myClass.canDrawPatten = false;
-        myClass.line.positionCount--;
-        myClass.patternCode = myClass.myCode;
-        myClass.myCode = "";
+        myClass.OnPatternsUp();
     }
 
 	public void OnPointerEnter (){
-
+        if (!canDrawOver) return;
         canColorDissappear = false;
         if ((myClass.canDrawPatten)) RecordThePattern();
-		
     }
 
     void RecordThePattern()
     {
+        canDrawOver = false;
         myClass.myCode += gameObject.name;
-        myClass.line.SetPosition(myClass.line.positionCount - 1, transform.position);
+        Vector2 myPos = transform.position;
+        myClass.line.SetPosition(myClass.line.positionCount - 1, myPos);
         myClass.line.positionCount++;
         myImg.color = myClass.patternColor;
-
+        myClass.activatedPatterns.Add(this);
     }
 
 

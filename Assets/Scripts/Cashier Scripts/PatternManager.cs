@@ -12,12 +12,17 @@ public class PatternManager : MonoBehaviour
     public float patternColorDissappearSpeed = 1f, generatedPatternFadeSpeed;
     public int codeIndex;
 
+    public List<PatternScript> activatedPatterns = new List<PatternScript>();
+
     public int generatedPatternLength;
 
+    
     Vector2 mousePos;
     void Start()
     {
         LevelDependancy();
+        line.numCornerVertices = 5;
+        
     }
 
     void Update()
@@ -35,6 +40,19 @@ public class PatternManager : MonoBehaviour
         GenerateRandomPattern();
         codeIndex = 0;
         isCodeGenerated = true;
+    }
+
+    public void OnPatternsUp()
+    {
+        canDrawPatten = false;
+        line.positionCount--;
+        patternCode = myCode;
+        myCode = "";
+        //line.positionCount = 0;
+        foreach (PatternScript pattern in activatedPatterns)
+        {
+            pattern.canDrawOver = true;
+        }
     }
 
     #endregion
