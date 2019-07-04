@@ -8,10 +8,12 @@ public class BuyQunatityFruitType : MonoBehaviour
     public Image fruitSprite;
     public Text fruitQuantityTxt;
     public Text priceTxt;
+    public CountryInfoPanel country;
 
     int fruitQuantity,price;
     string fruitName;
     MapManager manScript;
+    
     public void Set_Quantity_Price_Sprite(MapManager manScript,string fruitName,Sprite fruitSprite, int fruitQuantity, int price )
     {
         this.fruitSprite.sprite = fruitSprite;
@@ -32,6 +34,7 @@ public class BuyQunatityFruitType : MonoBehaviour
         manScript.SetMoneyValueTxt();
         manScript.stock[fruitName] += fruitQuantity;
         manScript.UpdateStockTxt(fruitName);
+        country.DeleteOffer(this.gameObject);
     }
 
 }

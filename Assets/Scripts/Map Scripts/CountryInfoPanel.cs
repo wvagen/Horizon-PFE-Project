@@ -34,6 +34,7 @@ public class CountryInfoPanel : MonoBehaviour
         BuyQunatityFruitType script = newPanel.GetComponent<BuyQunatityFruitType>();
 
         script.Set_Quantity_Price_Sprite(manScript,fruitName,fruitImg, fruitQuantity, price);
+        script.country = this;
         BuyQuanPanel.Add(newPanel);
     }
 
@@ -42,6 +43,13 @@ public class CountryInfoPanel : MonoBehaviour
         isCountrySelected = false;
         line.SetPosition(0, Vector3.zero);
         line.SetPosition(1, Vector3.zero);
+    }
+
+    public void DeleteOffer(GameObject offerToDestory)
+    {
+        BuyQuanPanel.Remove(offerToDestory);
+        Destroy(offerToDestory);
+
     }
 
     void Update()

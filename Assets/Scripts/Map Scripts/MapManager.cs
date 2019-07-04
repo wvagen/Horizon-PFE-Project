@@ -12,7 +12,7 @@ public class MapManager : MonoBehaviour
     public string[] countryNames;
     //List Of Country that sells these fruits
     public string[] Banana;
-    public string[] Apple;
+    public string[] Strawberry;
 
     //End Of List  Here
 
@@ -40,6 +40,12 @@ public class MapManager : MonoBehaviour
 
     bool isCollapsed = false;
 
+    //bot stuff
+
+    bool isStockDeacreased = false;
+    float durationOfStockDecreasing = .5f;
+    //bot end stuff
+
     void Start(){
         SetMoneyValueTxt();
         stockTxtMan = GetComponent<StockTxtManager>();
@@ -50,19 +56,48 @@ public class MapManager : MonoBehaviour
     {
         if (map.localScale.x >= 4) mapNames.gameObject.SetActive(true);
         else mapNames.gameObject.SetActive(false);
+        if (!isStockDeacreased) StartCoroutine(DecreaseStockQuantity());
+    }
+
+    IEnumerator DecreaseStockQuantity()
+    {
+        isStockDeacreased = true;
+
+        stock["Banana"] -= Random.Range(0, 3) ;
+        stock["Strawberry"] -= Random.Range(0, 3);
+        stock["Chocolat"] -= Random.Range(0, 3);
+
+        if (stock["Banana"] < 0) stock["Banana"] = 0;
+        if (stock["Strawberry"] < 0) stock["Strawberry"] = 0;
+        if (stock["Chocolat"] < 0) stock["Chocolat"] = 0;
+
+        UpdateStockTxt("Banana");
+        UpdateStockTxt("Strawberry");
+        UpdateStockTxt("Chocolat");
+        
+        myAnim.SetBool("bananaEmpty", stock["Banana"] <= 5);
+        myAnim.SetBool("strawberryEmpty", stock["Strawberry"] <= 5);
+        myAnim.SetBool("chocolatEmpty", stock["Chocolat"] <= 5);
+
+        yield return new WaitForSeconds(durationOfStockDecreasing);
+        isStockDeacreased = false;
     }
 
     void InitVars()
     {
         fruitDic.Add("Banana", fruits[0]);
-        fruitDic.Add("Apple", fruits[1]);
+        fruitDic.Add("Strawberry", fruits[1]);
+        fruitDic.Add("Chocolat", fruits[2]);
 
         stock.Add("Banana", 50);
         UpdateStockTxt("Banana");
 
-        stock.Add("Apple", 50);
-        UpdateStockTxt("Apple");
+        stock.Add("Strawberry", 50);
+        UpdateStockTxt("Strawberry");
 
+
+        stock.Add("Chocolat", 50);
+        UpdateStockTxt("Chocolat");
     }
 
 #region public_Methods
@@ -92,7 +127,7 @@ public class MapManager : MonoBehaviour
                 {
                     EnableFruitLocationImgs(item);
                 }break;
-            case "Apple": foreach (string item in Apple)
+            case "Strawberry": foreach (string item in Strawberry)
                 {
                     EnableFruitLocationImgs(item);
                 } break;
@@ -132,7 +167,7 @@ public class MapManager : MonoBehaviour
 
         newDoughRecipe.setOrderInfo(orderNum, 0);
         newDoughRecipe.setRequirment("Banana", fruits[0], Random.Range(3, 10));
-        newDoughRecipe.setRequirment("Apple", fruits[1], Random.Range(1, 5) * 25);
+        newDoughRecipe.setRequirment("Strawberry", fruits[1], Random.Range(1, 5) * 25);
 
         recipeList.Add(newDoughRecipe);
 
@@ -158,7 +193,7 @@ public class MapManager : MonoBehaviour
         switch (countryName)
         {
             case "United States": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 100, 500); break;
-            case "Frensh": countryInfoPanelScript.GenerateOffer(this, "Apple", fruitDic["Apple"], 75, 200); break;
+            case "Frensh": countryInfoPanelScript.GenerateOffer(this, "Strawberry", fruitDic["Strawberry"], 75, 200); break;
             case "Brazil": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 100, 500); break;     
         }
 
