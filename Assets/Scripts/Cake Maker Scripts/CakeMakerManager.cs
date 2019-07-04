@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class CakeMakerManager : MonoBehaviour
 {
-
+    public PauseCanvasManager pauseCan;
     public GameObject cake,cakePart,xyButtons,cakePreview;
     public Transform rightHand, leftHand;
     public Transform cakePartsLocation, xButtonsLocation, yButtonsLocation,cakePreviewLocation;
@@ -21,13 +21,27 @@ public class CakeMakerManager : MonoBehaviour
     string[,] cakePartTaste;
     string[] fruitNames = { "banana", "strawberry", "chocolat" };
     short cakeFilter = -1;//0 : star filter ....
-
+    int orderNum = 1;
 
     Cake cakeScript;
     List<GameObject> clickedBtnsGameObject = new List<GameObject>();
-    List<Cake> cakePreviewsList = new List<Cake>();
+    List<CakePreview> cakePreviewsList = new List<CakePreview>();
+    string myCakeCode,generatedcakeCode ="1220120" ; //exp : 132102000 - 1221231
+
+    /*cakeCode[0] = cake shape
+     *cakeCode[1] = xLength parts
+     *cakeCode[2] = yLength parts
+     * ...
+     */
 
     Vector2 initRightHandPos, initLeftHandPos;
+
+    //Bot Stuff
+
+    float patienceTime = 30;
+
+    //End Bot Stuff
+
     const float southEdgeCakeYValue = -3.13f;
     const float eastEdgeCakeXValue = 3;
     void Start()
@@ -41,6 +55,19 @@ public class CakeMakerManager : MonoBehaviour
 
     void Update() {
         canvasAnim.SetBool("isRecipeEmpty", cakePreviewsList.Count == 0);
+    }
+
+    void CheckCodeAndCakePreviewMatch()
+    {
+        foreach (CakePreview cakePreview in cakePreviewsList)
+        {
+            if (myCakeCode == cakePreview.cakeCode)
+            {
+                cakePreviewsList.Remove(cakePreview);
+                cakePreview.DestroyLeMe();
+                break;
+            }
+        }
     }
 
     #region Public_Methods
@@ -97,21 +124,25 @@ public class CakeMakerManager : MonoBehaviour
                 {
                     cakePartTaste[i, j] = fruitName;
                     cakeScript.ChangePartColor(i, j, xAxeLength, fruitTasteToColor(fruitName),cakeFilter);
+                    char[] ch = myCakeCode.ToCharArray();
+                    ch[3 + i * xAxeLength + j] = char.Parse(fruitTasteToIndex(fruitName).ToString()); // index starts at 0!
+                    myCakeCode = new string(ch);
+                    Debug.Log(myCakeCode);
                 }
             }
         }
+        CheckCodeAndCakePreviewMatch();
     }
 
-    public void GenerateCakePreview()
+   public void GenerateCakePreview()
     {
-        Cake newCakeScript = new Cake();
-        cakePreviewsList.Add(newCakeScript);
+        DecodeXandYLength(generatedcakeCode);
         GeneerateCakeAndPartsForListAndPreview();
-        foreach (CakePart i in cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts)
+        /*foreach (CakePart i in cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts)
         {
             i.ChangeMyColor(fruitTasteToColor(fruitNames[Random.Range(0, level + 1)]), -1);
             i.ChangeMyColor(fruitTasteToColor(fruitNames[Random.Range(0, level + 1)]), cakeFilter);
-        }
+        }*/
     }
 
     public void Filter(int filterIndex)
@@ -221,9 +252,10 @@ public class CakeMakerManager : MonoBehaviour
     {
         GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakePartsLocation);
         cakeScript = tempCake.GetComponent<Cake>();
+        myCakeCode = "";
+        myCakeCode = "1" + xAxeLength.ToString() + yAxeLength.ToString();
         RectTransform tempCakeRect = tempCake.GetComponent<RectTransform>();
-        tempCakeRect.sizeDelta = cakePartsLocation.GetComponent<RectTransform>().sizeDelta;
-        tempCakeRect.anchoredPosition = Vector2.zero;
+        SetRectToMiddle(tempCakeRect);
         tempCakeRect.localScale *= 0.74f;
 
         tempCake.GetComponent<GridLayoutGroup>().cellSize =
@@ -233,6 +265,7 @@ public class CakeMakerManager : MonoBehaviour
         {
             GameObject tempCakePart = Instantiate(cakePart, Vector2.zero, Quaternion.identity, tempCake.transform);
             tempCakePart.name = i.ToString();
+            myCakeCode += "0";
             cakeScript.myCakeParts.Add(tempCakePart.GetComponent<CakePart>());
             tempCakePart.GetComponent<CakePart>().setDecorationRectSize(tempCakeRect);
         }
@@ -245,11 +278,12 @@ public class CakeMakerManager : MonoBehaviour
         CakePreview cakePreviewScript = newCakePreviw.GetComponent<CakePreview>();
         GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakePreviewScript.cakePreviewLocation);
 
-        tempCake.GetComponent<Canvas>().enabled = false;
-        cakePreviewsList[cakePreviewsList.Count - 1] = tempCake.GetComponent<Cake>();
+        cakePreviewScript.setVars(orderNum, patienceTime, generatedcakeCode, this);
+        orderNum++;
+        cakePreviewsList.Add(cakePreviewScript);
         RectTransform tempCakeRect = tempCake.GetComponent<RectTransform>();
-        tempCakeRect.anchoredPosition = Vector2.zero;
-        tempCakeRect.localScale *= 0.74f;
+        SetRectToMiddle(tempCakeRect);
+        tempCakeRect.localScale *= .2f;
 
         tempCake.GetComponent<GridLayoutGroup>().cellSize =
             new Vector2(tempCakeRect.rect.width / xAxeLength, tempCakeRect.rect.height / yAxeLength);
@@ -257,10 +291,29 @@ public class CakeMakerManager : MonoBehaviour
         for (int i = 0; i < xAxeLength * yAxeLength; i++)
         {
             GameObject tempCakePart = Instantiate(cakePart, Vector2.zero, Quaternion.identity, tempCake.transform);
+            CakePart cakePartScript = tempCakePart.GetComponent<CakePart>();
+            cakePreviewScript.cakeParts.Add(cakePartScript);
             tempCakePart.name = i.ToString();
-            cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts.Add(tempCakePart.GetComponent<CakePart>());
-            tempCakePart.GetComponent<CakePart>().setDecorationRectSize(tempCakeRect);
+            cakePartScript.ChangeMyColor(fruitTasteToColor(fruitNames[int.Parse(generatedcakeCode[3 + i].ToString())]), -1);
+           // tempCakePart.GetComponent<CakePart>().setDecorationRectSize(tempCakeRect);
         }
+
+
+    }
+
+    void SetRectToMiddle(RectTransform rect)
+    {
+        Vector2 halfVector = new Vector2(.5f, .5f);
+        rect.pivot = halfVector;
+        rect.anchorMin = halfVector;
+        rect.anchorMax = halfVector;
+        rect.anchoredPosition = Vector2.zero;
+    }
+
+    void DecodeXandYLength(string cakeCode)
+    {
+        xAxeLength = int.Parse(cakeCode[1].ToString());
+        yAxeLength = int.Parse(cakeCode[2].ToString());
     }
 
     void GenerateButtons()
@@ -292,6 +345,16 @@ public class CakeMakerManager : MonoBehaviour
             default: return Color.black;
         }
 
+    }
+    int fruitTasteToIndex(string fruitName)
+    {
+        switch (fruitName)
+        {
+            case "banana": return 0;
+            case "strawberry": return 1;
+            case "chocolat": return 2;
+            default: return -1;
+        }
     }
 
 

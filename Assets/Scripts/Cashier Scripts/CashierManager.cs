@@ -144,9 +144,9 @@ public class CashierManager : NetworkBehaviour
     {
         switch (index)
         {
-            case 1: return chocolateCol;
-            case 2: return bananaCol; 
-            case 3: return appleCol;
+            case 0: return chocolateCol;
+            case 1: return bananaCol; 
+            case 2: return appleCol;
             default: return Color.white;
         }
 
