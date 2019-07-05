@@ -5,9 +5,9 @@ using UnityEngine;
 public class PatternManager : MonoBehaviour
 {
 
-    public string generatedCode = "", patternCode = "", myCode = "";
+    public string generatedCode = "", myCode = "";
     public bool canDrawPatten = false, isCodeGenerated = false, isOnCouroutine = false;
-    public Color patternColor;
+    public Color patternColor,correctPatternColor,falsePatternColor;
     public LineRenderer line;
     public float patternColorDissappearSpeed = 1f, generatedPatternFadeSpeed;
     public int codeIndex;
@@ -16,13 +16,15 @@ public class PatternManager : MonoBehaviour
 
     public int generatedPatternLength;
 
+    Material lineMat;
     
     Vector2 mousePos;
     void Start()
     {
         LevelDependancy();
         line.numCornerVertices = 5;
-        
+        lineMat = line.material;
+        gameObject.SetActive(false);
     }
 
     void Update()
@@ -37,7 +39,10 @@ public class PatternManager : MonoBehaviour
     #region public_methods
     public void StartShowingGeneratedCode()
     {
+        lineMat.color = patternColor;
+        ReactivateAlfaLineColor();
         GenerateRandomPattern();
+        line.positionCount = 0;
         codeIndex = 0;
         isCodeGenerated = true;
     }
@@ -46,7 +51,14 @@ public class PatternManager : MonoBehaviour
     {
         canDrawPatten = false;
         line.positionCount--;
-        patternCode = myCode;
+        if (generatedCode == myCode)
+        {
+            ColorMyLine(correctPatternColor);
+        }
+        else
+        {
+            ColorMyLine(falsePatternColor);
+        }
         myCode = "";
         //line.positionCount = 0;
         foreach (PatternScript pattern in activatedPatterns)
@@ -55,7 +67,47 @@ public class PatternManager : MonoBehaviour
         }
     }
 
+    public void RecordPattern(PatternScript patt)
+    {
+        myCode += patt.gameObject.name;
+        Vector2 myPos = patt.transform.position;
+        line.SetPosition(line.positionCount - 1, myPos);
+        line.positionCount++;
+        activatedPatterns.Add(patt);
+    }
+
+    public void FadeLine()
+    {
+        StartCoroutine(fadeLineCoroutine());
+    }
+
+    public void ReactivateAlfaLineColor()
+    {
+        Color myCol = lineMat.color;
+        myCol.a = 1;
+        lineMat.color = myCol;
+    }
+
     #endregion
+
+    IEnumerator fadeLineCoroutine()
+    {
+        Color myCol = lineMat.color;
+        while (myCol.a > 0)
+        {
+            myCol.a -= Time.deltaTime;
+            lineMat.color = myCol;
+          yield  return new WaitForEndOfFrame();
+        }
+        line.positionCount = 0;
+        isCodeGenerated = false;
+    }
+
+    void ColorMyLine(Color newLineCol)
+    {
+        lineMat.color = newLineCol;
+        FadeLine();
+    }
 
     void GenerateRandomPattern()
     {
@@ -64,26 +116,30 @@ public class PatternManager : MonoBehaviour
         for (int i = 0; i < generatedPatternLength; i++)
         {
             generatedCode += randPatternIndex.ToString();
-            randPatternIndex = patternCodeDepdendancy(randPatternIndex);
+            do
+            {
+                randPatternIndex = randomPatternCodeDependancy(randPatternIndex);
+            } while (generatedCode.Contains(randPatternIndex.ToString()));
         }
     }
 
-    int patternCodeDepdendancy(int x)
+    int randomPatternCodeDependancy(int value)
     {
-        List<int> numList = new List<int>();
-        switch (x)
+       List<int> randomNum = new List<int>();
+        switch (value)
         {
-            case 1: numList.Add(2); numList.Add(4); break;
-            case 2: numList.Add(1); numList.Add(5); numList.Add(3); break;
-            case 3: numList.Add(2); numList.Add(6); break;
-            case 4: numList.Add(1); numList.Add(5); numList.Add(7); break;
-            case 5: numList.Add(2); numList.Add(4); numList.Add(6); numList.Add(8); break;
-            case 6: numList.Add(3); numList.Add(5); numList.Add(9); break;
-            case 7: numList.Add(4); numList.Add(8); break;
-            case 8: numList.Add(5); numList.Add(7); numList.Add(9); break;
-            case 9: numList.Add(6); numList.Add(8); break;
+            case 1: randomNum.Add(2); randomNum.Add(4); randomNum.Add(5); break;
+            case 2: randomNum.Add(1); randomNum.Add(4); randomNum.Add(5); randomNum.Add(6); randomNum.Add(3); break;
+            case 3: randomNum.Add(2); randomNum.Add(5); randomNum.Add(6);  break;
+            case 4: randomNum.Add(1); randomNum.Add(2); randomNum.Add(5); randomNum.Add(7); randomNum.Add(8); break;
+            case 5: randomNum.Add(1); randomNum.Add(2); randomNum.Add(3); randomNum.Add(4); randomNum.Add(7); randomNum.Add(8); randomNum.Add(9); randomNum.Add(6); break;
+            case 6: randomNum.Add(2); randomNum.Add(3); randomNum.Add(5); randomNum.Add(9); randomNum.Add(8); break;
+            case 7: randomNum.Add(4); randomNum.Add(5); randomNum.Add(8); break;
+            case 8: randomNum.Add(7); randomNum.Add(4); randomNum.Add(5); randomNum.Add(6); randomNum.Add(9); break;
+            case 9: randomNum.Add(8); randomNum.Add(5); randomNum.Add(6); break;
         }
-        return numList[Random.Range(0, numList.Count)];
+
+        return randomNum[Random.Range(0, randomNum.Count)];
     }
 
     void LevelDependancy()

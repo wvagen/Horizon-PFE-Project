@@ -10,6 +10,7 @@ public class CashierManager : NetworkBehaviour
     public CardManager cardMan;
     public ClientsManager clientMan;
     public ComputerManager compMan;
+    public PatternManager pattMan;
 
     public GameObject cake,cakePart;
     public Cake cakeScript;
@@ -63,6 +64,12 @@ public class CashierManager : NetworkBehaviour
         GenerateCake();
         Debug.Log(cakeCode);
         clientMan.GenerateNewClient(cakeScript.gameObject, cakeCode);
+    }
+
+    public void GeneratePattern()
+    {
+        pattMan.gameObject.SetActive(true);
+        pattMan.StartShowingGeneratedCode();
     }
 
     public void GenerateComputerScreen()

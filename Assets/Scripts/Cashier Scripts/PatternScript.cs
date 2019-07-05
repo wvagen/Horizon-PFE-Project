@@ -35,10 +35,14 @@ public class PatternScript : MonoBehaviour {
     {
         myClass.isOnCouroutine = true;
             myClass.codeIndex++;
+            Vector2 myPos = transform.position;
+            myClass.line.positionCount++;
+            myClass.line.SetPosition(myClass.line.positionCount - 1, myPos);
             if (myClass.generatedCode.Length == myClass.codeIndex)
             {
                 myClass.isCodeGenerated = false;
                 myClass.codeIndex = 0;
+                myClass.FadeLine();
             }
 
             myImg.color = myClass.patternColor;
@@ -65,6 +69,8 @@ public class PatternScript : MonoBehaviour {
 
     public void OnPointerDown()
     {
+        if (myClass.isCodeGenerated) return;
+        myClass.ReactivateAlfaLineColor();
         myClass.line.positionCount++;
         myClass.canDrawPatten = true;
         RecordThePattern();
@@ -93,12 +99,8 @@ public class PatternScript : MonoBehaviour {
     void RecordThePattern()
     {
         canDrawOver = false;
-        myClass.myCode += gameObject.name;
-        Vector2 myPos = transform.position;
-        myClass.line.SetPosition(myClass.line.positionCount - 1, myPos);
-        myClass.line.positionCount++;
-        myImg.color = myClass.patternColor;
-        myClass.activatedPatterns.Add(this);
+        myClass.RecordPattern(this);
+
     }
 
 

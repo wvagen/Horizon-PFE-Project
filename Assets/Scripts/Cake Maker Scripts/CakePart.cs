@@ -33,9 +33,9 @@ public class CakePart : MonoBehaviour
 
     public void setDecorationRectSize(RectTransform cakeTransRect)
     {
-        decoration.gameObject.SetActive(false);
+      /*  decoration.gameObject.SetActive(false);
         this.cakeTrans = cakeTransRect;
-        StartCoroutine(changeCakeTransPos());
+        StartCoroutine(changeCakeTransPos());*/
        
     }
 
