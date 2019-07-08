@@ -25,6 +25,13 @@ public class ComputerBtn : MonoBehaviour
         StartCoroutine(colorFadingAnimation());
     }
 
+    public void ResetInsideColorImgAlpha()
+    {
+        Color myCol = insideColorImg.color;
+        myCol.a = 0 ;
+        insideColorImg.color = myCol;
+    }
+
     IEnumerator colorFadingAnimation()
     {
         float alphaCol = myCol.a;

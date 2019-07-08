@@ -27,6 +27,7 @@ public class Client : MonoBehaviour
     string cakeCode ="";
 
     float patienceTime,realTime;
+    bool isAsked = false;
 
     List<GameObject> femaleHairList = new List<GameObject>(),
         femaleClothesList = new List<GameObject>(), maleHairList = new List<GameObject>(), maleClothesList = new List<GameObject>();
@@ -141,11 +142,24 @@ public class Client : MonoBehaviour
         if (!canStartWaiting) return;
         transform.SetSiblingIndex(transform.parent.childCount - 1);
         StartCoroutine(ScaleAnimation(chosenBull.localScale.y >= initBullScale.y));
+        
     }
 
     public void SelectBulle()
     {
+        if (!isAsked)
         clientMan.InvokeCards(cakeCode);
+        isAsked = true;
+    }
+
+    public float getRealPatienceTime()
+    {
+        return realTime;
+    }
+
+    public string getCakeCode()
+    {
+        return cakeCode;
     }
 
     #endregion

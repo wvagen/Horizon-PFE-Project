@@ -125,6 +125,8 @@ GameObject:
   - component: {fileID: 2273568181919024183}
   - component: {fileID: 2273568181919024180}
   - component: {fileID: 957654020016304461}
+  - component: {fileID: 7378924080833645984}
+  - component: {fileID: 5543176676351741348}
   m_Layer: 5
   m_Name: Cake
   m_TagString: Untagged
@@ -206,6 +208,44 @@ MonoBehaviour:
   myDownCakeParts: []
   upperCakeTrans: {fileID: 2273568181580335959}
   downCakeTrans: {fileID: 2273568182933306016}
+--- !u!114 &7378924080833645984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273568181919024178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8ce739b7b87324e9d4a8f97135bf72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &5543176676351741348
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273568181919024178}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 210.8, y: 119}
+  m_EdgeRadius: 0
 --- !u!1 &2273568182933306017
 GameObject:
   m_ObjectHideFlags: 0

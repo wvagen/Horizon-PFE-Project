@@ -47,6 +47,10 @@ public class ComputerManager : MonoBehaviour
 
     void reset()
     {
+        foreach (ComputerBtn btn in notesList)
+        {
+            btn.ResetInsideColorImgAlpha();
+        }
         noteIndexReached = 0;
         notesRecorded = "";
         tickImg.fillAmount = 0;
@@ -62,7 +66,6 @@ public class ComputerManager : MonoBehaviour
 
     public void SaveNote(string note)
     {
-        if (noteIndexReached == generatedNotes.Length) reset();
         if (generatedNotes[noteIndexReached].ToString() == note)
         {
             noteIndexReached++;
@@ -76,7 +79,10 @@ public class ComputerManager : MonoBehaviour
         }
         if (noteIndexReached == generatedNotesLength)
         {
-            cashMan.ProceedToDoughRole();
+            //cashMan.ProceedToDoughRole();
+            cashMan.GenerateCakeRecipe();
+            reset();
+            this.gameObject.SetActive(false);
         }
     }
 

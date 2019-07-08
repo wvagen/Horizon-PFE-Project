@@ -11,6 +11,7 @@ public class CardManager : MonoBehaviour
 
     string correctCakeCode;
     List<string> randomGeneratedCodesList = new List<string>();
+    List<Card> cardsList = new List<Card>();
 
     #region public_methods
 
@@ -20,6 +21,7 @@ public class CardManager : MonoBehaviour
     }
     public void GenerateRandomCards()
     {
+        ResetCardListAndDestroyCards();
         short randCorrectCardPos = (short)Random.Range(0, cardsNumber);
         cashMan.cakeScript = new Cake();
 
@@ -38,11 +40,19 @@ public class CardManager : MonoBehaviour
            newCardScript.correctCakeCode = correctCakeCode;
            newCardScript.myCakeCode = randomGeneratedCodesList[i];
            newCardScript.cardMan = this;
-
+           cardsList.Add(newCardScript);
         }
     }
     #endregion
 
+    void ResetCardListAndDestroyCards()
+    {
+        foreach (Card card in cardsList)
+        {
+            Destroy(card.gameObject);
+        }
+        cardsList = new List<Card>();
+    }
 
     void GenerateRandomCodesAndFillList()
     {
@@ -60,7 +70,7 @@ public class CardManager : MonoBehaviour
             for (int i = 0; i <= 2+(xLength * yLength); i++)
             {
                 if (i>3)
-                ranCode += Random.Range(1, cashMan.flavorLength + 1);
+                ranCode += Random.Range(1, cashMan.flavorLength);
                 else
                 ranCode += cashMan.cakeCode[i].ToString();
             }

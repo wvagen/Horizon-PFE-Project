@@ -6,18 +6,21 @@ using UnityEngine.Networking;
 
 public class CashierManager : NetworkBehaviour
 {
+    public PauseCanvasManager pauseCanvMan;
 
     public CardManager cardMan;
     public ClientsManager clientMan;
     public ComputerManager compMan;
     public PatternManager pattMan;
 
+    public GameObject recipe;
+
     public GameObject cake,cakePart;
     public Cake cakeScript;
-    public Transform cakeSpawnPos;
+    public Transform cakeSpawnPos,recipeSpawnPos,cakeTableLocation;
     public Color chocolateCol, bananaCol, appleCol;
 
-    public Animator decorationAnimator;
+    public Animator decorationAnimator,canvasAnimator;
 
     public GameNetworkManager network;
 
@@ -32,7 +35,7 @@ public class CashierManager : NetworkBehaviour
 
     public static int level = 1;
 
-
+    GameObject tempCake;
    
 
     int xPartsLength, yPartsLength;
@@ -40,6 +43,29 @@ public class CashierManager : NetworkBehaviour
     bool canComputerStuff = false;
 
 #region public_methods
+
+    public void HideShowRecipe()
+    {
+        canvasAnimator.SetBool("recipePanelIsShown", !canvasAnimator.GetBool("recipePanelIsShown"));
+    }
+
+    public void GenerateCakeOnTable(GameObject cake,string CakeCode,Recipe recipeToDestory){
+     GameObject tempCakeOnTable = Instantiate(cake,Vector2.one,Quaternion.identity,cakeTableLocation);
+     tempCakeOnTable.transform.localScale *= 1.7f;
+
+
+        Cake tempCakeOnTableScript =tempCakeOnTable.GetComponent<Cake>();
+
+        foreach (Client c in clientMan.clientsList)
+        {
+            if (c.getCakeCode().Equals(cakeCode))
+            {
+                tempCakeOnTable.GetComponent<CakeTransmission>().GiveTransmissionAuthority(c, this, recipeToDestory);
+                return;
+            }
+        }
+    }
+
     public void GenerateCake()
     {
         decodeCakeCode();
@@ -62,7 +88,6 @@ public class CashierManager : NetworkBehaviour
     {
         GenerateRandomCakeCode();
         GenerateCake();
-        Debug.Log(cakeCode);
         clientMan.GenerateNewClient(cakeScript.gameObject, cakeCode);
     }
 
@@ -86,6 +111,15 @@ public class CashierManager : NetworkBehaviour
         compMan.PlayGeneratedNotes();
     }
 
+    public void GenerateCakeRecipe()
+    {
+        GameObject tempRecipe = Instantiate(recipe,Vector2.one,Quaternion.identity,recipeSpawnPos);
+        Recipe tempRecipeSciprt = tempRecipe.GetComponent<Recipe>();
+
+        tempRecipeSciprt.GenerateCake(tempCake,cakeCode,this);
+
+    }
+
     public void ProceedToDoughRole()
     {
         network.CmdGenerateNewOrder();
@@ -100,7 +134,7 @@ public class CashierManager : NetworkBehaviour
 
     void GenerateCakeAndCakeParts()
     {
-        GameObject tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakeSpawnPos);
+        tempCake = Instantiate(cake, Vector3.zero, Quaternion.identity, cakeSpawnPos);
         cakeScript = tempCake.GetComponent<Cake>();
         RectTransform tempCakeUpperRect = cakeScript.upperCakeTrans.GetComponent<RectTransform>();
 

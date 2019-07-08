@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Recipe : MonoBehaviour {
 
-    //This Class is used by MapManager and DoughManager classes
+    //This Class is used by MapManager, DoughManager classes and cashierManager
 
     public Text orderNumTxt;
     public Image progressBar;
@@ -15,6 +15,7 @@ public class Recipe : MonoBehaviour {
 
     public DoughManager doughMan;
     public MapManager mapMan;
+    public CashierManager cashMan;
 
     public GameObject fireWorkEffect;
 
@@ -23,7 +24,10 @@ public class Recipe : MonoBehaviour {
     public float remainingClientTime ;
     public float initClientTimer;
 
+    GameObject tempCakeRecipe;
+
     bool isTimeOver = false;
+    string cakeCode = "";
 
 	void Start () {
         remainingClientTime = initClientTimer;
@@ -93,6 +97,15 @@ public class Recipe : MonoBehaviour {
         reqList.Add(newReqScript);
 
     }
+
+    public void GenerateCake(GameObject cake,string cakeCode,CashierManager newCashMan)
+    {
+        tempCakeRecipe = Instantiate(cake, Vector2.one, Quaternion.identity, requirmentsPanelPos);
+        this.cakeCode = cakeCode;
+        tempCakeRecipe.SetActive(true);
+        cashMan = newCashMan;
+        StartCoroutine(cakeIsReadyOnTable());
+    }
     public void Delete()
     {
 
@@ -102,6 +115,12 @@ public class Recipe : MonoBehaviour {
     }
         
     #endregion
+
+    IEnumerator cakeIsReadyOnTable()
+    {
+        yield return new WaitForSeconds(3);
+        cashMan.GenerateCakeOnTable(tempCakeRecipe, cakeCode,this);
+    }
 
     IEnumerator fadeOutAnimation()
     {

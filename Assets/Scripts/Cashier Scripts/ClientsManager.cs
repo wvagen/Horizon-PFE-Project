@@ -8,6 +8,8 @@ public class ClientsManager : MonoBehaviour
     public Transform clientsPositionsPanel,eastSpawnPos,westSpawnPos;
     public GameObject client;
 
+    public List<Client> clientsList = new List<Client>();
+
     public CashierManager cashMan;
 
     public float patienceTime = 60;
@@ -43,6 +45,8 @@ public class ClientsManager : MonoBehaviour
         newClientScript.GenerateCakeInBull(cake, cakeCode);
         newClientScript.WalkToPoint(clientsPosesList[randClientPosIndex].position);
         newClientScript.clientMan = this;
+        clientsList.Add(newClientScript);
+
     }
 
     public void InvokeCards(string bulleCakeCode)
