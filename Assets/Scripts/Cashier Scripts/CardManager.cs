@@ -10,6 +10,7 @@ public class CardManager : MonoBehaviour
     public int cardsNumber = 3;
 
     string correctCakeCode;
+    Cake correctCakeScript;
     List<string> randomGeneratedCodesList = new List<string>();
     List<Card> cardsList = new List<Card>();
 
@@ -28,6 +29,7 @@ public class CardManager : MonoBehaviour
         GenerateRandomCodesAndFillList();
         randomGeneratedCodesList[randCorrectCardPos] = cashMan.cakeCode;
         correctCakeCode = cashMan.cakeCode;
+        correctCakeScript = cashMan.cakeScript;
 
         for (int i = 0; i < cardsNumber; i++)
         {
@@ -38,6 +40,7 @@ public class CardManager : MonoBehaviour
 
            Card newCardScript = newCard.GetComponent<Card>();
            newCardScript.correctCakeCode = correctCakeCode;
+           newCardScript.correctCakeScript = correctCakeScript;
            newCardScript.myCakeCode = randomGeneratedCodesList[i];
            newCardScript.cardMan = this;
            cardsList.Add(newCardScript);

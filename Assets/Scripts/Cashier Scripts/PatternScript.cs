@@ -40,9 +40,10 @@ public class PatternScript : MonoBehaviour {
             myClass.line.SetPosition(myClass.line.positionCount - 1, myPos);
             if (myClass.generatedCode.Length == myClass.codeIndex)
             {
-                myClass.isCodeGenerated = false;
                 myClass.codeIndex = 0;
-                myClass.FadeLine();
+                myClass.FadeLine(true);
+                yield return new WaitForSeconds(2);
+                myClass.isCodeGenerated = false;
             }
 
             myImg.color = myClass.patternColor;

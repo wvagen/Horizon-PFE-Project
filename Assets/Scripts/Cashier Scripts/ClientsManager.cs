@@ -17,6 +17,7 @@ public class ClientsManager : MonoBehaviour
     List<Transform> clientsPosesList = new List<Transform>();
     List<bool> clientsBoolAvailble = new List<bool>();
 
+
     void Start()
     {
         for (int i = 0; i < clientsPositionsPanel.transform.childCount; i++)

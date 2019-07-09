@@ -25,7 +25,8 @@ public class CakeTransmission : MonoBehaviour
         isDown = false;
         if (RectTransformUtility.RectangleContainsScreenPoint(rightClient.GetComponent<RectTransform>(), mousePos))
         {
-            cashMan.pauseCanvMan.ScoreIncrement(rightClient.getRealPatienceTime());
+            rightClient.ChangeToMoney();
+            cashMan.pauseCanvMan.ScoreIncrement(rightClient.getRealPatienceTime() * 5);
             recipeToDesroy.Delete();
             Destroy(this.gameObject);
 

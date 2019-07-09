@@ -12,6 +12,7 @@ public class Client : MonoBehaviour
     public Transform femaleHair, femaleClothes;
     public Sprite[] emojis;
     public Sprite[] emotions;
+    public Sprite moneySprite;
     public Color[] progBarColors;
 
     public Color[] skinColors,hairColors;
@@ -22,18 +23,18 @@ public class Client : MonoBehaviour
 
     Animator myAnim;
     Transform chosenBull;
-    Vector2 initBullScale;
+    Vector2 initBullScale, initPos;
 
     string cakeCode ="";
 
     float patienceTime,realTime;
-    bool isAsked = false;
+    bool isAsked = false,isGivenCake = false,isGivenMoney=false;
 
     List<GameObject> femaleHairList = new List<GameObject>(),
         femaleClothesList = new List<GameObject>(), maleHairList = new List<GameObject>(), maleClothesList = new List<GameObject>();
 
     bool canStartWaiting = false;
-
+    bool isClientFedUp = false;
     short nextPatienceIndexValue = 0;
 
     void Start()
@@ -93,17 +94,24 @@ public class Client : MonoBehaviour
 
     void DecreaseTimer()
     {
+        if (isGivenMoney) return;
+
         realTime -= Time.deltaTime;
         progrBar.fillAmount = realTime / patienceTime;
 
-        if (realTime < ((float)(emojis.Length - nextPatienceIndexValue) / emojis.Length) * patienceTime) 
+        if (realTime <= 0)
+        {
+        if (!isGivenCake) clientMan.cashMan.pauseCanvMan.Increase_Decrease_SatisfactionLevel(false);
+            Leave();
+        }
+
+        if ((realTime < ((float)(emojis.Length - nextPatienceIndexValue) / emojis.Length) * patienceTime)) 
             ChangeEmojiAndColor();
     }
 
     void ChangeEmojiAndColor()
     {
-        
-        myEmoji.sprite = emojis[nextPatienceIndexValue];
+       if (!isGivenCake) myEmoji.sprite = emojis[nextPatienceIndexValue];
         myEmotion.sprite = emotions[nextPatienceIndexValue];
         progrBar.color = progBarColors[nextPatienceIndexValue];
         if (nextPatienceIndexValue < emojis.Length - 1) nextPatienceIndexValue++;
@@ -126,6 +134,7 @@ public class Client : MonoBehaviour
 
     public void WalkToPoint(Vector2 destination)
     {
+        initPos = transform.position;
         StartCoroutine(WalkAnimation(destination, destination.x < transform.position.x));
     }
 
@@ -139,16 +148,43 @@ public class Client : MonoBehaviour
 
     public void SelectClient()
     {
+        if (isGivenCake)
+        {
+            clientMan.cashMan.GeneratePattern();
+            progBarAndEmoji.SetActive(false);
+            isGivenMoney = true;
+            Leave();
+            return;
+        }
         if (!canStartWaiting) return;
         transform.SetSiblingIndex(transform.parent.childCount - 1);
         StartCoroutine(ScaleAnimation(chosenBull.localScale.y >= initBullScale.y));
         
     }
 
+    public void Leave()
+    {
+        isClientFedUp = true;
+        WalkToPoint(initPos);
+        GetComponent<Button>().enabled = false;
+        Destroy(this.gameObject, 5);
+    }
+
+    public void ChangeToMoney()
+    {
+        if (isClientFedUp) return;
+        myEmoji.sprite = moneySprite;
+        realTime = 10;
+        patienceTime = realTime;
+        progrBar.color = progBarColors[0];
+        isGivenCake = true;
+    }
+
     public void SelectBulle()
     {
         if (!isAsked)
         clientMan.InvokeCards(cakeCode);
+        StartCoroutine(ScaleAnimation(true));
         isAsked = true;
     }
 

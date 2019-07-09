@@ -9,6 +9,8 @@ public class Card : MonoBehaviour
 
    public CardManager cardMan;
 
+   public Cake correctCakeScript;
+
    public string myCakeCode;
    public string correctCakeCode;
 
@@ -27,6 +29,8 @@ public class Card : MonoBehaviour
        {
            Destroy(Instantiate(explostionEffect, transform.position, Quaternion.identity), 3);
            StartCoroutine(MoveOnToScreen());
+           cardMan.cashMan.cakeCode = myCakeCode;
+           cardMan.cashMan.cakeScript = correctCakeScript;
        }
    }
 

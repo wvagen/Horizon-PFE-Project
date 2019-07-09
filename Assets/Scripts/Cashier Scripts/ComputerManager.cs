@@ -50,12 +50,18 @@ public class ComputerManager : MonoBehaviour
         foreach (ComputerBtn btn in notesList)
         {
             btn.ResetInsideColorImgAlpha();
+            
         }
         noteIndexReached = 0;
         notesRecorded = "";
         tickImg.fillAmount = 0;
     }
 
+    IEnumerator DisableComputer()
+    {
+        yield return new WaitForSeconds(.5f);
+        gameObject.SetActive(false);
+    }
     #region public_metehods
 
     public void PlayGeneratedNotes()
@@ -79,10 +85,9 @@ public class ComputerManager : MonoBehaviour
         }
         if (noteIndexReached == generatedNotesLength)
         {
-            //cashMan.ProceedToDoughRole();
             cashMan.GenerateCakeRecipe();
+            StartCoroutine(DisableComputer());
             reset();
-            this.gameObject.SetActive(false);
         }
     }
 

@@ -22,6 +22,8 @@ public class CashierManager : NetworkBehaviour
 
     public Animator decorationAnimator,canvasAnimator;
 
+    public Text moneyValueTxt,addedMoneyTxt;
+
     public GameNetworkManager network;
 
     public int flavorLength = 3;
@@ -36,11 +38,34 @@ public class CashierManager : NetworkBehaviour
     public static int level = 1;
 
     GameObject tempCake;
-   
 
+    int moneyValue = 1500;
     int xPartsLength, yPartsLength;
 
     bool canComputerStuff = false;
+
+    //Bot Stuff
+    bool isGenerated = false;
+    float timerToWaitForNextRequirementMenu = 20;
+    //End Bot Stuff
+
+    void Start()
+    {
+        moneyValueTxt.text = moneyValue.ToString();
+    }
+
+    void Update()
+    {
+        if (!isGenerated) StartCoroutine(PlayBot());
+    }
+
+    IEnumerator PlayBot()
+    {
+        isGenerated = true;
+        GenerateClientAndCake();
+        yield return new WaitForSeconds(timerToWaitForNextRequirementMenu);
+        isGenerated = false;
+    }
 
 #region public_methods
 
@@ -81,7 +106,6 @@ public class CashierManager : NetworkBehaviour
         {
             cakeCode += ((int)Random.Range(0, 3)).ToString();
         }
-        
     }
 
     public void GenerateClientAndCake()
@@ -120,10 +144,22 @@ public class CashierManager : NetworkBehaviour
 
     }
 
+
+    public void IncreaseMoneyValue(int valueToAdd)
+    {
+        canvasAnimator.Play("MoneyIncrease");
+        addedMoneyTxt.text = "+" + (valueToAdd * level).ToString();
+        moneyValue += (valueToAdd * level);
+        moneyValueTxt.text = moneyValue.ToString();
+
+    }
+
+
     public void ProceedToDoughRole()
     {
         network.CmdGenerateNewOrder();
     }
+
 
 #endregion
     void decodeCakeCode()

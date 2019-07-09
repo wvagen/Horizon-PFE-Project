@@ -5,6 +5,7 @@ using UnityEngine;
 public class PatternManager : MonoBehaviour
 {
 
+    public CashierManager cashMan;
     public string generatedCode = "", myCode = "";
     public bool canDrawPatten = false, isCodeGenerated = false, isOnCouroutine = false;
     public Color patternColor,correctPatternColor,falsePatternColor;
@@ -36,6 +37,14 @@ public class PatternManager : MonoBehaviour
         }
     }
 
+    IEnumerator CorrectLine(bool isPatternCorrect)
+    {
+        ColorMyLine(correctPatternColor, isPatternCorrect);
+        yield return new WaitForSeconds(1);
+        cashMan.IncreaseMoneyValue(500);
+        this.gameObject.SetActive(false);
+    }
+
     #region public_methods
     public void StartShowingGeneratedCode()
     {
@@ -53,11 +62,11 @@ public class PatternManager : MonoBehaviour
         line.positionCount--;
         if (generatedCode == myCode)
         {
-            ColorMyLine(correctPatternColor);
+            StartCoroutine(CorrectLine(true));
         }
         else
         {
-            ColorMyLine(falsePatternColor);
+            ColorMyLine(falsePatternColor,false);
         }
         myCode = "";
         //line.positionCount = 0;
@@ -76,9 +85,9 @@ public class PatternManager : MonoBehaviour
         activatedPatterns.Add(patt);
     }
 
-    public void FadeLine()
+    public void FadeLine(bool isPatternCorrect)
     {
-        StartCoroutine(fadeLineCoroutine());
+        StartCoroutine(fadeLineCoroutine(isPatternCorrect));
     }
 
     public void ReactivateAlfaLineColor()
@@ -90,7 +99,7 @@ public class PatternManager : MonoBehaviour
 
     #endregion
 
-    IEnumerator fadeLineCoroutine()
+    IEnumerator fadeLineCoroutine(bool isPatternCorrect)
     {
         Color myCol = lineMat.color;
         while (myCol.a > 0)
@@ -101,12 +110,14 @@ public class PatternManager : MonoBehaviour
         }
         line.positionCount = 0;
         isCodeGenerated = false;
+        if (!isPatternCorrect)
+            StartShowingGeneratedCode();
     }
 
-    void ColorMyLine(Color newLineCol)
+    void ColorMyLine(Color newLineCol,bool isPatternCorrect)
     {
         lineMat.color = newLineCol;
-        FadeLine();
+        FadeLine(isPatternCorrect);
     }
 
     void GenerateRandomPattern()
