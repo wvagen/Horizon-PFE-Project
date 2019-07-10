@@ -67,8 +67,15 @@ public class MainMenuManager : MonoBehaviour
         myAnim.Play("LeaderBoardHide");
     }
 
+    public void LoadSceneWithTutorialEnabled(string sceneName)
+    {
+        isTutorialModeOn = true;
+        SceneManager.LoadScene(sceneName);
+    }
+
     public void LoadScene(string sceneName)
     {
+        isTutorialModeOn = false;
         SceneManager.LoadScene(sceneName);
     }
  
