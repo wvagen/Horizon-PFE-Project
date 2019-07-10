@@ -43,7 +43,7 @@ public class DoughManager : MonoBehaviour {
     void Update(){
         myAnim.SetBool("isRecipeFound",recipeList.Count != 0);
 
-        if (!isGenerated) StartCoroutine(PlayBot());
+        if (!isGenerated && !MainMenuManager.isTutorialModeOn) StartCoroutine(PlayBot());
     }
 
     IEnumerator PlayBot()

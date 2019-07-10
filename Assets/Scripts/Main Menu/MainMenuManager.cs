@@ -23,7 +23,7 @@ public class MainMenuManager : MonoBehaviour
 
     public static bool sfxEnabled = false, musicEnabled = false;
 
-    public static  bool isMultiplayerButtonClicked = false;
+    public static  bool isMultiplayerButtonClicked = false,isTutorialModeOn = false;
 
     Vector2 wantedScale, initScale;
 
