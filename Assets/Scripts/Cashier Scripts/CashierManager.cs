@@ -52,6 +52,7 @@ public class CashierManager : NetworkBehaviour
     void Start()
     {
         moneyValueTxt.text = moneyValue.ToString();
+        
     }
 
     void Update()
@@ -62,6 +63,7 @@ public class CashierManager : NetworkBehaviour
     IEnumerator PlayBot()
     {
         isGenerated = true;
+        yield return new WaitForSeconds(timerToWaitForNextRequirementMenu / 5 );
         GenerateClientAndCake();
         yield return new WaitForSeconds(timerToWaitForNextRequirementMenu);
         isGenerated = false;
@@ -74,7 +76,8 @@ public class CashierManager : NetworkBehaviour
         canvasAnimator.SetBool("recipePanelIsShown", !canvasAnimator.GetBool("recipePanelIsShown"));
     }
 
-    public void GenerateCakeOnTable(GameObject cake,string CakeCode,Recipe recipeToDestory){
+    public void GenerateCakeOnTable(GameObject cake, string cakeCode, Recipe recipeToDestory)
+    {
      GameObject tempCakeOnTable = Instantiate(cake,Vector2.one,Quaternion.identity,cakeTableLocation);
      tempCakeOnTable.transform.localScale *= 1.7f;
 
@@ -152,6 +155,11 @@ public class CashierManager : NetworkBehaviour
         moneyValue += (valueToAdd * level);
         moneyValueTxt.text = moneyValue.ToString();
 
+    }
+
+    public void setNewCake(GameObject newCake)
+    {
+        tempCake = newCake;
     }
 
 

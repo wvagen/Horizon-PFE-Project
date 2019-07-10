@@ -12,7 +12,7 @@ public class ClientsManager : MonoBehaviour
 
     public CashierManager cashMan;
 
-    public float patienceTime = 60;
+    public float patienceTime = 600;
 
     List<Transform> clientsPosesList = new List<Transform>();
     List<bool> clientsBoolAvailble = new List<bool>();
@@ -29,6 +29,16 @@ public class ClientsManager : MonoBehaviour
 
     public void GenerateNewClient(GameObject cake,string cakeCode)
     {
+        bool isThereAnyPlaceAvailble = false;
+        foreach (bool availblePlaces in clientsBoolAvailble)
+        {
+            if (availblePlaces){
+                isThereAnyPlaceAvailble = true;
+                break;
+            }
+        }
+        if (!isThereAnyPlaceAvailble) return;
+
         int randClientPosIndex = 0 ;
         GameObject newClient = 
             Instantiate (client,(Random.Range(0,2)%2 ==0 )? eastSpawnPos.position : westSpawnPos.position,Quaternion.identity,transform);

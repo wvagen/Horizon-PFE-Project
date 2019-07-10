@@ -14,6 +14,7 @@ public class CakeTransmission : MonoBehaviour
 
     void OnMouseDown()
     {
+        Debug.Log("Can Move");
         if (!canMove) return;
         isDown = true;
         initPos = transform.position;

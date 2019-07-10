@@ -39,7 +39,7 @@ public class CakeMakerManager : MonoBehaviour
 
     //Bot Stuff
 
-    float patienceTime = 10;
+    float patienceTime = 30;
     float timerToWaitForNextRequirementMenu = 5;
     bool isGenerated = false;
 

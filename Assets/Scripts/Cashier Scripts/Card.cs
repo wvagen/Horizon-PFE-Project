@@ -28,9 +28,10 @@ public class Card : MonoBehaviour
        if (myCakeCode == correctCakeCode)
        {
            Destroy(Instantiate(explostionEffect, transform.position, Quaternion.identity), 3);
-           StartCoroutine(MoveOnToScreen());
            cardMan.cashMan.cakeCode = myCakeCode;
            cardMan.cashMan.cakeScript = correctCakeScript;
+           cardMan.cashMan.setNewCake(transform.GetChild(0).gameObject);
+           StartCoroutine(MoveOnToScreen());
        }
    }
 

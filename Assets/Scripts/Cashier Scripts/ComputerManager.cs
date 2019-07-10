@@ -12,6 +12,8 @@ public class ComputerManager : MonoBehaviour
 
     public CashierManager cashMan;
 
+    public GameObject focusImg,errorImg;
+
     public string notesRecorded = "";
     public string generatedNotes = "";
 
@@ -38,6 +40,7 @@ public class ComputerManager : MonoBehaviour
 
     void generateRandomPattern()
     {
+        reset();
         generatedNotes = "";
         for (int i = 0; i < generatedNotesLength; i++)
         {
@@ -81,22 +84,35 @@ public class ComputerManager : MonoBehaviour
         else
         {
             reset();
-            StartCoroutine(PlayGeneratedNotesNumerator());
+            StartCoroutine(ErrorShow());
         }
         if (noteIndexReached == generatedNotesLength)
         {
             cashMan.GenerateCakeRecipe();
             StartCoroutine(DisableComputer());
             reset();
+            tickImg.fillAmount = 1;
         }
     }
 
 
     #endregion
 
+    IEnumerator ErrorShow()
+    {
+        isPlayingNotes = true;
+        errorImg.SetActive(true);
+        yield return new WaitForSeconds(.5f);
+        errorImg.SetActive(false);
+        StartCoroutine(PlayGeneratedNotesNumerator());
+    }
+
     IEnumerator PlayGeneratedNotesNumerator()
     {
         isPlayingNotes = true;
+        focusImg.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        focusImg.SetActive(false);
         for (int i = 0; i < generatedNotesLength; i++)
         {
             notesList[int.Parse(generatedNotes[i].ToString())].PressButton(false);
