@@ -25,9 +25,15 @@ public class LoadEachPlayerScene : NetworkBehaviour
 
             switch (localPlayer.pRoleName)
             {
-                case "MS": loadedScene = Instantiate(MapScene, Vector2.zero, Quaternion.identity,transform); break;
-                case "CMS": loadedScene = Instantiate(CakeMakerScene, Vector2.zero, Quaternion.identity,transform); break;
-                case "DS": loadedScene = Instantiate(DoughScene, Vector2.zero, Quaternion.identity,transform); break;
+                case "MS": loadedScene = Instantiate(MapScene, Vector2.zero, Quaternion.identity,transform);
+                   // loadedScene.GetComponentInChildren<MapManager>().network = GetComponent<GameNetworkManager>();
+                    break;
+                case "CMS": loadedScene = Instantiate(CakeMakerScene, Vector2.zero, Quaternion.identity,transform);
+                    loadedScene.GetComponentInChildren<CakeMakerManager>().network = GetComponent<GameNetworkManager>();
+                    break;
+                case "DS": loadedScene = Instantiate(DoughScene, Vector2.zero, Quaternion.identity,transform);
+                    loadedScene.GetComponentInChildren<DoughManager>().network = GetComponent<GameNetworkManager>();
+                    break;
                 case "CS": loadedScene = Instantiate(cashierScene, Vector2.zero, Quaternion.identity,transform);
                     loadedScene.GetComponentInChildren<CashierManager>().network = GetComponent<GameNetworkManager>();
                     break;
@@ -36,9 +42,6 @@ public class LoadEachPlayerScene : NetworkBehaviour
             localPlayer.playerNameTxt.enabled = true;
             localPlayer.playerNameTxt.text = localPlayer.pRoleName;
             loadedScene.GetComponentInChildren<Canvas>().worldCamera = Camera.main;
-
-            NetworkServer.Spawn(loadedScene);
-            GetComponent<GameNetworkManager>().localPlayer = localPlayer;
         }
     }
 

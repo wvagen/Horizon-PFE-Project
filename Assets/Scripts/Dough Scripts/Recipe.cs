@@ -27,11 +27,12 @@ public class Recipe : MonoBehaviour {
     GameObject tempCakeRecipe;
 
     bool isTimeOver = false;
-    string cakeCode = "";
+   public string cakeCode = "";
 
-	void Start () {
-        remainingClientTime = initClientTimer;
-    }
+   void Start()
+   {
+       remainingClientTime = initClientTimer;
+   }
 
     void Update()
     {
@@ -104,8 +105,12 @@ public class Recipe : MonoBehaviour {
         this.cakeCode = cakeCode;
         tempCakeRecipe.SetActive(true);
         cashMan = newCashMan;
-        StartCoroutine(cakeIsReadyOnTable());
+        if (!MainMenuManager.isPlayerConnected) 
+            StartCoroutine(cakeIsReadyOnTable());
     }
+
+
+
     public void Delete()
     {
 

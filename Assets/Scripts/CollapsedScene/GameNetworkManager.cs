@@ -13,40 +13,77 @@ public class GameNetworkManager : NetworkBehaviour
 
     //End of shared variables
 
-    public SetupLocalPlayer localPlayer;
 
-    DoughManager doughMan;
-    CashierManager cashMan;
-    
-
-    void Start()
+    public void GenerateNewCake()
     {
-        if (isLocalPlayer){
-            switch (localPlayer.pRoleName)
-            {
-                case "DS": doughMan = GetComponentInChildren<DoughManager>(); break;
-                case "CS": cashMan = GetComponentInChildren<CashierManager>();Debug.Log ("NIGGER YES") ; break;
-            }
-        }
-        
+        CmdGenerateNewCake();
     }
 
     [Command]
-    public void CmdGenerateNewOrder()
+    public void CmdGenerateNewCake()
     {
         if (!isServer) return;
-            RpcGenerateNewOrder();
+        RpcGenerateNewCake();
+    }
+
+    [ClientRpc]
+    void RpcGenerateNewCake()
+    {
+        GameObject localPlayer = FindLocalNetworkPlayer();
+        if (localPlayer.GetComponentInChildren<SetupLocalPlayer>().pRoleName == "CMS")
+        {
+            localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateRandomCakeCode();
+            localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateCakePreview();
+        }
+    }
+
+   public void GenerateNewOrder()
+   {
+       CmdGenerateNewOrder();
+   }
+
+    [Command]
+   public void CmdGenerateNewOrder()
+    {
+        if (!isServer) return;
+        RpcGenerateNewOrder();
     }
 
     [ClientRpc]
     void RpcGenerateNewOrder()
     {
-        Debug.Log(isLocalPlayer);
-        if (localPlayer.pRoleName == "DS")
+        GameObject localPlayer = FindLocalNetworkPlayer();
+        if (localPlayer.GetComponentInChildren<SetupLocalPlayer>().pRoleName == "DS")
         {
-            doughMan.GenerateNewRequirmentMenu();
+            localPlayer.GetComponentInChildren<DoughManager>().GenerateNewRequirmentMenu();
             //DoughManager.clientTimer = timeValue;
         }
+        else
+        {
+            if (localPlayer.GetComponentInChildren<SetupLocalPlayer>().pRoleName == "CMS")
+            {
+                localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateRandomCakeCode();
+                localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateCakePreview();
+            }
+        }
+    }
+
+    GameObject FindLocalNetworkPlayer()
+    {
+        NetworkManager networkManager = NetworkManager.singleton;
+        List<PlayerController> pc = networkManager.client.connection.playerControllers;
+
+        for (int i = 0; i < pc.Count; i++)
+        {
+            GameObject obj = pc[i].gameObject;
+            NetworkBehaviour netBev = obj.GetComponent<NetworkBehaviour>();
+
+            if (pc[i].IsValid && netBev != null && netBev.isLocalPlayer)
+            {
+                return pc[i].gameObject;
+            }
+        }
+        return null;
     }
 
 

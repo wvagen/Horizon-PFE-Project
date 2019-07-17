@@ -17,6 +17,8 @@ public class CakeMakerManager : MonoBehaviour
     public short level = 1;
     public short handAnimationSpeed = 50;
 
+    public GameNetworkManager network;
+
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
     string[] fruitNames = { "banana", "strawberry", "chocolat" };
@@ -56,7 +58,7 @@ public class CakeMakerManager : MonoBehaviour
 
     void Update() {
         canvasAnim.SetBool("isRecipeEmpty", cakePreviewsList.Count == 0);
-        if (!isGenerated) StartCoroutine(PlayBot());
+        if (!isGenerated && !MainMenuManager.isPlayerConnected) StartCoroutine(PlayBot());
     }
 
    public  void CheckCodeAndCakePreviewMatch()
@@ -77,7 +79,7 @@ public class CakeMakerManager : MonoBehaviour
         }
     }
 
-    void GenerateRandomCakeCode()
+  public void GenerateRandomCakeCode()
     {
         generatedcakeCode = "1";
         if (level == 1) generatedcakeCode += "11" + Random.Range(0, fruitNames.Length).ToString();

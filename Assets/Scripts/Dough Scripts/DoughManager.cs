@@ -24,11 +24,13 @@ public class DoughManager : MonoBehaviour {
     public Text eggsSlot1Txt, eggsSlot2Txt;
     public Text flourSlot1Txt, flourSlot2Txt;
 
+    public GameNetworkManager network;
+
     public static int orderNum = 1;
 
     //if player is offline
     float timerToWaitForNextRequirementMenu = 10;
-    float clientTimer = 60;
+   public float clientTimer = 60;
     bool isGenerated = false;
     //Bot stuff ends here
 
@@ -43,7 +45,7 @@ public class DoughManager : MonoBehaviour {
     void Update(){
         myAnim.SetBool("isRecipeFound",recipeList.Count != 0);
 
-        if (!isGenerated && !MainMenuManager.isTutorialModeOn) StartCoroutine(PlayBot());
+        if (!isGenerated && !MainMenuManager.isTutorialModeOn && !MainMenuManager.isPlayerConnected) StartCoroutine(PlayBot());
     }
 
     IEnumerator PlayBot()
@@ -77,6 +79,7 @@ public class DoughManager : MonoBehaviour {
         newDoughRecipe.doughMan = this;
 
         newDoughRecipe.initClientTimer = clientTimer;
+        if (MainMenuManager.isPlayerConnected) newDoughRecipe.initClientTimer = 240;
 
         recipeList.Add(newDoughRecipe);
 
@@ -108,17 +111,21 @@ public class DoughManager : MonoBehaviour {
 
     public void ConfirmBtn()
     {
-        if (pauseMan.ScoreIncrement(correctRecipe.remainingClientTime))
-        {
-            levelUp();
-        }
-        correctRecipe.Delete();
-        confirmBtn.SetActive(false);
-        recipeList.Remove(correctRecipe);
-        bowl.DeleteRequirments();
-        correctRecipe = null;
-        CheckBowlColor();
-        DeleteUncompatibleCombinationsRecipe();
+        if (MainMenuManager.isPlayerConnected)
+            network.GenerateNewCake();
+
+
+            if (pauseMan.ScoreIncrement(correctRecipe.remainingClientTime))
+            {
+                levelUp();
+            }
+            correctRecipe.Delete();
+            confirmBtn.SetActive(false);
+            recipeList.Remove(correctRecipe);
+            bowl.DeleteRequirments();
+            correctRecipe = null;
+            CheckBowlColor();
+            DeleteUncompatibleCombinationsRecipe();
     }
 
     public void DeleteBowlRequirments()

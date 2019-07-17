@@ -25,6 +25,8 @@ public class MainMenuManager : MonoBehaviour
 
     public static  bool isMultiplayerButtonClicked = false,isTutorialModeOn = false;
 
+    public static bool isPlayerConnected = false;
+
     Vector2 wantedScale, initScale;
 
     int cardTranslateSpeed = 5;
@@ -36,7 +38,7 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
-    
+        isPlayerConnected = false;
         initScale = new Vector2(1.5f, 1.5f);
         wantedScale = initScale * 1.2f;
         LoadData();
@@ -151,6 +153,7 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             timeLimeIndex = 3;
+            isPlayerConnected = true;
         }
         StartCoroutine(enableMultiplayerBoolean());
 

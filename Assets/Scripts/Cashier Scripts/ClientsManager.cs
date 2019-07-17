@@ -12,7 +12,7 @@ public class ClientsManager : MonoBehaviour
 
     public CashierManager cashMan;
 
-    public float patienceTime = 600;
+    public float patienceTime = 60;
 
     List<Transform> clientsPosesList = new List<Transform>();
     List<bool> clientsBoolAvailble = new List<bool>();
@@ -20,6 +20,7 @@ public class ClientsManager : MonoBehaviour
 
     void Start()
     {
+        if (MainMenuManager.isPlayerConnected) patienceTime = 300;
         for (int i = 0; i < clientsPositionsPanel.transform.childCount; i++)
         {
             clientsPosesList.Add(clientsPositionsPanel.GetChild(i).transform);

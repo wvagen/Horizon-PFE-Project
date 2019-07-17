@@ -27,6 +27,7 @@ namespace Prototype.NetworkLobby
         public void OnClickHost()
         {
             if (!MainMenuManager.isMultiplayerButtonClicked) return;
+            MainMenuManager.isPlayerConnected = true;
             otherCanvasAnimator.Play("Host_Join");
             lobbyManager.StartHost();
         }
@@ -34,6 +35,7 @@ namespace Prototype.NetworkLobby
         public void OnClickJoin()
         {
             if (!MainMenuManager.isMultiplayerButtonClicked) return;
+            MainMenuManager.isPlayerConnected = true;
             otherCanvasAnimator.Play("Host_Join");
 
             lobbyManager.ChangeTo(lobbyPanel);

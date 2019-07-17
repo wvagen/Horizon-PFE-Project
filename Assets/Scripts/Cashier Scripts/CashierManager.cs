@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class CashierManager : NetworkBehaviour
+public class CashierManager : MonoBehaviour
 {
     public PauseCanvasManager pauseCanvMan;
 
@@ -140,11 +140,16 @@ public class CashierManager : NetworkBehaviour
 
     public void GenerateCakeRecipe()
     {
+
+        Debug.Log(MainMenuManager.isPlayerConnected);
         GameObject tempRecipe = Instantiate(recipe,Vector2.one,Quaternion.identity,recipeSpawnPos);
         Recipe tempRecipeSciprt = tempRecipe.GetComponent<Recipe>();
 
         tempRecipeSciprt.GenerateCake(tempCake,cakeCode,this);
-
+        if (MainMenuManager.isPlayerConnected)
+        {
+            ProceedToDoughRole();
+        }
     }
 
 
@@ -165,7 +170,7 @@ public class CashierManager : NetworkBehaviour
 
     public void ProceedToDoughRole()
     {
-        network.CmdGenerateNewOrder();
+        network.GenerateNewOrder();
     }
 
 
