@@ -17,6 +17,8 @@ public class MainMenuManager : MonoBehaviour
 
     public Animator myAnim;
 
+    public GameObject ipAdressInput;
+
     public Text[] bestScoresReached, bestLevelsReached;
 
     public LobbyMainMenu lobby;
@@ -52,6 +54,13 @@ public class MainMenuManager : MonoBehaviour
             bestScoresReached[i].text = PlayerPrefs.GetInt("bestScore" + (i+1).ToString(), 0).ToString();
             bestLevelsReached[i].text = PlayerPrefs.GetInt("bestLevel" + (i + 1).ToString(), 1).ToString();
         }
+    }
+
+   public void initVars()
+    {
+        isMultiplayerButtonClicked = false;
+        isTutorialModeOn = false;
+        isPlayerConnected = false;
     }
 
     public void Play()
@@ -92,12 +101,13 @@ public class MainMenuManager : MonoBehaviour
                 MultiplayerBtn.ReturnBtn();
                 SoloBtn.ReturnBtn();
                 isMultiplayerButtonClicked = false;
+                ipAdressInput.SetActive(false);
                 timeLimeIndex = 0;
 
                 break;
-            case 2: myAnim.Play("Return1"); timeLimeIndex = 0; isMultiplayerButtonClicked = false; break;
+            case 2: myAnim.Play("Return1"); timeLimeIndex = 0; isMultiplayerButtonClicked = false; ipAdressInput.SetActive(false); break;
             case 3:
-                myAnim.Play("ReturnFromHost_Join");
+                lobby.lobbyManager.GoBackButton();
                 break;
             default: Debug.Log("State not registred"); break;
         }
@@ -147,6 +157,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (!isMultiplayerButtonClicked)
         {
+            ipAdressInput.SetActive(true);
             MultiplayerBtn.PlayButtonAnimation();
             SoloBtn.PlayButtonAnimation();
             timeLimeIndex = 1;

@@ -23,6 +23,8 @@ public class xyButtons : MonoBehaviour
 
     public void FillingAnimation(bool isShowing)
     {
+        if (!man.isCouroutineFinished) return;
+        man.isCouroutineFinished = false;
         if (isOnXAxis){
             if (isShowing)
             {
@@ -62,8 +64,5 @@ public class xyButtons : MonoBehaviour
 
        man.MoveHandToTargetPosition(isRightHand);
     }
-
-
-
 
 }

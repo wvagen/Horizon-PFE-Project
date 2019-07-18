@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Types;
 using UnityEngine.Networking.Match;
+using System;
 using System.Collections;
 
 
@@ -11,6 +12,24 @@ namespace Prototype.NetworkLobby
 {
     public class LobbyManager : NetworkLobbyManager 
     {
+
+        public static class IPManager
+        {
+            public static string GetLocalIPAddress()
+            {
+                var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        return ip.ToString();
+                    }
+                }
+
+                throw new System.Exception("No network adapters with an IPv4 address in the system!");
+            }
+        }
+
         static short MsgKicked = MsgType.Highest + 1;
 
         static public LobbyManager s_Singleton;
@@ -23,6 +42,8 @@ namespace Prototype.NetworkLobby
         [Space]
         [Header("UI Reference")]
         public LobbyTopPanel topPanel;
+
+        public MainMenuManager mainMenuMan;
 
         public RectTransform mainMenuPanel;
         public RectTransform lobbyPanel;
@@ -161,7 +182,8 @@ namespace Prototype.NetworkLobby
         public void GoBackButton()
         {
             backDelegate();
-			topPanel.isInGame = false;
+            lobbyPanel.gameObject.SetActive(false);
+            mainMenuMan.initVars();
         }
 
         // ----------------- Server management
@@ -391,8 +413,8 @@ namespace Prototype.NetworkLobby
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
-
-            myIpAdress.text = networkAddress;
+            string IP = IPManager.GetLocalIPAddress();
+            myIpAdress.text = "IP: " + IP;
             myIpAdress.gameObject.SetActive(true);
             infoPanel.gameObject.SetActive(false);
 
@@ -404,7 +426,7 @@ namespace Prototype.NetworkLobby
                 backDelegate = StopClientClbk;
                 SetServerInfo("Client", networkAddress);
             }
-        }       
+        }
 
         public void clientDisconnect()
         {

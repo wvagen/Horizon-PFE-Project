@@ -16,6 +16,7 @@ namespace Prototype.NetworkLobby
 
         public InputField ipInput;
 
+
         public void OnEnable()
         {
             lobbyManager.topPanel.ToggleVisibility(true);
@@ -23,6 +24,7 @@ namespace Prototype.NetworkLobby
             ipInput.onEndEdit.RemoveAllListeners();
             ipInput.onEndEdit.AddListener(onEndEditIP);
         }
+
 
         public void OnClickHost()
         {

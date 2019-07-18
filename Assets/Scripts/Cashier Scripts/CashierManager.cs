@@ -42,7 +42,7 @@ public class CashierManager : MonoBehaviour
     int moneyValue = 1500;
     int xPartsLength, yPartsLength;
 
-    bool canComputerStuff = false;
+    public bool canComputerStuff = false;
 
     //Bot Stuff
     bool isGenerated = false;

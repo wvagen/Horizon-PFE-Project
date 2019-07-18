@@ -88,6 +88,7 @@ public class ComputerManager : MonoBehaviour
         }
         if (noteIndexReached == generatedNotesLength)
         {
+            cashMan.canComputerStuff = false;
             cashMan.GenerateCakeRecipe();
             StartCoroutine(DisableComputer());
             reset();

@@ -2868,6 +2868,7 @@ MonoBehaviour:
   yAxeLength: 2
   level: 1
   handAnimationSpeed: 50
+  isCouroutineFinished: 1
   network: {fileID: 0}
   myCakeCode: 
   generatedcakeCode: 1220000

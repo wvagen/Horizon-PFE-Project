@@ -19,10 +19,13 @@ public class CakeMakerManager : MonoBehaviour
     public int xAxeLength = 1, yAxeLength = 1;
     public short level = 1;
     public short handAnimationSpeed = 50;
+    public bool isCouroutineFinished = true;
 
     public GameNetworkManager network;
 
    public string myCakeCode, generatedcakeCode = "1220000"; //exp : 132102000 - 1221231
+
+
 
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
@@ -275,6 +278,7 @@ public class CakeMakerManager : MonoBehaviour
            leftHand.position = Vector2.MoveTowards(leftHand.position,initLeftHandPos,handAnimationSpeed*Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+        isCouroutineFinished = true ;
     }
 
     IEnumerator MoveHandToTargetPositionIEnumerator(bool isRightHand)
@@ -300,6 +304,11 @@ public class CakeMakerManager : MonoBehaviour
 
     IEnumerator MoveHandToButtonPositionIEnumerator(bool isRightHand,Vector2 buttonLocation)
     {
+        while (isCouroutineFinished)
+            yield return new WaitForEndOfFrame();
+
+        isCouroutineFinished = false;
+
         Vector2 initPos;
         Transform targetHand;
         if (isRightHand) {
@@ -374,7 +383,6 @@ public class CakeMakerManager : MonoBehaviour
             cakePartScript.ChangeMyColor(fruitTasteToColor(fruitNames[int.Parse(generatedcakeCode[3 + i].ToString())]), -1);
            // tempCakePart.GetComponent<CakePart>().setDecorationRectSize(tempCakeRect);
         }
-
 
     }
 
