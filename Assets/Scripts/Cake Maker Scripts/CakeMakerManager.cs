@@ -49,7 +49,7 @@ public class CakeMakerManager : MonoBehaviour
     public float patienceTime = 60;
     float timerToWaitForNextRequirementMenu = 10;
     bool isGenerated = false;
-
+    bool isFruitQuantityAdded = false;
     //End Bot Stuff
 
     const float southEdgeCakeYValue = -3.13f;
@@ -71,6 +71,7 @@ public class CakeMakerManager : MonoBehaviour
         canvasAnim.SetBool("BanFlashAlert", fruitsStockQuantity[1] <= 5);
         canvasAnim.SetBool("StrawFlashAlert", fruitsStockQuantity[2] <= 5);
         if (!isGenerated && !MainMenuManager.isPlayerConnected) StartCoroutine(PlayBot());
+        if (!isFruitQuantityAdded) StartCoroutine(AutoIncrementQuantity());
     }
 
    public  void CheckCodeAndCakePreviewMatch()
@@ -112,16 +113,24 @@ public class CakeMakerManager : MonoBehaviour
         }
     }
 
+  IEnumerator AutoIncrementQuantity()
+  {
+      isFruitQuantityAdded = true;
+      for (int i = 0; i < fruitsStockQuantity.Length; i++)
+      {
+          fruitsStockQuantity[i] += 7;
+      }
+      SetStocksTxts();
+      yield return new WaitForSeconds(timerToWaitForNextRequirementMenu);
+      isFruitQuantityAdded = false;
+
+  }
+
     IEnumerator PlayBot()
     {
         isGenerated = true;
         GenerateRandomCakeCode();
         GenerateCakePreview();
-        for (int i = 0; i < fruitsStockQuantity.Length; i++)
-        {
-            fruitsStockQuantity[i] += 7;
-        }
-        SetStocksTxts();
         yield return new WaitForSeconds(timerToWaitForNextRequirementMenu);
         isGenerated = false;
     }
