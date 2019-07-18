@@ -46,6 +46,8 @@ public class MapManager : MonoBehaviour
     float patienceTime = 30;
     bool isStockDeacreased = false;
     float durationOfStockDecreasing = .5f;
+    float recipeGenerationRate = 10;
+    bool isRecipeGenerated = false;
     //bot end stuff
 
     void Start(){
@@ -60,6 +62,15 @@ public class MapManager : MonoBehaviour
         else mapNames.gameObject.SetActive(false);
         if (!isStockDeacreased) StartCoroutine(DecreaseStockQuantity());
         if (!isMoneyGenerated) StartCoroutine(moneyGenerator());
+        if (!isRecipeGenerated) StartCoroutine(AutoGenerateRecipe());
+    }
+
+    IEnumerator AutoGenerateRecipe()
+    {
+        isRecipeGenerated = true;
+        GenerateRecipe();
+        yield return new WaitForSeconds(recipeGenerationRate);
+        isRecipeGenerated = false;
     }
 
     IEnumerator DecreaseStockQuantity()
@@ -204,8 +215,34 @@ public class MapManager : MonoBehaviour
         newDoughRecipe.initClientTimer = patienceTime;
 
         newDoughRecipe.setOrderInfo(orderNum, 0);
-        newDoughRecipe.setRequirment("Banana", fruits[0], 5);
-        newDoughRecipe.setRequirment("Strawberry", fruits[1], 10);
+
+        int ranNum = Random.Range(0, 1000);
+        if (ranNum <= 400)
+        {
+            if (ranNum % 3 == 0) newDoughRecipe.setRequirment("Banana", fruits[0], Random.Range(3,10));
+            else if (ranNum % 2 == 0) newDoughRecipe.setRequirment("Chocolat", fruits[2], Random.Range(3, 10));
+            else newDoughRecipe.setRequirment("Strawberry", fruits[1], Random.Range(3, 10));
+        }
+        else if (ranNum <= 900)
+        {
+            if (ranNum % 2 == 0)
+            {
+                newDoughRecipe.setRequirment("Banana", fruits[0], Random.Range(3, 10));
+                newDoughRecipe.setRequirment("Chocolat", fruits[2], Random.Range(3, 10));
+            }
+            else
+            {
+                newDoughRecipe.setRequirment("Strawberry", fruits[1], Random.Range(3, 10));
+                newDoughRecipe.setRequirment("Chocolat", fruits[2], Random.Range(3, 10));
+            }
+        }
+        else
+        {
+            newDoughRecipe.setRequirment("Banana", fruits[0], Random.Range(3, 10));
+            newDoughRecipe.setRequirment("Strawberry", fruits[1], Random.Range(3, 10));
+            newDoughRecipe.setRequirment("Chocolat", fruits[2], Random.Range(3, 10));
+
+        }
 
         recipeList.Add(newDoughRecipe);
 

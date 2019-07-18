@@ -51,14 +51,14 @@ public class CashierManager : MonoBehaviour
 
     //Multiplayer stuff
 
-    List<Client> syncedOrderList = new List<Client>();
+    List<Client> syncedClientOrder = new List<Client>();
+    List<Recipe> finishedRecipies = new List<Recipe>();
 
     //End Mult stuff
 
     void Start()
     {
         moneyValueTxt.text = moneyValue.ToString();
-        
     }
 
     void Update()
@@ -103,11 +103,23 @@ public class CashierManager : MonoBehaviour
 
     public void FetchReadyRecipiesAndPutOnTable(string cakeCode)
     {
+        
         // u should continue in here
-      /*  foreach (Recipe item in collection)
+        foreach (Recipe r in finishedRecipies)
         {
-            
-        }*/ 
+            if (r.cakeCode.Equals(cakeCode))
+            {
+                Debug.Log("Level 0");
+                foreach (Client c in syncedClientOrder)
+                {
+                    if (c.getCakeCode().Equals(cakeCode))
+                    {
+                        Debug.Log("Level 1");
+                        GenerateCakeOnTable(r.getCakeGameObject(), r.cakeCode, r);
+                    }
+                }
+            }
+        }
     }
 
 
@@ -200,9 +212,11 @@ public class CashierManager : MonoBehaviour
     {
         foreach (Client c in clientMan.clientsList)
         {
-            if (c.getCakeCode().Equals(rec.cakeCode) && !syncedOrderList.Contains(c)){
+            if (c.getCakeCode().Equals(rec.cakeCode) && !syncedClientOrder.Contains(c))
+            {
 
-                syncedOrderList.Add(c);
+                syncedClientOrder.Add(c);
+                finishedRecipies.Add(rec);
                 return c.getRealPatienceTime();
             }
         }

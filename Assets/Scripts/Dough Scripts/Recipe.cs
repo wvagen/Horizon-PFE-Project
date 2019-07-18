@@ -119,7 +119,12 @@ public class Recipe : MonoBehaviour {
         StartCoroutine(fadeOutAnimation());
 
     }
-        
+
+    public GameObject getCakeGameObject()
+    {
+        return tempCakeRecipe;
+    }
+
     #endregion
 
     IEnumerator cakeIsReadyOnTable()
@@ -146,5 +151,7 @@ public class Recipe : MonoBehaviour {
         }
         Destroy(this.gameObject);
     }
+
+   
 
 }

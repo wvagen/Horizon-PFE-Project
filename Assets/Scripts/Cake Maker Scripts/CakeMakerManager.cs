@@ -13,6 +13,9 @@ public class CakeMakerManager : MonoBehaviour
     public Color bananaCol, strawberryCol, chocolatCol;
     public Animator filterAnim,canvasAnim;
 
+    public Text[] fruitsStockTxt;
+    public int[] fruitsStockQuantity;
+
     public int xAxeLength = 1, yAxeLength = 1;
     public short level = 1;
     public short handAnimationSpeed = 50;
@@ -44,7 +47,7 @@ public class CakeMakerManager : MonoBehaviour
     //Bot Stuff
 
     public float patienceTime = 60;
-    float timerToWaitForNextRequirementMenu = 5;
+    float timerToWaitForNextRequirementMenu = 10;
     bool isGenerated = false;
 
     //End Bot Stuff
@@ -57,11 +60,16 @@ public class CakeMakerManager : MonoBehaviour
         initRightHandPos = rightHand.position;
         initLeftHandPos = leftHand.position;
 
+        SetStocksTxts();
+
         if (!MainMenuManager.isPlayerConnected) patienceTime = 60;
     }
 
     void Update() {
         canvasAnim.SetBool("isRecipeEmpty", cakePreviewsList.Count == 0);
+        canvasAnim.SetBool("ChocFlashAlert", fruitsStockQuantity[0] <= 5);
+        canvasAnim.SetBool("BanFlashAlert", fruitsStockQuantity[1] <= 5);
+        canvasAnim.SetBool("StrawFlashAlert", fruitsStockQuantity[2] <= 5);
         if (!isGenerated && !MainMenuManager.isPlayerConnected) StartCoroutine(PlayBot());
     }
 
@@ -73,6 +81,7 @@ public class CakeMakerManager : MonoBehaviour
             {
                 //Increment Score Phase
                 if (pauseCan.ScoreIncrement(cakePreview.realPatienceTime)) levelUp();
+                if (MainMenuManager.isPlayerConnected) network.CakeOnTable(cakePreview.cakeCode);
                 GenerateRandomCakeCode();
                 DecodeXandYLength(generatedcakeCode);
                 GenerateCakeAndButtons();
@@ -86,8 +95,7 @@ public class CakeMakerManager : MonoBehaviour
   public void GenerateRandomCakeCode()
     {
         generatedcakeCode = "1";
-        if (level == 1) generatedcakeCode += "11" + Random.Range(0, fruitNames.Length).ToString();
-        else if (level <= 3)
+         if (level <= 3)
         {
             generatedcakeCode += "22";
             for (int i = 0; i < 4; i++)
@@ -109,6 +117,11 @@ public class CakeMakerManager : MonoBehaviour
         isGenerated = true;
         GenerateRandomCakeCode();
         GenerateCakePreview();
+        for (int i = 0; i < fruitsStockQuantity.Length; i++)
+        {
+            fruitsStockQuantity[i] += 7;
+        }
+        SetStocksTxts();
         yield return new WaitForSeconds(timerToWaitForNextRequirementMenu);
         isGenerated = false;
     }
@@ -118,6 +131,14 @@ public class CakeMakerManager : MonoBehaviour
         level++;
         if (timerToWaitForNextRequirementMenu > 1f) timerToWaitForNextRequirementMenu -= 0.1f;
         if (patienceTime > 10) patienceTime -= 0.5f;
+    }
+
+    void SetStocksTxts()
+    {
+        for (int i = 0; i < fruitsStockTxt.Length; i++)
+        {
+            fruitsStockTxt[i].text = fruitsStockQuantity[i].ToString();
+        }
     }
 
     #region Public_Methods
@@ -169,13 +190,15 @@ public class CakeMakerManager : MonoBehaviour
         {
             for (int j = 0; j < Mathf.Max(xAxeLength, yAxeLength); j++)
             {
-                Debug.Log("(" + i + "," + j + ")");
                 if (blockedBtns[i, j] != 1)
                 {
+                    if (fruitsStockQuantity[fruitTasteToIndex(fruitName)] <= 0) return;
                     cakePartTaste[i, j] = fruitName;
                     cakeScript.ChangePartColor(i, j, xAxeLength, fruitTasteToColor(fruitName),cakeFilter);
                     char[] ch = myCakeCode.ToCharArray();
                     ch[3 + i * xAxeLength + j] = char.Parse(fruitTasteToIndex(fruitName).ToString()); // index starts at 0!
+                    fruitsStockQuantity[fruitTasteToIndex(fruitName)]--;
+                    SetStocksTxts();
                     myCakeCode = new string(ch);
                     Debug.Log(myCakeCode);
                 }

@@ -240,7 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec73f8bf3e691ae4cab4ed17f71495fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapScene: {fileID: 181756252167164998, guid: 5778ae7de712ade4388a0806db44dc2d, type: 3}
+  MapScene: {fileID: 2136867488773393505, guid: 5778ae7de712ade4388a0806db44dc2d,
+    type: 3}
   CakeMakerScene: {fileID: 5764081055410992008, guid: bda0b775216cec449b973885b4493cb4,
     type: 3}
   DoughScene: {fileID: 8623768179742434610, guid: 9c914b7db47c619498230fa53f777ae3,
@@ -292,4 +293,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b86dd59ffdda41b2eac7fd9c94430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeValue: 0
