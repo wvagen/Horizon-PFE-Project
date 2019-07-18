@@ -42,11 +42,11 @@ public class CakePreview : MonoBehaviour
         if (realPatienceTime > 0)
         {
             realPatienceTime -= Time.deltaTime;
-            progressBar.fillAmount = realPatienceTime / totaltpPatienceTime;
+            if (MainMenuManager.isPlayerConnected) progressBar.fillAmount = realPatienceTime / MainMenuManager.waitTimerMultiplayer;
+            else progressBar.fillAmount = realPatienceTime / totaltpPatienceTime;
         }
         else
         {
-            Debug.Log("Game Over");
             cakeMan.pauseCan.Increase_Decrease_SatisfactionLevel(false);
             DestroyLeMe();
         }

@@ -10,7 +10,7 @@ public class CakeMakerManager : MonoBehaviour
     public GameObject cake,cakePart,xyButtons,cakePreview;
     public Transform rightHand, leftHand;
     public Transform cakePartsLocation, xButtonsLocation, yButtonsLocation,cakePreviewLocation;
-    public Color bananaCol, appleCol, chocolatCol;
+    public Color bananaCol, strawberryCol, chocolatCol;
     public Animator filterAnim,canvasAnim;
 
     public int xAxeLength = 1, yAxeLength = 1;
@@ -19,9 +19,11 @@ public class CakeMakerManager : MonoBehaviour
 
     public GameNetworkManager network;
 
+   public string myCakeCode, generatedcakeCode = "1220000"; //exp : 132102000 - 1221231
+
     int[,] blockedBtns; //1 value means blocked ... else not blocked
     string[,] cakePartTaste;
-    string[] fruitNames = { "banana", "strawberry", "chocolat" };
+    string[] fruitNames = { "chocolat", "banana", "strawberry" };
     short cakeFilter = -1;//0 : star filter ....
     int orderNum = 1;
 
@@ -29,7 +31,7 @@ public class CakeMakerManager : MonoBehaviour
     List<GameObject> clickedBtnsGameObject = new List<GameObject>();
     List<CakePreview> cakePreviewsList = new List<CakePreview>();
     List<GameObject> generatedBtns = new List<GameObject>();
-    string myCakeCode,generatedcakeCode ="1220000" ; //exp : 132102000 - 1221231
+  
 
     /*cakeCode[0] = cake shape
      *cakeCode[1] = xLength parts
@@ -41,7 +43,7 @@ public class CakeMakerManager : MonoBehaviour
 
     //Bot Stuff
 
-    float patienceTime = 30;
+    public float patienceTime = 60;
     float timerToWaitForNextRequirementMenu = 5;
     bool isGenerated = false;
 
@@ -54,6 +56,8 @@ public class CakeMakerManager : MonoBehaviour
         GenerateCakeAndButtons();
         initRightHandPos = rightHand.position;
         initLeftHandPos = leftHand.position;
+
+        if (!MainMenuManager.isPlayerConnected) patienceTime = 60;
     }
 
     void Update() {
@@ -183,11 +187,6 @@ public class CakeMakerManager : MonoBehaviour
     {
         DecodeXandYLength(generatedcakeCode);
         GeneerateCakeAndPartsForListAndPreview();
-        /*foreach (CakePart i in cakePreviewsList[cakePreviewsList.Count - 1].myCakeParts)
-        {
-            i.ChangeMyColor(fruitTasteToColor(fruitNames[Random.Range(0, level + 1)]), -1);
-            i.ChangeMyColor(fruitTasteToColor(fruitNames[Random.Range(0, level + 1)]), cakeFilter);
-        }*/
     }
 
     public void Filter(int filterIndex)
@@ -362,7 +361,7 @@ public class CakeMakerManager : MonoBehaviour
         yAxeLength = int.Parse(cakeCode[2].ToString());
     }
 
-    void GenerateButtons()
+    public void GenerateButtons()
     {
         deleteGeneratedBtns();
         for (int i = 0; i < xAxeLength; i++)
@@ -399,7 +398,7 @@ public class CakeMakerManager : MonoBehaviour
         switch (fruitName)
         {
             case "banana": return bananaCol;
-            case "strawberry": return appleCol;
+            case "strawberry": return strawberryCol;
             case "chocolat": return chocolatCol;
             default: return Color.black;
         }
@@ -409,9 +408,9 @@ public class CakeMakerManager : MonoBehaviour
     {
         switch (fruitName)
         {
-            case "banana": return 0;
-            case "strawberry": return 1;
-            case "chocolat": return 2;
+            case "chocolat": return 0;
+            case "banana": return 1;
+            case "strawberry": return 2;
             default: return -1;
         }
     }

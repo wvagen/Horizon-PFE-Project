@@ -193,7 +193,7 @@ MonoBehaviour:
   cardGameObject: {fileID: 2492980878137808957, guid: 8b3611fae2288fb4d94a5314202f9700,
     type: 3}
   cashMan: {fileID: 1911667955740054165}
-  cardsNumber: 5
+  cardsNumber: 3
 --- !u!1 &1911667955461377106
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,7 +1024,7 @@ MonoBehaviour:
   cakeTableLocation: {fileID: 1911667956192725025}
   chocolateCol: {r: 0.8235294, g: 0.4117647, b: 0.11764706, a: 1}
   bananaCol: {r: 1, g: 0.84019786, b: 0, a: 1}
-  appleCol: {r: 0.764151, g: 0.06127627, b: 0.06127627, a: 1}
+  strawberryCol: {r: 0.9433962, g: 0.19134924, b: 0.36107504, a: 1}
   decorationAnimator: {fileID: 1911667955560920778}
   canvasAnimator: {fileID: 1911667956122937580}
   moneyValueTxt: {fileID: 1911667956481666237}
@@ -5165,7 +5165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -117.3999, y: -503}
+  m_AnchoredPosition: {x: -117.39984, y: -503}
   m_SizeDelta: {x: 339, y: 619}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1911667956996751172
@@ -6396,7 +6396,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 215.6, y: 86}
+  m_AnchoredPosition: {x: 215.60004, y: 86}
   m_SizeDelta: {x: 431.1, y: 172}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4529187575769416781
@@ -6720,11 +6720,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -6740,42 +6740,12 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 704b988df19b9d94498aab9b6796623d,
         type: 3}
-    - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb83376bdd23ab745b5613801d640018, type: 3}
 --- !u!224 &8442901075605357310 stripped
@@ -6901,11 +6871,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: myAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 649c6a6a975a86444a0daa630cfd4e83, type: 3}
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
+        type: 3}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -6921,26 +6896,6 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: myAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: 649c6a6a975a86444a0daa630cfd4e83, type: 3}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite
@@ -7087,11 +7042,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: myAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 0798a7e0418f1fd4bb9d707481ed4383, type: 3}
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
+        type: 3}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -7107,26 +7067,6 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: myAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: 0798a7e0418f1fd4bb9d707481ed4383, type: 3}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite
@@ -7273,11 +7213,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: myAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: ae037d4d8ee77824d97e90c9c72ba5af, type: 3}
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
+        type: 3}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -7293,26 +7238,6 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: myAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: ae037d4d8ee77824d97e90c9c72ba5af, type: 3}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite
@@ -7459,11 +7384,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: myAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 4266b8d87970861489deb1dac38dce96, type: 3}
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
+        type: 3}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -7479,26 +7409,6 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: myAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: 4266b8d87970861489deb1dac38dce96, type: 3}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite
@@ -7645,11 +7555,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: myAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 4bccce4e80600b641b64733b29b33e23, type: 3}
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
+        type: 3}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -7665,47 +7580,12 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: myAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: 4bccce4e80600b641b64733b29b33e23, type: 3}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 704b988df19b9d94498aab9b6796623d,
         type: 3}
-    - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1748129978407508159, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Color.r
@@ -7846,11 +7726,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -7866,21 +7746,6 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite
@@ -8027,11 +7892,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: myAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 97bae9fa5c108034fbdc1efa95ee1358, type: 3}
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
+        type: 3}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -8047,26 +7917,6 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: myAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: 97bae9fa5c108034fbdc1efa95ee1358, type: 3}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite
@@ -8213,15 +8063,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 219844948, guid: 1a4a5b9faedd91d458c8ae27a109c653, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 186371954499810185, guid: 1a4a5b9faedd91d458c8ae27a109c653,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a4a5b9faedd91d458c8ae27a109c653, type: 3}
 --- !u!224 &1734373690978409964 stripped
@@ -8359,11 +8200,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
-      propertyPath: m_Colors.m_PressedColor.a
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: myAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 6389aa599ae62674799451dc3866cdd5, type: 3}
+    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
+        type: 3}
+      propertyPath: compMan
+      value: 
+      objectReference: {fileID: 1911667957022089067}
     - target: {fileID: 3951211541558681052, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Colors.m_PressedColor.r
@@ -8379,26 +8225,6 @@ PrefabInstance:
       propertyPath: m_Colors.m_PressedColor.b
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: myAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: 6389aa599ae62674799451dc3866cdd5, type: 3}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: cashMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: compMan
-      value: 
-      objectReference: {fileID: 1911667957022089067}
-    - target: {fileID: 2522934147192268170, guid: bb83376bdd23ab745b5613801d640018,
-        type: 3}
-      propertyPath: audioMan
-      value: 
-      objectReference: {fileID: 1911667957040026760}
     - target: {fileID: 7443105722782733427, guid: bb83376bdd23ab745b5613801d640018,
         type: 3}
       propertyPath: m_Sprite

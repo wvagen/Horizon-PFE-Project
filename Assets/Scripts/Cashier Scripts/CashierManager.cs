@@ -18,7 +18,7 @@ public class CashierManager : MonoBehaviour
     public GameObject cake,cakePart;
     public Cake cakeScript;
     public Transform cakeSpawnPos,recipeSpawnPos,cakeTableLocation;
-    public Color chocolateCol, bananaCol, appleCol;
+    public Color chocolateCol, bananaCol, strawberryCol;
 
     public Animator decorationAnimator,canvasAnimator;
 
@@ -49,6 +49,12 @@ public class CashierManager : MonoBehaviour
     float timerToWaitForNextRequirementMenu = 20;
     //End Bot Stuff
 
+    //Multiplayer stuff
+
+    List<Client> syncedOrderList = new List<Client>();
+
+    //End Mult stuff
+
     void Start()
     {
         moneyValueTxt.text = moneyValue.ToString();
@@ -76,6 +82,7 @@ public class CashierManager : MonoBehaviour
         canvasAnimator.SetBool("recipePanelIsShown", !canvasAnimator.GetBool("recipePanelIsShown"));
     }
 
+
     public void GenerateCakeOnTable(GameObject cake, string cakeCode, Recipe recipeToDestory)
     {
      GameObject tempCakeOnTable = Instantiate(cake,Vector2.one,Quaternion.identity,cakeTableLocation);
@@ -93,6 +100,16 @@ public class CashierManager : MonoBehaviour
             }
         }
     }
+
+    public void FetchReadyRecipiesAndPutOnTable(string cakeCode)
+    {
+        // u should continue in here
+      /*  foreach (Recipe item in collection)
+        {
+            
+        }*/ 
+    }
+
 
     public void GenerateCake()
     {
@@ -148,7 +165,8 @@ public class CashierManager : MonoBehaviour
         tempRecipeSciprt.GenerateCake(tempCake,cakeCode,this);
         if (MainMenuManager.isPlayerConnected)
         {
-            ProceedToDoughRole();
+            float remainingClientTime = SyncTimeAndClient(tempRecipeSciprt);
+            ProceedToDoughRole(remainingClientTime, tempRecipeSciprt.cakeCode);
         }
     }
 
@@ -168,13 +186,32 @@ public class CashierManager : MonoBehaviour
     }
 
 
-    public void ProceedToDoughRole()
+    public void ProceedToDoughRole(float remainingTime, string cakeCode)
     {
-        network.GenerateNewOrder();
+        network.GenerateNewOrder(remainingTime,cakeCode);
     }
 
 
 #endregion
+
+    #region MultiplayerStuffRegion
+
+    float SyncTimeAndClient(Recipe rec)
+    {
+        foreach (Client c in clientMan.clientsList)
+        {
+            if (c.getCakeCode().Equals(rec.cakeCode) && !syncedOrderList.Contains(c)){
+
+                syncedOrderList.Add(c);
+                return c.getRealPatienceTime();
+            }
+        }
+        return 0;
+    }
+
+    #endregion
+
+
     void decodeCakeCode()
     {
         xPartsLength = int.Parse(cakeCode[1].ToString());
@@ -198,6 +235,8 @@ public class CashierManager : MonoBehaviour
             tempCakePart.GetComponent<CakePart>().setDecorationRectSize(tempCakeUpperRect);
         }
     }
+
+    
 
     void GenerateCakeDownParts()
     {
@@ -235,8 +274,8 @@ public class CashierManager : MonoBehaviour
         switch (index)
         {
             case 0: return chocolateCol;
-            case 1: return bananaCol; 
-            case 2: return appleCol;
+            case 1: return bananaCol;
+            case 2: return strawberryCol;
             default: return Color.white;
         }
 

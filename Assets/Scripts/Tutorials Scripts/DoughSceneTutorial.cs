@@ -26,7 +26,7 @@ public class DoughSceneTutorial : MonoBehaviour
 
     public void GenerateOrder()
     {
-        doughMan.GenerateNewRequirmentMenu();
+        doughMan.GenerateNewRequirmentMenu(null);
     }
 
     public void ScalePhone()

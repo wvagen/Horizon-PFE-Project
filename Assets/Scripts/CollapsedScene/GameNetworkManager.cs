@@ -14,57 +14,51 @@ public class GameNetworkManager : NetworkBehaviour
     //End of shared variables
 
 
-    public void GenerateNewCake()
+    public void GenerateNewCake(float remaningTime,string cakeCode)
     {
-        CmdGenerateNewCake();
+        CmdGenerateNewCake(remaningTime,cakeCode);
     }
 
     [Command]
-    public void CmdGenerateNewCake()
+    public void CmdGenerateNewCake(float remaningTime,string cakeCode)
     {
         if (!isServer) return;
-        RpcGenerateNewCake();
+        RpcGenerateNewCake(remaningTime , cakeCode);
     }
 
     [ClientRpc]
-    void RpcGenerateNewCake()
+    void RpcGenerateNewCake(float remaningTime,string cakeCode)
     {
         GameObject localPlayer = FindLocalNetworkPlayer();
         if (localPlayer.GetComponentInChildren<SetupLocalPlayer>().pRoleName == "CMS")
         {
-            localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateRandomCakeCode();
+            localPlayer.GetComponentInChildren<CakeMakerManager>().generatedcakeCode = cakeCode;
+            localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateButtons();
             localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateCakePreview();
+            localPlayer.GetComponentInChildren<CakeMakerManager>().patienceTime = remaningTime;
         }
     }
 
-   public void GenerateNewOrder()
+    public void GenerateNewOrder(float remainingTime, string cakeCode)
    {
-       CmdGenerateNewOrder();
+       CmdGenerateNewOrder(remainingTime, cakeCode);
    }
 
     [Command]
-   public void CmdGenerateNewOrder()
+    public void CmdGenerateNewOrder(float remainingTime, string cakeCode)
     {
         if (!isServer) return;
-        RpcGenerateNewOrder();
+        RpcGenerateNewOrder(remainingTime, cakeCode);
     }
 
     [ClientRpc]
-    void RpcGenerateNewOrder()
+    void RpcGenerateNewOrder(float remainingTime, string cakeCode)
     {
         GameObject localPlayer = FindLocalNetworkPlayer();
         if (localPlayer.GetComponentInChildren<SetupLocalPlayer>().pRoleName == "DS")
         {
-            localPlayer.GetComponentInChildren<DoughManager>().GenerateNewRequirmentMenu();
-            //DoughManager.clientTimer = timeValue;
-        }
-        else
-        {
-            if (localPlayer.GetComponentInChildren<SetupLocalPlayer>().pRoleName == "CMS")
-            {
-                localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateRandomCakeCode();
-                localPlayer.GetComponentInChildren<CakeMakerManager>().GenerateCakePreview();
-            }
+            localPlayer.GetComponentInChildren<DoughManager>().GenerateNewRequirmentMenu(cakeCode);
+            localPlayer.GetComponentInChildren<DoughManager>().clientTimer = remainingTime;
         }
     }
 

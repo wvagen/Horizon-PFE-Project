@@ -26,6 +26,7 @@ public class MainMenuManager : MonoBehaviour
     public static  bool isMultiplayerButtonClicked = false,isTutorialModeOn = false;
 
     public static bool isPlayerConnected = false;
+    public static int waitTimerMultiplayer = 300; //the total amount of time since cashier scene
 
     Vector2 wantedScale, initScale;
 

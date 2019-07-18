@@ -39,7 +39,8 @@ public class Recipe : MonoBehaviour {
         if (remainingClientTime > 0)
         {
             remainingClientTime -= Time.deltaTime;
-            progressBar.fillAmount = remainingClientTime / initClientTimer;
+            if (MainMenuManager.isPlayerConnected) progressBar.fillAmount = remainingClientTime / MainMenuManager.waitTimerMultiplayer;
+            else progressBar.fillAmount = remainingClientTime / initClientTimer;
         }
         else if (!isTimeOver)
         {

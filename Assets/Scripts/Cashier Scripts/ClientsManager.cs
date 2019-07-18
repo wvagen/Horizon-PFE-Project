@@ -20,7 +20,7 @@ public class ClientsManager : MonoBehaviour
 
     void Start()
     {
-        if (MainMenuManager.isPlayerConnected) patienceTime = 300;
+        if (MainMenuManager.isPlayerConnected) patienceTime = MainMenuManager.waitTimerMultiplayer;
         for (int i = 0; i < clientsPositionsPanel.transform.childCount; i++)
         {
             clientsPosesList.Add(clientsPositionsPanel.GetChild(i).transform);

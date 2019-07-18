@@ -30,7 +30,7 @@ public class DoughManager : MonoBehaviour {
 
     //if player is offline
     float timerToWaitForNextRequirementMenu = 10;
-   public float clientTimer = 60;
+    public float clientTimer = 60;
     bool isGenerated = false;
     //Bot stuff ends here
 
@@ -51,7 +51,7 @@ public class DoughManager : MonoBehaviour {
     IEnumerator PlayBot()
     {
         isGenerated = true;
-        GenerateNewRequirmentMenu();
+        GenerateNewRequirmentMenu(null);
         yield return new WaitForSeconds(timerToWaitForNextRequirementMenu);
         
         isGenerated = false;
@@ -68,7 +68,7 @@ public class DoughManager : MonoBehaviour {
         flourSlot2Txt.text = quantitysToAdd[3].ToString();
     }
 
-    public void GenerateNewRequirmentMenu()
+    public void GenerateNewRequirmentMenu(string cakeCode)
     {
         GameObject newRecipe = Instantiate(doughRequirment, recipeFieldContainer.position, Quaternion.identity, recipeFieldContainer);
         Recipe newDoughRecipe = newRecipe.GetComponent<Recipe>();
@@ -78,8 +78,9 @@ public class DoughManager : MonoBehaviour {
         newDoughRecipe.setRequirment("Flour", requirmentSprites[1], genrateRandNumDependingOnSlots(quantitysToAdd[2], quantitysToAdd[3]));
         newDoughRecipe.doughMan = this;
 
+        if (cakeCode != null) newDoughRecipe.cakeCode = cakeCode;
+
         newDoughRecipe.initClientTimer = clientTimer;
-        if (MainMenuManager.isPlayerConnected) newDoughRecipe.initClientTimer = 240;
 
         recipeList.Add(newDoughRecipe);
 
@@ -112,7 +113,7 @@ public class DoughManager : MonoBehaviour {
     public void ConfirmBtn()
     {
         if (MainMenuManager.isPlayerConnected)
-            network.GenerateNewCake();
+            network.GenerateNewCake(correctRecipe.remainingClientTime,correctRecipe.cakeCode);
 
 
             if (pauseMan.ScoreIncrement(correctRecipe.remainingClientTime))
