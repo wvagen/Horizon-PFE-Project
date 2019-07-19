@@ -42,6 +42,7 @@ namespace Prototype.NetworkLobby
 
             lobbyManager.ChangeTo(lobbyPanel);
 
+            if (ipInput.Equals(string.Empty)) ipInput.text = "localhost";
             lobbyManager.networkAddress = ipInput.text;
             lobbyManager.StartClient();
 

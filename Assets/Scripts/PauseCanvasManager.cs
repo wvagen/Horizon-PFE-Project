@@ -8,8 +8,12 @@ public class PauseCanvasManager : MonoBehaviour
 {
     public Image progBarFiller,pauseBtnImg,stars,emoji;
 
+    public Image musicImg, sfxImg;
+
     public GameObject GameOverPanel,HomeBtnGameObject;
     public GameObject bestScoreCrown,bestLevelCrown;
+
+    public AudioSource musicAudioSource;
 
     public Text levelValueTxt,starsUpTxt;
     public Text infoPanelTitle,scoreTxt;
@@ -17,6 +21,7 @@ public class PauseCanvasManager : MonoBehaviour
     public Text bestScoreTxt,bestLevelTxt;
 
     public Sprite optionIcon;
+    public Sprite musicOnSprite, musicOffSprite, sfxOnSprite, sfxOffSprite;
     public Sprite[] emojies;
 
     Animator myAnim;
@@ -41,9 +46,63 @@ public class PauseCanvasManager : MonoBehaviour
         bestScore = PlayerPrefs.GetInt("bestScore" + activeSceneIndex ,0);
         bestLevelReached = PlayerPrefs.GetInt("bestLevel" + activeSceneIndex,1);
         myAnim = GetComponent<Animator>();
+
+        if (MainMenuManager.musicEnabled)
+        {
+            musicImg.sprite = musicOnSprite;
+            musicAudioSource.enabled = true;
+        }
+        else
+        {
+            musicImg.sprite = musicOffSprite;
+            musicAudioSource.enabled = false;
+        }
+
+        if (MainMenuManager.sfxEnabled)
+        {
+            sfxImg.sprite = sfxOnSprite;
+        }
+        else
+        {
+            sfxImg.sprite = sfxOffSprite;
+        }
+
+
     }
 
     #region public_Methods
+
+
+    public void MusicBtn()
+    {
+        if (MainMenuManager.musicEnabled)
+        {
+            MainMenuManager.musicEnabled = false;
+            musicImg.sprite = musicOffSprite;
+            musicAudioSource.enabled = false;
+        }
+        else
+        {
+            MainMenuManager.musicEnabled = true;
+            musicImg.sprite = musicOnSprite;
+            musicAudioSource.enabled = true;
+        }
+    }
+
+    public void SfxBtn()
+    {
+        if (MainMenuManager.sfxEnabled)
+        {
+            MainMenuManager.sfxEnabled = false;
+            sfxImg.sprite = sfxOffSprite;
+        }
+        else
+        {
+            MainMenuManager.sfxEnabled = true;
+            sfxImg.sprite = sfxOnSprite;
+        }
+    } 
+
 
 
     public bool ScoreIncrement(float timeValue)

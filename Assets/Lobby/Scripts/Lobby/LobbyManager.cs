@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Types;
 using UnityEngine.Networking.Match;
 using System;
+using System.Net;
+using System.Net.Sockets;
 using System.Collections;
 
 
@@ -12,23 +14,6 @@ namespace Prototype.NetworkLobby
 {
     public class LobbyManager : NetworkLobbyManager 
     {
-
-        public static class IPManager
-        {
-            public static string GetLocalIPAddress()
-            {
-                var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
-                foreach (var ip in host.AddressList)
-                {
-                    if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                    {
-                        return ip.ToString();
-                    }
-                }
-
-                throw new System.Exception("No network adapters with an IPv4 address in the system!");
-            }
-        }
 
         static short MsgKicked = MsgType.Highest + 1;
 
@@ -413,7 +398,8 @@ namespace Prototype.NetworkLobby
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
-            string IP = IPManager.GetLocalIPAddress();
+
+            string IP = LocalIPAddress();
             myIpAdress.text = "IP: " + IP;
             myIpAdress.gameObject.SetActive(true);
             infoPanel.gameObject.SetActive(false);
@@ -427,6 +413,23 @@ namespace Prototype.NetworkLobby
                 SetServerInfo("Client", networkAddress);
             }
         }
+
+        public string LocalIPAddress()
+        {
+            IPHostEntry host;
+            string localIP = "";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                    localIP +="\n" + localIP;
+                }
+            }
+            return localIP;
+        }
+
 
         public void clientDisconnect()
         {

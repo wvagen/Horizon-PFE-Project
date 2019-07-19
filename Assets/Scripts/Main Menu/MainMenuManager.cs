@@ -23,6 +23,8 @@ public class MainMenuManager : MonoBehaviour
 
     public LobbyMainMenu lobby;
 
+    public AudioSource musicAudioSource;
+
     public static bool sfxEnabled = false, musicEnabled = false;
 
     public static  bool isMultiplayerButtonClicked = false,isTutorialModeOn = false;
@@ -45,6 +47,7 @@ public class MainMenuManager : MonoBehaviour
         initScale = new Vector2(1.5f, 1.5f);
         wantedScale = initScale * 1.2f;
         LoadData();
+        musicAudioSource.enabled = musicEnabled;
     }
 
     void LoadData()
@@ -133,11 +136,13 @@ public class MainMenuManager : MonoBehaviour
         if (musicEnabled)
         {
             MusicBtn.ReturnBtn();
+            musicAudioSource.enabled = false;
             musicEnabled = false;
         }
         else
         {
             MusicBtn.PlayButtonAnimation();
+            musicAudioSource.enabled = true;
             musicEnabled = true;
         }
     }
