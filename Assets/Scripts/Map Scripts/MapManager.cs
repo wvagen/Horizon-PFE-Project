@@ -13,6 +13,7 @@ public class MapManager : MonoBehaviour
     //List Of Country that sells these fruits
     public string[] Banana;
     public string[] Strawberry;
+    public string[] Chocolat;
 
     //End Of List  Here
 
@@ -156,6 +157,11 @@ public class MapManager : MonoBehaviour
                     EnableFruitLocationImgs(item);
                 } break;
 
+            case "Chocolat": foreach (string item in Chocolat)
+                {
+                    EnableFruitLocationImgs(item);
+                } break;
+
             default: Debug.Log("Item NOT Exist"); break;
 
         }
@@ -269,11 +275,39 @@ public class MapManager : MonoBehaviour
 
         switch (countryName)
         {
-            case "United States": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 100, 500); break;
-            case "Frensh": countryInfoPanelScript.GenerateOffer(this, "Strawberry", fruitDic["Strawberry"], 75, 200); break;
-            case "Brazil": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 100, 500); break;     
+            //Banana
+            case "India": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 150, 1000); break;
+            case "China": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 100, 500); break;
+            case "Philippines": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 75, 150); break;
+            case "Ecuador": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 50, 140); break;
+            case "Indonesia": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 40, 50); break;
+            case "Brazil": countryInfoPanelScript.GenerateOffer(this, "Banana", fruitDic["Banana"], 10, 10); break;
         }
+        switch (countryName)
+        {
+            //ENd banana
 
+            //Strawberry
+            case "Spain": countryInfoPanelScript.GenerateOffer(this, "Strawberry", fruitDic["Strawberry"], 200, 1200); break;
+            case "United States": countryInfoPanelScript.GenerateOffer(this, "Strawberry", fruitDic["Strawberry"], 180, 1000); break;
+            case "Mexico": countryInfoPanelScript.GenerateOffer(this, "Strawberry", fruitDic["Strawberry"], 80, 800); break;
+            case "Netherlands": countryInfoPanelScript.GenerateOffer(this, "Strawberry", fruitDic["Strawberry"], 70, 500); break;
+            case "Belgium": countryInfoPanelScript.GenerateOffer(this, "Strawberry", fruitDic["Strawberry"], 50, 140); break;
+            case "Egypt": countryInfoPanelScript.GenerateOffer(this, "Strawberry", fruitDic["Strawberry"], 25, 100); break;
+        }
+        switch (countryName)
+        {
+            //End Strawberry
+
+            //Chocolat
+            case "Germany": countryInfoPanelScript.GenerateOffer(this, "Chocolat", fruitDic["Chocolat"], 200, 1200); break;
+            case "Belgium": countryInfoPanelScript.GenerateOffer(this, "Chocolat", fruitDic["Chocolat"], 180, 1000); break;
+            case "Italy": countryInfoPanelScript.GenerateOffer(this, "Chocolat", fruitDic["Chocolat"], 80, 800); break;
+            case "Netherlands": countryInfoPanelScript.GenerateOffer(this, "Chocolat", fruitDic["Chocolat"], 70, 500); break;
+            case "Poland": countryInfoPanelScript.GenerateOffer(this, "Chocolat", fruitDic["Chocolat"], 50, 140); break;
+            case "United States": countryInfoPanelScript.GenerateOffer(this, "Chocolat", fruitDic["Chocolat"], 25, 100); break;
+            //End Chocolat
+        }
     }
 
     void EnableFruitLocationImgs(string item)

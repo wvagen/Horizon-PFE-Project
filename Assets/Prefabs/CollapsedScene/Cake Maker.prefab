@@ -2840,7 +2840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfed12ba2cc31104ea1f8df6fa0ce45c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseCan: {fileID: 0}
+  pauseCan: {fileID: 7816490077392185814}
   cake: {fileID: 7358487827204935987, guid: c9eb0963fd0e32a4dab3ab45a369bd3d, type: 3}
   cakePart: {fileID: 4452033037105627965, guid: 64021a06cb847944088443748aa0c76a,
     type: 3}
@@ -3994,3 +3994,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7993854162622077532}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7816490077392185814 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 186371954499810186, guid: 1a4a5b9faedd91d458c8ae27a109c653,
+    type: 3}
+  m_PrefabInstance: {fileID: 7993854162622077532}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ef62a12e88a1c498aa8ec088f74cec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
